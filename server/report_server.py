@@ -12,7 +12,9 @@ There is no authentication, because the page is public on GitHub Pages and has
 nowhere to keep a secret. Abuse is bounded instead: CORS allows only our origin,
 a report is capped at 4 KB, the file at 5 MB, and each IP at 60 reports per hour.
 
-No dependencies, standard library only.
+The ✋ inbox itself needs only the standard library. POST /check (automatic grading
+of a spoken answer) lives in checker.py and uses the anthropic SDK; see that file
+for cost and the daily cap.
 """
 import json
 import os
@@ -32,13 +34,14 @@ MAX_BODY = 4096
 MAX_FILE = 5 * 1024 * 1024
 PER_HOUR = 60
 _hits = defaultdict(deque)
+CHECKS_PER_HOUR = 300
 
 
-def _rate_ok(ip):
-    now, q = time.time(), _hits[ip]
+def _rate_ok(ip, limit=PER_HOUR, bucket=""):
+    now, q = time.time(), _hits[bucket + ip]
     while q and now - q[0] > 3600:
         q.popleft()
-    if len(q) >= PER_HOUR:
+    if len(q) >= limit:
         return False
     q.append(now)
     return True
@@ -75,15 +78,24 @@ class H(BaseHTTPRequestHandler):
             if os.path.exists(FILE):
                 with open(FILE, encoding="utf-8") as f:
                     n = sum(1 for _ in f)
-            return self._send(200, {"ok": True, "reports": n})
+            out = {"ok": True, "reports": n}
+            try:
+                import checker
+                out["check"] = checker.spend_summary()
+            except Exception as e:  # noqa: BLE001 - health must answer even if the SDK is missing
+                out["check"] = {"error": str(e)[:100]}
+            return self._send(200, out)
         self._send(404, {"error": "not found"})
 
     def do_POST(self):
-        if self.path.rstrip("/") != "/report":
+        path = self.path.rstrip("/")
+        if path not in ("/report", "/check"):
             return self._send(404, {"error": "not found"})
         if self.headers.get("Origin", "") not in ALLOWED_ORIGINS:
             return self._send(403, {"error": "origin"})
         ip = self.headers.get("X-Forwarded-For", self.client_address[0]).split(",")[0].strip()
+        if path == "/check":
+            return self._check(ip)
         if not _rate_ok(ip):
             return self._send(429, {"error": "too many"})
         n = int(self.headers.get("Content-Length") or 0)
@@ -103,6 +115,24 @@ class H(BaseHTTPRequestHandler):
         with open(FILE, "a", encoding="utf-8") as f:
             f.write(json.dumps(rec, ensure_ascii=False) + "\n")
         self._send(200, {"ok": True})
+
+    def _check(self, ip):
+        if not _rate_ok(ip, CHECKS_PER_HOUR, "check:"):
+            return self._send(429, {"error": "too many"})
+        n = int(self.headers.get("Content-Length") or 0)
+        if n <= 0 or n > MAX_BODY:
+            return self._send(413, {"error": "size"})
+        try:
+            body = json.loads(self.rfile.read(n).decode("utf-8"))
+            import checker
+            return self._send(200, checker.check(body))
+        except OverflowError:
+            return self._send(429, {"error": "budget"})
+        except ValueError as e:
+            return self._send(400, {"error": str(e)[:200]})
+        except Exception as e:  # noqa: BLE001 - the app falls back to the local score
+            print("check failed:", repr(e)[:300], flush=True)
+            return self._send(502, {"error": "model"})
 
     def log_message(self, fmt, *args):
         print("%s %s" % (self.address_string(), fmt % args), flush=True)

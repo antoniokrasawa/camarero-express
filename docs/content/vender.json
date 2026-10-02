@@ -1,10 +1,14 @@
 {
   "id": "vender",
   "title": "Слова, которые продают",
+  "title_en": "Words that sell",
+  "title_es": "Palabras que venden",
   "sections": [
     {
       "id": "adjetivos",
       "title": "Вкусные слова",
+      "title_en": "Tasty words",
+      "title_es": "Palabras sabrosas",
       "items": [
         {"id": "ven-adjetivos-01", "kind": "word", "ru": "хрустящий", "es": "crujiente", "en": "crispy / crunchy", "note": "Жареное, кальмары, корочка cochinillo", "p_en": "crispy, crunchy", "p_es": "que suena al morderlo, como la corteza de una fritura", "note_en": "Fried food, calamari, the crackling of cochinillo", "note_es": "Frituras, calamares, la corteza del cochinillo"},
         {"id": "ven-adjetivos-02", "kind": "word", "ru": "сочный", "es": "jugoso", "en": "juicy", "note": "Мясо, рыба, тортилья (tortilla jugosa — недожаренная внутри)", "p_en": "juicy", "p_es": "que suelta mucho jugo al morderlo; lo contrario de seco", "note_en": "Meat, fish, tortilla (tortilla jugosa — slightly runny inside)", "note_es": "Carne, pescado, tortilla (tortilla jugosa: poco cuajada por dentro)"},
@@ -47,6 +51,8 @@
     {
       "id": "frases",
       "title": "Фразы, которые продают",
+      "title_en": "Phrases that sell",
+      "title_es": "Frases que venden",
       "items": [
         {"id": "ven-frases-01", "kind": "phrase", "ru": "«Если вам нравится X, вам понравится Y»", "es": "Si os gusta el marisco, os va a encantar el arroz a banda.", "es_alt": "Si les gusta el marisco, les va a encantar el arroz a banda.", "en": "If you like seafood, you'll love the arroz a banda.", "p_en": "\"If you like X, you'll love Y\"", "p_es": "Relaciona lo que le gusta al cliente (el marisco) con un arroz que le vas a recomendar"},
         {"id": "ven-frases-02", "kind": "phrase", "ru": "Предложить что-то на компанию", "es": "Para compartir os recomiendo unas croquetas caseras y unos calamares.", "es_alt": "Para compartir les recomiendo unas croquetas caseras y unos calamares.", "en": "To share, I'd recommend the homemade croquettes and some calamari.", "p_en": "Suggest something for the group to share", "p_es": "Sugiere dos raciones para que la mesa comparta"},

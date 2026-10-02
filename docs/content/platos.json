@@ -1,10 +1,14 @@
 {
   "id": "platos",
   "title": "Блюда: Испания и Валенсия",
+  "title_en": "Dishes: Spain and Valencia",
+  "title_es": "Platos: España y Valencia",
   "sections": [
     {
       "id": "valencia",
       "title": "Валенсия: рисы и местная классика",
+      "title_en": "Valencia: rice dishes and local classics",
+      "title_es": "Valencia: arroces y clásicos de aquí",
       "items": [
         {"id": "pla-valencia-01", "kind": "word", "ru": "Паэлья валенсиана: курица, кролик, гаррофó, плоская фасоль, шафран. Без морепродуктов!", "es": "Paella valenciana", "en": "Traditional Valencian paella with chicken, rabbit, lima beans and green beans", "note": "sabrosa, con socarrat. «Es la auténtica: pollo, conejo, garrofó y bajoqueta, hecha a leña con su socarrat.» ⚠ С местными не называй паэлью с морепродуктами «valenciana» и не хвали «paella mixta» — это больная тема.", "extra": {"vino": "Rosado, Garnacha joven o Bobal (Utiel-Requena)", "alérgenos": "apio (si el caldo lo lleva); moluscos si lleva caracoles (vaquetes); consultar en cocina"}, "p_en": "Valencian paella: chicken, rabbit, garrofó beans, flat green beans, saffron. No seafood!", "p_es": "El arroz tradicional de la Albufera: pollo, conejo, garrofó, bajoqueta y azafrán. ¡Sin marisco!", "note_en": "sabrosa, con socarrat. «Es la auténtica: pollo, conejo, garrofó y bajoqueta, hecha a leña con su socarrat.» ⚠ With locals, never call a seafood one «valenciana» and don't praise «paella mixta» — it's a sore point.", "note_es": "sabrosa, con socarrat. «Es la auténtica: pollo, conejo, garrofó y bajoqueta, hecha a leña con su socarrat.» ⚠ Con la gente de aquí, no llames «valenciana» a la de marisco ni alabes la «paella mixta»: es un tema delicado."},
         {"id": "pla-valencia-02", "kind": "word", "ru": "Арос а банда: рис на насыщенном рыбном бульоне, рыба/морепродукты из бульона подаются отдельно («a banda»), с алиоли. Без панциря — это уже senyoret", "es": "Arroz a banda", "en": "Rice cooked in rich fish stock, served with aioli", "note": "intenso, marinero. «Es un arroz con muchísimo sabor a mar, cocinado en un fumet casero, y se acompaña de alioli.»", "extra": {"vino": "Albariño o Verdejo de Rueda; Cava también va genial", "alérgenos": "pescado, crustáceos, moluscos, huevo (alioli)"}, "p_en": "Rice cooked in a rich fish stock; the fish/seafood from the stock is served separately («a banda»), with aioli. Peeled seafood = that's senyoret", "p_es": "Arroz cocinado en un fumet intenso; el pescado del caldo se sirve aparte, con alioli. Si el marisco va pelado, ya es otro arroz", "note_en": "intenso, marinero. «Es un arroz con muchísimo sabor a mar, cocinado en un fumet casero, y se acompaña de alioli.»", "note_es": "intenso, marinero. «Es un arroz con muchísimo sabor a mar, cocinado en un fumet casero, y se acompaña de alioli.»"},
@@ -26,6 +30,8 @@
     {
       "id": "tapas",
       "title": "Тапас: классика любого бара",
+      "title_en": "Tapas: classics of any bar",
+      "title_es": "Tapas: los clásicos de cualquier bar",
       "items": [
         {"id": "pla-tapas-01", "kind": "word", "ru": "Картофель кубиками с острым соусом (и часто алиоли)", "es": "Patatas bravas", "en": "Fried potatoes with spicy sauce and aioli", "note": "crujientes, picantitas. «Patata crujiente con nuestra salsa brava casera; pica un poquito, lo justo.»", "extra": {"vino": "Caña bien fría; o un Garnacha joven", "alérgenos": "huevo (alioli); consultar la salsa"}, "p_en": "Diced fried potatoes with a spicy sauce (often with aioli too)", "p_es": "Tacos de patata frita con salsa picante (y a menudo alioli)", "note_en": "crujientes, picantitas. «Patata crujiente con nuestra salsa brava casera; pica un poquito, lo justo.»", "note_es": "crujientes, picantitas. «Patata crujiente con nuestra salsa brava casera; pica un poquito, lo justo.»"},
         {"id": "pla-tapas-02", "kind": "word", "ru": "Крокеты (бешамель с хамоном/курицей/треской, в панировке)", "es": "Croquetas caseras", "en": "Homemade croquettes", "note": "cremosas por dentro, crujientes por fuera. «Son caseras, muy cremositas; las de jamón vuelan.»", "extra": {"vino": "Cava o Manzanilla", "alérgenos": "gluten, leche, huevo (+ pescado si son de bacalao)"}, "p_en": "Croquettes (béchamel with ham/chicken/cod, breaded and fried)", "p_es": "Bechamel con jamón, pollo o bacalao, empanada y frita, hecha en la casa", "note_en": "cremosas por dentro, crujientes por fuera. «Son caseras, muy cremositas; las de jamón vuelan.»", "note_es": "cremosas por dentro, crujientes por fuera. «Son caseras, muy cremositas; las de jamón vuelan.»"},
@@ -52,6 +58,8 @@
     {
       "id": "principales",
       "title": "Основные блюда: мясо и рыба",
+      "title_en": "Mains: meat and fish",
+      "title_es": "Principales: carne y pescado",
       "items": [
         {"id": "pla-principales-01", "kind": "word", "ru": "Антрекот на гриле", "es": "Entrecot a la brasa", "en": "Char-grilled rib-eye steak", "note": "jugoso, a la brasa. «Entrecot a la brasa, jugoso; ¿qué punto os gusta?»", "extra": {"vino": "Tempranillo de Ribera del Duero o Rioja crianza", "alérgenos": "ninguno habitual"}, "p_en": "Grilled rib-eye steak", "p_es": "Filete de vacuno con su grasita, hecho sobre carbón", "note_en": "jugoso, a la brasa. «Entrecot a la brasa, jugoso; ¿qué punto os gusta?»", "note_es": "jugoso, a la brasa. «Entrecot a la brasa, jugoso; ¿qué punto os gusta?»"},
         {"id": "pla-principales-02", "kind": "word", "ru": "Чулетóн — большой стейк на кости, на двоих, часто на вес", "es": "Chuletón de vaca", "en": "Large bone-in beef steak for two, often priced by weight", "note": "espectacular, para compartir. «Viene sobre piedra o a la brasa, para compartir; es de vaca madurada, con mucho sabor.»", "extra": {"vino": "Ribera del Duero o Rioja reserva; Monastrell", "alérgenos": "ninguno habitual"}, "p_en": "Big bone-in steak for two, often priced by weight", "p_es": "Pieza grande de vacuno con hueso, para dos, a menudo se cobra al peso", "note_en": "espectacular, para compartir. «Viene sobre piedra o a la brasa, para compartir; es de vaca madurada, con mucho sabor.»", "note_es": "espectacular, para compartir. «Viene sobre piedra o a la brasa, para compartir; es de vaca madurada, con mucho sabor.»"},
@@ -70,6 +78,8 @@
     {
       "id": "entrantes",
       "title": "Супы и салаты",
+      "title_en": "Soups and salads",
+      "title_es": "Sopas y ensaladas",
       "items": [
         {"id": "pla-entrantes-01", "kind": "word", "ru": "Гаспачо — холодный суп из томатов, огурца, перца, чеснока, масла", "es": "Gazpacho", "en": "Chilled tomato and vegetable soup", "note": "fresquito, refrescante. «Bien fresquito; perfecto para el calor.»", "extra": {"vino": "Manzanilla o rosado", "alérgenos": "gluten (si lleva pan), sulfitos (vinagre)"}, "p_en": "Cold soup of tomato, cucumber, pepper, garlic and oil", "p_es": "Sopa fría de tomate, pepino, pimiento, ajo y aceite", "note_en": "fresquito, refrescante. «Bien fresquito; perfecto para el calor.»", "note_es": "fresquito, refrescante. «Bien fresquito; perfecto para el calor.»"},
         {"id": "pla-entrantes-02", "kind": "word", "ru": "Сальморехо — густой холодный крем из томата и хлеба, с яйцом и хамоном", "es": "Salmorejo", "en": "Thick cold tomato and bread cream with egg and ham", "note": "cremoso, suave. «Más espeso que el gazpacho, cremosito, con huevo y jamón por encima.»", "extra": {"vino": "Fino o Manzanilla", "alérgenos": "gluten, huevo"}, "p_en": "Thick cold cream of tomato and bread, topped with egg and ham", "p_es": "Crema fría y espesa de tomate y pan, con huevo y jamón por encima", "note_en": "cremoso, suave. «Más espeso que el gazpacho, cremosito, con huevo y jamón por encima.»", "note_es": "cremoso, suave. «Más espeso que el gazpacho, cremosito, con huevo y jamón por encima.»"},
@@ -84,6 +94,8 @@
     {
       "id": "postres",
       "title": "Десерты",
+      "title_en": "Desserts",
+      "title_es": "Postres",
       "items": [
         {"id": "pla-postres-01", "kind": "word", "ru": "Флан — карамельный заварной крем", "es": "Flan casero", "en": "Homemade crème caramel", "note": "suave, casero. «Flan de la casa con su caramelo; si queréis, con nata.»", "extra": {"vino": "Moscatel de Valencia", "alérgenos": "huevo, leche"}, "p_en": "Caramel custard", "p_es": "Postre de huevo y leche cuajado, con caramelo líquido por encima", "note_en": "suave, casero. «Flan de la casa con su caramelo; si queréis, con nata.»", "note_es": "suave, casero. «Flan de la casa con su caramelo; si queréis, con nata.»"},
         {"id": "pla-postres-02", "kind": "word", "ru": "Каталонский крем с хрустящей жжёной карамелью сверху", "es": "Crema catalana", "en": "Custard with a crackly burnt-sugar top", "note": "cremosa, crujiente por arriba. «Se quema el azúcar al momento; cruje al romperla.»", "extra": {"vino": "Moscatel de Valencia", "alérgenos": "huevo, leche"}, "p_en": "Catalan custard with a crunchy burnt-sugar top", "p_es": "Natilla con una capa de azúcar quemado que cruje", "note_en": "cremosa, crujiente por arriba. «Se quema el azúcar al momento; cruje al romperla.»", "note_es": "cremosa, crujiente por arriba. «Se quema el azúcar al momento; cruje al romperla.»"},

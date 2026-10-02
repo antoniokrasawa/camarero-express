@@ -1,10 +1,14 @@
 {
   "id": "equipo",
   "title": "С командой: кухня, коллеги",
+  "title_en": "With the team: kitchen and colleagues",
+  "title_es": "Con el equipo: cocina y compañeros",
   "sections": [
     {
       "id": "cocina-pase",
       "title": "Кухня и раздача (pase)",
+      "title_en": "Kitchen and the pass",
+      "title_es": "Cocina y pase",
       "items": [
         {"id": "eq-cocina-01", "kind": "phrase", "ru": "Сказать кухне начинать основные для 5-го стола", "es": "¡Marcha la cinco!", "es_alt": "¡Marchan los segundos de la cinco!", "note": "marchar = «запускай» (англ. fire): гости доедают закуски, пора готовить следующее", "p_en": "Tell the kitchen to fire the mains for table 5", "p_es": "Dile a cocina que empiece los segundos de la mesa cinco", "note_en": "marchar = fire: guests are finishing starters, start the next course", "note_es": "marchar = que empiecen a hacer el siguiente plato"},
         {"id": "eq-cocina-02", "kind": "phrase", "ru": "Подтвердить, что услышал (кухне или коллеге)", "es": "¡Oído!", "es_alt": "¡Oído cocina!", "note": "Стандартный ответ «понял, принял»", "p_en": "Confirm you heard (to the kitchen or a colleague)", "p_es": "Confirma a cocina que has recibido el aviso", "note_en": "Standard «heard, got it» reply", "note_es": "La respuesta estándar de «recibido»"},
@@ -23,6 +27,8 @@
     {
       "id": "compis",
       "title": "Коллеги и смена",
+      "title_en": "Colleagues and the shift",
+      "title_es": "Compañeros y turno",
       "items": [
         {"id": "eq-compis-01", "kind": "phrase", "ru": "Представиться в первый день", "es": "Hola, soy Antonio, el nuevo. ¿Qué tal?", "p_en": "Introduce yourself on your first day", "p_es": "Preséntate el primer día"},
         {"id": "eq-compis-02", "kind": "phrase", "ru": "Попросить помочь разобраться", "es": "Oye, ¿me echas un cable con el datáfono?", "note": "echar un cable — помочь, выручить", "p_en": "Ask a colleague to help you figure something out", "p_es": "Pide ayuda con el terminal de tarjetas", "note_en": "echar un cable = to give someone a hand", "note_es": "echar un cable = ayudar"},
@@ -45,6 +51,8 @@
     {
       "id": "cumplidos",
       "title": "Нормальные комплименты коллегам",
+      "title_en": "Genuine compliments to colleagues",
+      "title_es": "Cumplidos sinceros a los compañeros",
       "items": [
         {"id": "eq-cumplidos-01", "kind": "phrase", "ru": "Похвалить, как коллега справился со сложным столом", "es": "Qué bien has llevado esa mesa, eh.", "p_en": "Praise how a colleague handled a tough table", "p_es": "Felicita a un compañero por cómo ha llevado una mesa difícil"},
         {"id": "eq-cumplidos-02", "kind": "phrase", "ru": "«Ты машина!» — про скорость", "es": "¡Eres una máquina!", "p_en": "«You're a machine!» — about their speed", "p_es": "Dile a un compañero lo rápido que es, a lo coloquial"},

@@ -23,5 +23,22 @@ Workflow:
 
 If the phone was offline, reports wait in its `localStorage` outbox and are sent on the next app start.
 
-## Costs
-Nothing is paid. Voice is the browser's built-in Web Speech API (speechSynthesis + SpeechRecognition), and no Claude or other API is called.
+## App language
+⚙ → «Язык приложения» (`S.settings.promptLang`: ru/en/es) switches **everything**: UI strings (`docs/i18n.js`, keyed by the Russian original; `node tools/check_i18n.js` fails on any untranslated key), deck/section titles (`title_en/_es`), prompts (`p_en/p_es`), notes, scene hints, and quiz explanations. The answer language is a separate ES/EN switch in the header.
+
+## Automatic grading (Speak + Scenes) and costs
+The browser's Web Speech API does TTS and speech-to-text for free, with the language set explicitly to es-ES or en-GB (no auto-detect). `evaluate()` in `app.js` then grades in three tiers:
+1. **Exact match:** every reference word was said in order, with at most one extra word. Graded correct on the phone, free.
+2. **Anything else:** `POST /camarero-api/check` → `server/checker.py` → **Claude Haiku 4.5**, about $0.0013 and ~1.3 s per check.
+   - Verdicts are correct / minor / wrong, mapped to SRS good / hard / again. A natural alternative wording counts as correct, and the reference is shown as «Чаще говорят».
+   - Identical answers are served from `/data/check_cache.json`, which is free.
+   - There is a daily cap: `CHECK_DAILY_USD`, default $1.5. Spend is logged in `/data/spend.jsonl`. `curl https://77-42-69-208.sslip.io/camarero-api/health` shows the spend.
+3. **Server unreachable, or the cap is hit:** the local word-match score is used, ≥80% → correct, ≥50% → minor.
+
+Only the first attempt per card is graded; retries are for practice.
+
+Model choice was measured with `server/eval_checker.py`, which runs 15 fixed cases and costs real money:
+- Haiku scored 12/15 at 1.3 s; Sonnet 5.5 scored 11/15 at 2.3 s and $0.0034 per check. Sonnet's comments are more precise.
+- To switch, set the `CHECK_MODEL` env on the container.
+
+The API key is LA's: `/opt/ga/.env` is mounted read-only at `/run/la.env`, and only its `ANTHROPIC_API_KEY` line is read. The container image is `server/Dockerfile` (python + anthropic SDK); its code is bind-mounted from `/opt/camarero/app`. To redeploy, `scp` the files, then run `docker restart camarero-api`.

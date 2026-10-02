@@ -10,12 +10,13 @@ const DECKS = [
   { id: 'equipo', icon: '👥' },
 ];
 const STORE_KEY = 'camarero.v1';
+const API = 'https://77-42-69-208.sslip.io/camarero-api';
 const MIN = 60 * 1000, DAY = 24 * 60 * MIN;
 // Express ladder: box 0 = again in this session, then 10 min, 1, 2, 4, 8 days.
 const LADDER = [0, 10 * MIN, DAY, 2 * DAY, 4 * DAY, 8 * DAY];
 const LEARNED_BOX = 3;
 
-// Plan: tasks point at a mode + filter. `target` = cards (box>=3) needed to auto-tick.
+// Plan: each task opens a mode with its filter. Texts are i18n keys.
 const PLAN = [
   { day: 1, title: 'Сервис и зал', tasks: [
     { id: 'd1a', text: 'Карточки: сервис (весь путь гостя)', go: { tab: 'cards', deck: 'servicio' } },
@@ -59,7 +60,8 @@ const store = (() => {
   };
 })();
 const S = store.data;
-S.settings = Object.assign({ promptLang: 'ru', lang: 'es', rate: 0.95, newPerSession: 20, voiceEs: '', voiceEn: '' }, S.settings);
+S.settings = Object.assign({ promptLang: 'ru', lang: 'es', rate: 0.95, newPerSession: 20, voiceEs: '', voiceEn: '', aiCheck: true }, S.settings);
+S.outbox = S.outbox || [];
 
 // ---------- content ----------
 const C = { decks: {}, items: [], byId: {}, quiz: null, scenes: [] };
@@ -78,7 +80,7 @@ async function loadContent() {
       deck.icon = d.icon;
       C.decks[d.id] = deck;
       for (const sec of deck.sections) for (const it of sec.items) {
-        it.deck = d.id; it.section = sec.id; it.sectionTitle = sec.title;
+        it.deck = d.id; it.section = sec.id; it.sec = sec;
         C.items.push(it); C.byId[it.id] = it;
       }
     } catch (e) { errors.push(e.message); }
@@ -94,18 +96,20 @@ const view = () => $('#view');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const now = () => Date.now();
-// Prompt language (what you READ): ru / en / es. Target language (what you SAY) is S.settings.lang.
+// App language (interface, prompts, notes): ru / en / es. Answer language is S.settings.lang.
 const PL = () => S.settings.promptLang || 'ru';
-// Field in the prompt language with fallback to the Russian original: L(node, 'hint') -> hint_en / hint_es / hint.
-function L(o, base) { const p = PL(); return (p !== 'ru' && o[base + '_' + p]) || o[base]; }
+// Field in the app language with fallback to the Russian original: L(node, 'hint') -> hint_en / hint_es / hint.
+function L(o, base) { const p = PL(); return (o && p !== 'ru' && o[base + '_' + p]) || (o && o[base]) || ''; }
 function promptOf(it) {
   const p = PL();
   if (p === 'en') return it.p_en || (S.settings.lang !== 'en' && it.en) || it.ru;
   if (p === 'es') return it.p_es || it.ru;
   return it.ru;
 }
+const deckTitle = id => L(C.decks[id], 'title');
+const secTitle = it => L(it.sec, 'title');
 
-function h(html) { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content; }
+function h(html) { const tpl = document.createElement('template'); tpl.innerHTML = html.trim(); return tpl.content; }
 function render(html) { const v = view(); v.innerHTML = ''; v.appendChild(h(html)); window.scrollTo(0, 0); return v; }
 
 // ---------- speech synthesis ----------
@@ -138,26 +142,29 @@ const tts = {
     speechSynthesis.speak(u);
   },
 };
+const stopSpeech = () => { if ('speechSynthesis' in window) speechSynthesis.cancel(); };
 
 // ---------- speech recognition ----------
+// The browser turns speech into text in the language we set (no auto-detection):
+// es-ES or en-GB. Up to three alternatives come back; all are used for grading.
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 function listen(lang, onInterim) {
   return new Promise((resolve, reject) => {
-    const rec = new SR();
-    rec.lang = lang === 'en' ? 'en-GB' : 'es-ES';
-    rec.interimResults = true;
-    rec.maxAlternatives = 3;
-    rec.continuous = false;
+    const r = new SR();
+    r.lang = lang === 'en' ? 'en-GB' : 'es-ES';
+    r.interimResults = true;
+    r.maxAlternatives = 3;
+    r.continuous = false;
     let finalAlts = [];
-    rec.onresult = e => {
+    r.onresult = e => {
       const res = e.results[e.results.length - 1];
       if (res.isFinal) finalAlts = Array.from(res).map(a => a.transcript);
       else onInterim && onInterim(res[0].transcript);
     };
-    rec.onerror = e => reject(e.error || 'error');
-    rec.onend = () => resolve(finalAlts);
-    rec.start();
-    listen.current = rec;
+    r.onerror = e => reject(e.error || 'error');
+    r.onend = () => resolve(finalAlts);
+    r.start();
+    listen.current = r;
   });
 }
 
@@ -179,7 +186,7 @@ function compare(ref, said) {
     else if (dp[i + 1][j] >= dp[i][j + 1]) i++; else j++;
   }
   const score = a.length ? dp[0][0] / a.length : 0;
-  return { score, hit, words: a };
+  return { score, hit, words: a, saidLen: b.length };
 }
 function bestMatch(refs, alts) {
   let best = { score: -1 };
@@ -197,6 +204,63 @@ function paintRef(ref, hit) {
     const cls = has ? (hit[k++] ? 'w-ok' : 'w-miss') : '';
     return cls ? `<span class="${cls}">${esc(part)}</span>` : esc(part);
   }).join('');
+}
+
+// ---------- automatic grading ----------
+// 1) Every reference word said, in order, with at most one extra word -> correct,
+//    graded on the phone for free.
+// 2) Otherwise the server asks a model (POST /check, ~1.5 s, ~$0.001; repeated
+//    answers come from its cache). It accepts other natural wordings as correct
+//    and shows the reference as "more common".
+// 3) If the server is unreachable or over its daily cap: grade by word match.
+const GRADE_OF = { correct: 'good', minor: 'hard', wrong: 'again', none: 'again' };
+const VERDICT_UI = { correct: ['✅', 'Правильно'], minor: ['🟡', 'Почти'], wrong: ['❌', 'Неверно'], none: ['⏭', 'Не ответил'] };
+
+async function evaluate({ refs, alts, situation, target }) {
+  const m = bestMatch(refs, alts);
+  const base = { heard: m.said, ref: m.ref, hit: m.hit };
+  if (m.score === 1 && m.saidLen <= m.words.length + 1)
+    return Object.assign(base, { verdict: 'correct', score: 100, same: true, source: 'local' });
+  if (S.settings.aiCheck) {
+    try {
+      const ctl = new AbortController();
+      const timer = setTimeout(() => ctl.abort(), 9000);
+      const r = await fetch(API + '/check', {
+        method: 'POST', headers: { 'Content-Type': 'text/plain' }, signal: ctl.signal,
+        body: JSON.stringify({ situation, target, ui: PL(), refs, heard: alts }),
+      });
+      clearTimeout(timer);
+      if (r.ok) {
+        const j = await r.json();
+        return Object.assign(base, { verdict: j.verdict, score: j.score, same: !!j.same_as_ref,
+          heard: j.heard || m.said, better: j.better || '', comment: j.comment || '', source: 'ai' });
+      }
+    } catch (e) { /* offline, timeout or budget: fall through to the local score */ }
+  }
+  const s = Math.round(m.score * 100);
+  return Object.assign(base, { verdict: s >= 80 ? 'correct' : s >= 50 ? 'minor' : 'wrong', score: s, same: false,
+    source: 'local', comment: S.settings.aiCheck ? t('Проверка недоступна, оценка по совпадению слов') : '' });
+}
+
+// Result card: verdict, what was heard, the model's comment, the reference
+// (as "more common" when another wording was accepted) and any better phrasing.
+function verdictCard(v, refs, lang, it) {
+  const [icon, label] = VERDICT_UI[v.verdict];
+  const n = s => tokens(s).join(' ');
+  const refShown = v.ref || refs[0];
+  const better = v.better && !refs.some(r => n(r) === n(v.better)) ? v.better : '';
+  const refLabel = v.verdict === 'correct' && !v.same ? 'Чаще говорят' : 'Эталон';
+  return `<div class="card">
+    <div class="verdict v-${v.verdict}"><span>${icon} ${esc(t(label))}</span>${v.score != null ? `<span class="pct">${v.score}%</span>` : ''}</div>
+    ${v.heard ? `<div class="label">${esc(t('Ты сказал'))}</div><div class="said">«${esc(v.heard)}»</div>` : ''}
+    ${v.comment ? `<div class="note">${esc(v.comment)}</div>` : ''}
+    ${v.same && v.verdict === 'correct' ? '' : `<div class="label">${esc(t(refLabel))}</div>
+      <div class="answer">${v.hit && v.source === 'local' ? paintRef(refShown, v.hit) : esc(refShown)} <button class="say" data-say="${esc(refShown)}" data-lang="${lang}">🔊</button></div>`}
+    ${better ? `<div class="answer-alt">${esc(t('или'))}: ${esc(better)} <button class="say" data-say="${esc(better)}" data-lang="${lang}">🔊</button></div>` : ''}
+    ${refs.filter(r => r !== refShown).map(r => `<div class="answer-alt">${esc(t('или'))}: ${esc(r)}</div>`).join('')}
+    ${it && lang === 'es' && it.en && PL() !== 'en' ? `<div class="answer-alt">EN: ${esc(it.en)}</div>` : ''}
+    ${it && it.note ? `<div class="note">${esc(L(it, 'note'))}</div>` : ''}
+  </div>`;
 }
 
 // ---------- SRS ----------
@@ -220,27 +284,32 @@ function itemsFor(filter) {
 }
 // Due reviews first (oldest first), then up to N new cards in content order.
 function buildQueue(items, prefix) {
-  const t = now(), due = [], fresh = [];
+  const tm = now(), due = [], fresh = [];
   for (const it of items) {
     const r = rec(prefix + it.id);
-    if (!r) fresh.push(it); else if (r.due <= t) due.push(it);
+    if (!r) fresh.push(it); else if (r.due <= tm) due.push(it);
   }
   due.sort((x, y) => rec(prefix + x.id).due - rec(prefix + y.id).due);
   return due.concat(fresh.slice(0, S.settings.newPerSession));
 }
 function deckStats(items, prefix = '') {
-  let learned = 0, started = 0, due = 0; const t = now();
+  let learned = 0, started = 0, due = 0; const tm = now();
   for (const it of items) {
     const r = rec(prefix + it.id); if (!r) continue;
-    started++; if (r.box >= LEARNED_BOX) learned++; if (r.due <= t) due++;
+    started++; if (r.box >= LEARNED_BOX) learned++; if (r.due <= tm) due++;
   }
   return { total: items.length, learned, started, due };
+}
+// After an answer: failed items come back a few cards later in the same session.
+function advance(sess, it, r) {
+  sess.queue.shift();
+  if (r.box === 0) sess.queue.splice(Math.min(3, sess.queue.length), 0, it); else sess.done++;
 }
 
 // ---------- routing ----------
 let state = { tab: 'plan' };
 function go(tab, opts = {}) {
-  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  stopSpeech();
   if (listen.current) try { listen.current.abort(); } catch (e) {}
   state = Object.assign({ tab }, opts);
   setCtx({});
@@ -252,22 +321,22 @@ function go(tab, opts = {}) {
 // ---------- plan ----------
 function viewPlan() {
   const all = deckStats(C.items);
-  let html = `<h2>План на 4 дня</h2>
-    <div class="card tight"><div class="stat-row"><span>Выучено карточек</span><b>${all.learned} / ${all.total}</b></div>
+  let html = `<h2>${esc(t('План на 4 дня'))}</h2>
+    <div class="card tight"><div class="stat-row"><span>${esc(t('Выучено карточек'))}</span><b>${all.learned} / ${all.total}</b></div>
     <div class="progress"><i style="width:${all.total ? 100 * all.learned / all.total : 0}%"></i></div>
-    <div class="stat-row"><span>К повтору сейчас: ${all.due}</span><span>Начато: ${all.started}</span></div></div>`;
+    <div class="stat-row"><span>${esc(t('К повтору сейчас: {n}', { n: all.due }))}</span><span>${esc(t('Начато: {n}', { n: all.started }))}</span></div></div>`;
   for (const d of PLAN) {
-    const done = d.tasks.filter(t => S.plan[t.id]).length;
-    html += `<div class="card"><div class="day-head"><h3 style="margin:0">День ${d.day}. ${esc(d.title)}</h3>
+    const done = d.tasks.filter(x => S.plan[x.id]).length;
+    html += `<div class="card"><div class="day-head"><h3 style="margin:0">${esc(t('День {n}. {t}', { n: d.day, t: t(d.title) }))}</h3>
       <span class="muted small">${done}/${d.tasks.length}</span></div>`;
-    for (const t of d.tasks) {
-      html += `<div class="task"><input type="checkbox" data-task="${t.id}" ${S.plan[t.id] ? 'checked' : ''} aria-label="Готово">
-        <span class="task-text">${esc(t.text)}</span>
-        <button class="btn go" data-go='${esc(JSON.stringify(t.go))}'>▶</button></div>`;
+    for (const x of d.tasks) {
+      html += `<div class="task"><input type="checkbox" data-task="${x.id}" ${S.plan[x.id] ? 'checked' : ''} aria-label="✓">
+        <span class="task-text">${esc(t(x.text))}</span>
+        <button class="btn go" data-go='${esc(JSON.stringify(x.go))}'>▶</button></div>`;
     }
     html += `</div>`;
   }
-  html += `<p class="muted small center">Отмечай задачу, когда прошёл её без ошибок. Карточки «к повтору» лучше пройти и утром, и вечером.</p>`;
+  html += `<p class="muted small center">${esc(t('Отмечай задачу, когда прошёл её без ошибок. Карточки «к повтору» лучше пройти и утром, и вечером.'))}</p>`;
   const v = render(html);
   v.querySelectorAll('[data-task]').forEach(cb => cb.onchange = () => { S.plan[cb.dataset.task] = cb.checked; store.save(); viewPlan(); });
   v.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { const g = JSON.parse(b.dataset.go); go(g.tab, Object.assign({ autostart: true }, g)); });
@@ -276,13 +345,13 @@ function viewPlan() {
 // ---------- deck/section picker (shared by cards + speak) ----------
 function pickerHtml(sel, opts) {
   let html = `<div class="chips">` +
-    `<button class="chip" data-deck="all" aria-pressed="${sel.deck === 'all'}">Все</button>` +
-    DECKS.filter(d => C.decks[d.id]).map(d => `<button class="chip" data-deck="${d.id}" aria-pressed="${sel.deck === d.id}">${d.icon} ${esc(C.decks[d.id].title)}</button>`).join('') +
+    `<button class="chip" data-deck="all" aria-pressed="${sel.deck === 'all'}">${esc(t('Все'))}</button>` +
+    DECKS.filter(d => C.decks[d.id]).map(d => `<button class="chip" data-deck="${d.id}" aria-pressed="${sel.deck === d.id}">${d.icon} ${esc(deckTitle(d.id))}</button>`).join('') +
     `</div>`;
   if (sel.deck !== 'all' && C.decks[sel.deck]) {
     html += `<div class="chips">` + C.decks[sel.deck].sections
       .filter(s => !opts.phrasesOnly || s.items.some(i => i.kind === 'phrase'))
-      .map(s => `<button class="chip" data-sec="${s.id}" aria-pressed="${(sel.sections || []).includes(s.id)}">${esc(s.title)}</button>`).join('') + `</div>`;
+      .map(s => `<button class="chip" data-sec="${s.id}" aria-pressed="${(sel.sections || []).includes(s.id)}">${esc(L(s, 'title'))}</button>`).join('') + `</div>`;
   }
   return html;
 }
@@ -293,25 +362,28 @@ function bindPicker(v, sel, rerender) {
     sel.sections = [...s]; rerender();
   });
 }
+function bindSay(root) {
+  root.querySelectorAll('[data-say]').forEach(b => b.onclick = e => { e.stopPropagation(); e.preventDefault(); tts.say(b.dataset.say, b.dataset.lang); });
+}
 
 // ---------- cards ----------
-const cardSel = { deck: 'servicio', sections: [], dir: 'ru-es', list: false, q: '' };
+const cardSel = { deck: 'servicio', sections: [], dir: 'p-es', list: false, q: '' };
 function viewCardsHome(opts = {}) {
   if (opts.deck) { cardSel.deck = opts.deck; cardSel.sections = opts.sections || []; }
-  if (opts.autostart) { cardSel.list = false; return startCards(); }
   const lang = S.settings.lang;
   cardSel.dir = cardSel.dir.startsWith('es') ? 'es-p' : 'p-' + lang;
+  if (opts.autostart) { cardSel.list = false; return startCards(); }
   const pl = PL().toUpperCase();
   const items = itemsFor({ deck: cardSel.deck, sections: cardSel.sections });
   const st = deckStats(items);
-  let html = `<h2>Карточки</h2>${pickerHtml(cardSel, {})}
+  let html = `<h2>${esc(t('Карточки'))}</h2>${pickerHtml(cardSel, {})}
     <div class="seg"><button data-dir="p-${lang}" aria-pressed="${cardSel.dir !== 'es-p'}">${pl} → ${lang.toUpperCase()}</button>
-    <button data-dir="es-p" aria-pressed="${cardSel.dir === 'es-p'}">ES → ${pl === 'ES' ? 'толкование' : pl}</button></div>
-    <div class="card tight"><div class="stat-row"><span>Карточек: ${st.total}</span><span>Выучено: ${st.learned}</span><span>К повтору: ${st.due}</span></div>
+    <button data-dir="es-p" aria-pressed="${cardSel.dir === 'es-p'}">ES → ${pl === 'ES' ? esc(t('толкование')) : pl}</button></div>
+    <div class="card tight"><div class="stat-row"><span>${esc(t('Карточек: {n}', { n: st.total }))}</span><span>${esc(t('Выучено: {n}', { n: st.learned }))}</span><span>${esc(t('К повтору: {n}', { n: st.due }))}</span></div>
     <div class="progress"><i style="width:${st.total ? 100 * st.learned / st.total : 0}%"></i></div></div>
-    <div class="row"><button class="btn primary" id="start">Начать</button><button class="btn" id="list">${cardSel.list ? 'Скрыть список' : 'Список'}</button></div>`;
+    <div class="row"><button class="btn primary" id="start">${esc(t('Начать'))}</button><button class="btn" id="list">${esc(t(cardSel.list ? 'Скрыть список' : 'Список'))}</button></div>`;
   if (cardSel.list) {
-    html += `<input type="search" id="q" placeholder="Поиск…" value="${esc(cardSel.q)}"><div class="card" id="listBox">${listHtml(items)}</div>`;
+    html += `<input type="search" id="q" placeholder="${esc(t('Поиск…'))}" value="${esc(cardSel.q)}"><div class="card" id="listBox">${listHtml(items)}</div>`;
   }
   const v = render(html);
   bindPicker(v, cardSel, viewCardsHome);
@@ -325,17 +397,14 @@ function viewCardsHome(opts = {}) {
 function listHtml(items) {
   const q = tokens(cardSel.q).join(' ');
   const shown = items.filter(it => !q || tokens([it.es, it.es_alt, it.en, it.ru, promptOf(it)].join(' ')).join(' ').includes(q));
-  if (!shown.length) return `<p class="muted">Ничего не найдено.</p>`;
+  if (!shown.length) return `<p class="muted">${esc(t('Ничего не найдено.'))}</p>`;
   return shown.map(it => {
     const r = rec(it.id);
     return `<div class="list-item"><span class="box-dot b${r ? r.box : 0}"></span><b>${esc(it.es)}</b>
-      <button class="say" data-say="${esc(it.es)}" data-lang="es" aria-label="Озвучить">🔊</button>
+      <button class="say" data-say="${esc(it.es)}" data-lang="es" aria-label="🔊">🔊</button>
       <div>${esc(promptOf(it))}</div>${it.en && PL() !== 'en' ? `<div class="muted small">EN: ${esc(it.en)}</div>` : ''}
       ${it.note ? `<div class="muted small">${esc(L(it, 'note'))}</div>` : ''}</div>`;
   }).join('');
-}
-function bindSay(root) {
-  root.querySelectorAll('[data-say]').forEach(b => b.onclick = e => { e.stopPropagation(); tts.say(b.dataset.say, b.dataset.lang); });
 }
 function extraHtml(it) {
   if (!it.extra) return '';
@@ -346,58 +415,52 @@ function startCards() {
   const [from, to] = cardSel.dir.split('-');
   const items = itemsFor({ deck: cardSel.deck, sections: cardSel.sections, needEn: to === 'en' });
   const queue = buildQueue(items, '');
-  const session = { queue, done: 0, total: queue.length, from, to };
   if (!queue.length) {
-    render(`<h2>Карточки</h2><div class="card center"><p>На сейчас всё повторено 🎉</p><p class="muted small">Новые карточки появятся, когда подойдёт срок повтора. Можно выбрать другой раздел.</p>
-      <button class="btn primary wide" id="back">Назад</button></div>`);
+    render(`<h2>${esc(t('Карточки'))}</h2><div class="card center"><p>${esc(t('На сейчас всё повторено 🎉'))}</p>
+      <p class="muted small">${esc(t('Новые карточки появятся, когда подойдёт срок повтора. Можно выбрать другой раздел.'))}</p>
+      <button class="btn primary wide" id="back">${esc(t('Назад'))}</button></div>`);
     $('#back').onclick = () => go('cards');
     return;
   }
-  showCard(session);
+  showCard({ queue, done: 0, total: queue.length, from, to });
 }
 function showCard(sess) {
   const it = sess.queue[0];
-  if (it) setCtx({ mode: 'cards', item: it.id, ru: it.ru, es: it.es, en: it.en || '', dir: sess.from + '-' + sess.to });
   if (!it) {
-    render(`<h2>Сессия готова</h2><div class="card center"><p>Пройдено карточек: <b>${sess.done}</b></p>
-      <div class="row"><button class="btn" id="back">К разделам</button><button class="btn primary" id="more">Ещё</button></div></div>`);
+    render(`<h2>${esc(t('Сессия готова'))}</h2><div class="card center"><p>${esc(t('Пройдено карточек: {n}', { n: sess.done }))}</p>
+      <div class="row"><button class="btn" id="back">${esc(t('К разделам'))}</button><button class="btn primary" id="more">${esc(t('Ещё'))}</button></div></div>`);
     $('#back').onclick = () => go('cards'); $('#more').onclick = startCards;
     return;
   }
+  setCtx({ mode: 'cards', item: it.id, prompt: promptOf(it), ru: it.ru, es: it.es, en: it.en || '', dir: sess.from + '-' + sess.to });
   const lang = sess.to === 'p' ? 'es' : sess.to;
   const front = sess.from === 'p' ? promptOf(it) : it.es;
   const back = sess.from === 'p' ? (sess.to === 'en' ? it.en : it.es) : promptOf(it);
   const backAlt = sess.from === 'p' && sess.to === 'es' ? it.es_alt : '';
-  const v = render(`<div class="stat-row"><span>${esc(C.decks[it.deck].title)} · ${esc(it.sectionTitle)}</span><span>${sess.done}/${sess.total}</span></div>
+  const v = render(`<div class="stat-row"><span>${esc(deckTitle(it.deck))} · ${esc(secTitle(it))}</span><span>${sess.done}/${sess.total}</span></div>
     <div class="progress"><i style="width:${100 * sess.done / sess.total}%"></i></div>
     <div class="card" style="margin-top:12px">
       <div class="prompt">${esc(front)} ${sess.from === 'es' ? `<button class="say" data-say="${esc(it.es)}" data-lang="es">🔊</button>` : ''}</div>
       <div id="back" hidden>
         <div class="answer">${esc(back)} ${sess.to !== 'p' ? `<button class="say" data-say="${esc(back)}" data-lang="${lang}">🔊</button>` : ''}</div>
-        ${backAlt ? `<div class="answer-alt">или: ${esc(backAlt)} <button class="say" data-say="${esc(backAlt)}" data-lang="es">🔊</button></div>` : ''}
+        ${backAlt ? `<div class="answer-alt">${esc(t('или'))}: ${esc(backAlt)} <button class="say" data-say="${esc(backAlt)}" data-lang="es">🔊</button></div>` : ''}
         ${sess.from === 'p' && sess.to === 'es' && it.en && PL() !== 'en' ? `<div class="answer-alt">EN: ${esc(it.en)}</div>` : ''}
-        ${sess.from === 'es' && it.en ? `<div class="answer-alt">EN: ${esc(it.en)}</div>` : ''}
+        ${sess.from === 'es' && it.en && PL() !== 'en' ? `<div class="answer-alt">EN: ${esc(it.en)}</div>` : ''}
         ${it.note ? `<div class="note">${esc(L(it, 'note'))}</div>` : ''}${extraHtml(it)}
       </div>
     </div>
-    <button class="btn primary wide" id="reveal">Показать ответ</button>
+    <button class="btn primary wide" id="reveal">${esc(t('Показать ответ'))}</button>
     <div class="grade" id="grades" hidden>
-      <button class="btn bad" data-g="again">Не знал</button>
-      <button class="btn warn" data-g="hard">Сомневался</button>
-      <button class="btn good" data-g="good">Знал</button>
+      <button class="btn bad" data-g="again">${esc(t('Не знал'))}</button>
+      <button class="btn warn" data-g="hard">${esc(t('Сомневался'))}</button>
+      <button class="btn good" data-g="good">${esc(t('Знал'))}</button>
     </div>`);
   bindSay(v);
   $('#reveal').onclick = () => {
     $('#back').hidden = false; $('#reveal').hidden = true; $('#grades').hidden = false;
     if (sess.to !== 'p') tts.say(back, lang);
   };
-  v.querySelectorAll('[data-g]').forEach(b => b.onclick = () => {
-    const r = grade(it.id, b.dataset.g);
-    sess.queue.shift();
-    // Failed cards come back a few cards later in the same session.
-    if (r.box === 0) sess.queue.splice(Math.min(3, sess.queue.length), 0, it); else sess.done++;
-    showCard(sess);
-  });
+  v.querySelectorAll('[data-g]').forEach(b => b.onclick = () => { advance(sess, it, grade(it.id, b.dataset.g)); showCard(sess); });
 }
 
 // ---------- speak ----------
@@ -409,102 +472,108 @@ function viewSpeakHome(opts = {}) {
   const items = itemsFor({ deck: speakSel.deck, sections: speakSel.sections, phrasesOnly: true, needEn: lang === 'en' });
   if (opts.autostart) return startSpeak(items);
   const st = deckStats(items, 'v:');
-  const v = render(`<h2>Сказать вслух</h2>
-    <p class="muted small">Видишь ситуацию по-русски, отвечаешь голосом на ${lang === 'en' ? 'английском' : 'испанском'}. Для беглости это главный режим.</p>
+  const v = render(`<h2>${esc(t('Сказать вслух'))}</h2>
+    <p class="muted small">${esc(t('Видишь ситуацию, отвечаешь голосом на {lang}. Оценка ставится автоматически. Для беглости это главный режим.', { lang: t(lang === 'en' ? 'английском' : 'испанском') }))}</p>
     ${pickerHtml(speakSel, { phrasesOnly: true })}
-    <div class="card tight"><div class="stat-row"><span>Фраз: ${st.total}</span><span>Беглых: ${st.learned}</span><span>К повтору: ${st.due}</span></div>
+    <div class="card tight"><div class="stat-row"><span>${esc(t('Фраз: {n}', { n: st.total }))}</span><span>${esc(t('Беглых: {n}', { n: st.learned }))}</span><span>${esc(t('К повтору: {n}', { n: st.due }))}</span></div>
     <div class="progress"><i style="width:${st.total ? 100 * st.learned / st.total : 0}%"></i></div></div>
-    ${SR ? '' : `<div class="note">Этот браузер не распознаёт речь. Отвечай вслух, потом открывай эталон и оценивай себя сам. На Android лучше всего работает Chrome.</div>`}
-    <button class="btn primary wide" id="start" style="margin-top:12px">Начать</button>`);
+    ${SR ? '' : `<div class="note">${esc(t('Этот браузер не распознаёт речь. Отвечай вслух, потом открывай эталон и оценивай себя сам. На Android лучше всего работает Chrome.'))}</div>`}
+    <button class="btn primary wide" id="start" style="margin-top:12px">${esc(t('Начать'))}</button>`);
   bindPicker(v, speakSel, viewSpeakHome);
   $('#start').onclick = () => startSpeak(items);
 }
 function startSpeak(items) {
   const queue = buildQueue(items, 'v:');
   if (!queue.length) {
-    render(`<div class="card center"><p>Здесь всё отработано на сегодня 🎉</p><button class="btn primary wide" id="b">Назад</button></div>`);
+    render(`<div class="card center"><p>${esc(t('Здесь всё отработано на сегодня 🎉'))}</p><button class="btn primary wide" id="b">${esc(t('Назад'))}</button></div>`);
     $('#b').onclick = () => go('speak'); return;
   }
   showSpeak({ queue, done: 0, total: queue.length });
 }
+function micError(err) {
+  return err === 'not-allowed' || err === 'service-not-allowed'
+    ? t('Нет доступа к микрофону — разреши его в настройках сайта') : t('Ошибка распознавания: {e}', { e: err });
+}
 function showSpeak(sess) {
   const it = sess.queue[0];
-  if (it) setCtx({ mode: 'speak', item: it.id, ru: it.ru, es: it.es, en: it.en || '' });
   if (!it) {
-    render(`<h2>Готово</h2><div class="card center"><p>Отработано фраз: <b>${sess.done}</b></p>
-      <div class="row"><button class="btn" id="b">Назад</button><button class="btn primary" id="m">Ещё</button></div></div>`);
+    render(`<h2>${esc(t('Готово'))}</h2><div class="card center"><p>${esc(t('Отработано фраз: {n}', { n: sess.done }))}</p>
+      <div class="row"><button class="btn" id="b">${esc(t('Назад'))}</button><button class="btn primary" id="m">${esc(t('Ещё'))}</button></div></div>`);
     $('#b').onclick = () => go('speak'); $('#m').onclick = () => go('speak', { autostart: true });
     return;
   }
+  setCtx({ mode: 'speak', item: it.id, prompt: promptOf(it), ru: it.ru, es: it.es, en: it.en || '' });
   const lang = S.settings.lang;
   const refs = lang === 'en' ? [it.en] : [it.es, it.es_alt].filter(Boolean);
-  const v = render(`<div class="stat-row"><span>${esc(it.sectionTitle)}</span><span>${sess.done}/${sess.total}</span></div>
+  let first = null;   // the first attempt's verdict is what gets graded
+  const v = render(`<div class="stat-row"><span>${esc(secTitle(it))}</span><span>${sess.done}/${sess.total}</span></div>
     <div class="progress"><i style="width:${100 * sess.done / sess.total}%"></i></div>
-    <div class="card" style="margin-top:12px"><div class="crumb">Ситуация</div><div class="prompt">${esc(promptOf(it))}</div></div>
-    ${SR ? `<button class="mic" id="mic" aria-label="Говорить">🎤</button><div class="heard" id="heard">Нажми и скажи</div>` : ''}
+    <div class="card" style="margin-top:12px"><div class="crumb">${esc(t('Ситуация'))}</div><div class="prompt">${esc(promptOf(it))}</div></div>
+    ${SR ? `<button class="mic" id="mic" aria-label="${esc(t('Говорить'))}">🎤</button><div class="heard" id="heard">${esc(t('Нажми и скажи'))}</div>` : ''}
     <div id="result"></div>
-    <button class="btn ${SR ? '' : 'primary'} wide" id="reveal">${SR ? 'Не знаю — показать' : 'Сказал — показать эталон'}</button>
-    <div class="grade" id="grades" hidden>
-      <button class="btn bad" data-g="again">Не смог</button>
-      <button class="btn warn" data-g="hard">С запинкой</button>
-      <button class="btn good" data-g="good">Бегло</button>
-    </div>`);
-  const showRef = (m) => {
-    const ref = refs[0];
-    $('#result').innerHTML = `<div class="card">
-      ${m ? `<div class="score" style="color:var(--${m.score >= .8 ? 'good' : m.score >= .5 ? 'warn' : 'bad'})">${Math.round(m.score * 100)}%</div>` : ''}
-      <div class="answer">${m ? paintRef(m.ref, m.hit) : esc(ref)} <button class="say" data-say="${esc(m ? m.ref : ref)}" data-lang="${lang}">🔊</button></div>
-      ${refs.slice(1).map(r => `<div class="answer-alt">или: ${esc(r)}</div>`).join('')}
-      ${lang === 'es' && it.en && PL() !== 'en' ? `<div class="answer-alt">EN: ${esc(it.en)}</div>` : ''}
-      ${it.note ? `<div class="note">${esc(L(it, 'note'))}</div>` : ''}</div>`;
-    bindSay($('#result'));
-    $('#reveal').hidden = true; $('#grades').hidden = false;
-    tts.say(m ? m.ref : ref, lang);
+    <button class="btn ${SR ? '' : 'primary'} wide" id="reveal">${esc(t(SR ? 'Не знаю — показать' : 'Сказал — показать эталон'))}</button>
+    <div id="after"></div>`);
+  const next = () => { advance(sess, it, grade('v:' + it.id, GRADE_OF[first])); showSpeak(sess); };
+  const showAfter = () => {
+    $('#reveal').hidden = true;
+    $('#after').innerHTML = `${first !== 'none' && SR ? `<p class="muted small center">${esc(t('Повтор не меняет оценку — засчитана первая попытка.'))}</p>` : ''}
+      <button class="btn primary wide" id="next">${esc(t('Дальше ▶'))}</button>`;
+    $('#next').onclick = next;
   };
-  $('#reveal').onclick = () => showRef(null);
+  const showResult = verdict => {
+    $('#result').innerHTML = verdictCard(verdict, refs, lang, it);
+    bindSay($('#result'));
+    tts.say(verdict.better && verdict.verdict !== 'correct' ? verdict.better : (verdict.ref || refs[0]), lang);
+  };
+  $('#reveal').onclick = () => {
+    if (!SR) {   // no speech recognition: self-grading is the only option
+      $('#result').innerHTML = verdictCard({ verdict: 'none', ref: refs[0] }, refs, lang, it).replace(/<div class="verdict[\s\S]*?<\/div>/, '');
+      bindSay($('#result')); tts.say(refs[0], lang); $('#reveal').hidden = true;
+      $('#after').innerHTML = `<div class="grade"><button class="btn bad" data-g="again">${esc(t('Не смог'))}</button>
+        <button class="btn warn" data-g="hard">${esc(t('С запинкой'))}</button><button class="btn good" data-g="good">${esc(t('Бегло'))}</button></div>`;
+      $('#after').querySelectorAll('[data-g]').forEach(b => b.onclick = () => { advance(sess, it, grade('v:' + it.id, b.dataset.g)); showSpeak(sess); });
+      return;
+    }
+    if (!first) first = 'none';
+    showResult({ verdict: 'none', ref: refs[0] });
+    showAfter();
+  };
   const mic = $('#mic');
   if (mic) mic.onclick = async () => {
     if (mic.classList.contains('on')) { listen.current && listen.current.stop(); return; }
-    speechSynthesis && speechSynthesis.cancel();
-    mic.classList.add('on'); $('#heard').textContent = 'Слушаю…';
-    try {
-      const alts = await listen(lang, t => { $('#heard').textContent = t; });
-      mic.classList.remove('on');
-      if (!alts.length) { $('#heard').textContent = 'Ничего не расслышал, попробуй ещё раз'; return; }
-      const m = bestMatch(refs, alts);
-      CTX.heard = m.said; CTX.score = Math.round(m.score * 100);
-      $('#heard').textContent = '«' + m.said + '»';
-      showRef(m);
-      // Pre-select the suggested grade by score.
-      const sug = m.score >= .8 ? 'good' : m.score >= .5 ? 'hard' : 'again';
-      $(`[data-g="${sug}"]`).style.outline = '3px solid currentColor';
-    } catch (err) {
-      mic.classList.remove('on');
-      $('#heard').textContent = err === 'not-allowed' ? 'Нет доступа к микрофону — разреши его в настройках сайта' : 'Ошибка распознавания: ' + err;
-    }
+    stopSpeech();
+    mic.classList.add('on'); $('#heard').textContent = t('Слушаю…');
+    let alts;
+    try { alts = await listen(lang, s => { $('#heard').textContent = s; }); }
+    catch (err) { mic.classList.remove('on'); $('#heard').textContent = micError(err); return; }
+    mic.classList.remove('on');
+    if (!alts.length) { $('#heard').textContent = t('Ничего не расслышал, попробуй ещё раз'); return; }
+    $('#heard').textContent = '';
+    $('#result').innerHTML = `<div class="spinner">${esc(t('Проверяю…'))}</div>`;
+    $('#reveal').hidden = true;
+    const verdict = await evaluate({ refs, alts, target: lang, situation: it.p_en || it.ru });
+    Object.assign(CTX, { heard: verdict.heard, score: verdict.score, verdict: verdict.verdict, comment: verdict.comment || '' });
+    if (!first) first = verdict.verdict;
+    showResult(verdict);
+    showAfter();
+    mic.setAttribute('aria-label', t('Ещё раз'));
   };
-  v.querySelectorAll('[data-g]').forEach(b => b.onclick = () => {
-    const r = grade('v:' + it.id, b.dataset.g);
-    sess.queue.shift();
-    if (r.box === 0) sess.queue.splice(Math.min(3, sess.queue.length), 0, it); else sess.done++;
-    showSpeak(sess);
-  });
 }
 
 // ---------- scenes ----------
 let wildGuest = false;
 function viewScenes(opts = {}) {
   if (opts.scene) { const sc = C.scenes.find(s => s.id === opts.scene); if (sc) return playScene(sc); }
-  const v = render(`<h2>Сцены</h2>
-    <p class="muted small">Гость говорит, ты отвечаешь вслух, потом выбираешь, как он отреагировал. В режиме «непредсказуемый гость» реакцию выбирает случай, как в жизни.</p>
-    <div class="seg"><button id="calm" aria-pressed="${!wildGuest}">Выбираю сам</button><button id="wild" aria-pressed="${wildGuest}">🎲 Непредсказуемый гость</button></div>
+  const v = render(`<h2>${esc(t('Сцены'))}</h2>
+    <p class="muted small">${esc(t('Гость говорит, ты отвечаешь вслух, AI оценивает ответ, потом выбираешь, как гость отреагировал. В режиме «непредсказуемый гость» реакцию выбирает случай, как в жизни.'))}</p>
+    <div class="seg"><button id="calm" aria-pressed="${!wildGuest}">${esc(t('Выбираю сам'))}</button><button id="wild" aria-pressed="${wildGuest}">${esc(t('🎲 Непредсказуемый гость'))}</button></div>
     ${C.scenes.map(sc => {
       const st = S.scenes[sc.id] || { runs: 0, ends: [] };
       const ends = Object.entries(sc.nodes).filter(([, n]) => n.end || !n.next || !n.next.length).length;
       return `<button class="card tight option" data-scene="${sc.id}" style="text-align:left">
         <b>${esc(L(sc, 'title'))}</b> <span class="pill" style="font-size:11px;padding:1px 8px">${sc.lang.toUpperCase()}</span>
         <div class="muted small">${esc(L(sc, 'context'))}</div>
-        <div class="stat-row"><span>Пройдено раз: ${st.runs}</span><span>Концовок: ${(st.ends || []).length}/${ends}</span></div></button>`;
+        <div class="stat-row"><span>${esc(t('Пройдено раз: {n}', { n: st.runs }))}</span><span>${esc(t('Концовок: {a}/{b}', { a: (st.ends || []).length, b: ends }))}</span></div></button>`;
     }).join('')}`);
   $('#calm').onclick = () => { wildGuest = false; viewScenes(); };
   $('#wild').onclick = () => { wildGuest = true; viewScenes(); };
@@ -512,7 +581,7 @@ function viewScenes(opts = {}) {
 }
 function playScene(sc) {
   const log = [];
-  const v = render(`<div class="stat-row"><button class="btn ghost" id="exit" style="min-height:0;padding:4px 10px">← Сцены</button>
+  render(`<div class="stat-row"><button class="btn ghost" id="exit" style="min-height:0;padding:4px 10px">${esc(t('← Сцены'))}</button>
     <span>${esc(L(sc, 'title'))}${wildGuest ? ' · 🎲' : ''}</span></div>
     <div class="card tight muted small">${esc(L(sc, 'context'))}</div><div id="chat"></div><div id="ctl"></div>`);
   $('#exit').onclick = () => go('scenes');
@@ -522,9 +591,9 @@ function step(sc, nodeId, log) {
   const node = sc.nodes[nodeId];
   setCtx({ mode: 'scene', scene: sc.id, node: nodeId, guest: node && node.guest || '', you: node && node.you && node.you[0] || '' });
   const chat = $('#chat'), ctl = $('#ctl');
-  if (!node) { ctl.innerHTML = `<p class="muted">Узел «${esc(nodeId)}» не найден.</p>`; return; }
+  if (!node) { ctl.innerHTML = `<p class="muted">${esc(t('Узел «{n}» не найден.', { n: nodeId }))}</p>`; return; }
   if (node.guest) {
-    chat.appendChild(h(`<div class="bubble guest"><span class="who">Гость</span>${esc(node.guest)}
+    chat.appendChild(h(`<div class="bubble guest"><span class="who">${esc(t('Гость'))}</span>${esc(node.guest)}
       <button class="say" data-say="${esc(node.guest)}" data-lang="${sc.lang}">🔊</button></div>`));
     bindSay(chat.lastElementChild);
     tts.say(node.guest, sc.lang);
@@ -533,30 +602,31 @@ function step(sc, nodeId, log) {
   if (isEnd && !(node.you && node.you.length)) return finishScene(sc, nodeId, log);
   const refs = node.you || [];
   ctl.innerHTML = `${node.hint ? `<div class="hint">💡 ${esc(L(node, 'hint'))}</div>` : ''}
-    ${SR && refs.length ? `<button class="mic" id="mic" aria-label="Ответить">🎤</button><div class="heard" id="heard">Ответь гостю</div>` : ''}
-    ${refs.length ? `<button class="btn wide" id="show">${SR ? 'Показать вариант ответа' : 'Ответил — показать вариант'}</button>` : ''}
-    <div id="after"></div>`;
+    ${SR && refs.length ? `<button class="mic" id="mic" aria-label="${esc(t('Ответить'))}">🎤</button><div class="heard" id="heard">${esc(t('Ответь гостю'))}</div>` : ''}
+    ${refs.length ? `<button class="btn wide" id="show">${esc(t(SR ? 'Показать вариант ответа' : 'Ответил — показать вариант'))}</button>` : ''}`;
   window.scrollTo(0, document.body.scrollHeight);
-  const after = (m) => {
-    const said = m ? m.said : null;
-    if (m) { CTX.heard = m.said; CTX.score = Math.round(m.score * 100); }
-    if (said) chat.appendChild(h(`<div class="bubble you"><span class="who">Ты · ${Math.round(m.score * 100)}%</span>${esc(said)}</div>`));
-    const ref = m ? m.ref : refs[0];
-    if (ref) {
-      chat.appendChild(h(`<div class="bubble you" style="opacity:.85"><span class="who">Вариант</span>${m ? paintRef(ref, m.hit) : esc(ref)}
-        <button class="say" data-say="${esc(ref)}" data-lang="${sc.lang}">🔊</button>
-        ${refs.filter(r => r !== ref).map(r => `<div class="small muted">или: ${esc(r)}</div>`).join('')}</div>`));
-      bindSay(chat.lastElementChild);
-      if (!m) tts.say(ref, sc.lang);
+  const after = v => {
+    if (v) {
+      const [icon] = VERDICT_UI[v.verdict];
+      chat.appendChild(h(`<div class="bubble you"><span class="who">${esc(t('Ты'))} · ${icon} ${v.score}%</span>${esc(v.heard)}
+        ${v.comment ? `<div class="small muted">${esc(v.comment)}</div>` : ''}</div>`));
     }
-    log.push({ node: nodeId, score: m ? m.score : null });
+    const shown = v && v.verdict === 'correct' && v.same ? '' : (v && v.better && v.verdict !== 'correct' ? v.better : refs[0]);
+    if (shown) {
+      chat.appendChild(h(`<div class="bubble you" style="opacity:.85"><span class="who">${esc(t(v && v.verdict === 'correct' ? 'Чаще говорят' : 'Вариант'))}</span>${esc(shown)}
+        <button class="say" data-say="${esc(shown)}" data-lang="${sc.lang}">🔊</button>
+        ${refs.filter(r => r !== shown).map(r => `<div class="small muted">${esc(t('или'))}: ${esc(r)}</div>`).join('')}</div>`));
+      bindSay(chat.lastElementChild);
+      tts.say(shown, sc.lang);
+    }
+    log.push({ node: nodeId, score: v ? v.score : null });
     if (isEnd) return finishScene(sc, nodeId, log);
     const nx = node.next;
     if (wildGuest) {
-      ctl.innerHTML = `<button class="btn primary wide" id="cont">Дальше ▶</button>`;
+      ctl.innerHTML = `<button class="btn primary wide" id="cont">${esc(t('Дальше ▶'))}</button>`;
       $('#cont').onclick = () => step(sc, nx[Math.floor(Math.random() * nx.length)].to, log);
     } else {
-      ctl.innerHTML = `<div class="crumb" style="margin:8px 0">Как реагирует гость?</div>` +
+      ctl.innerHTML = `<div class="crumb" style="margin:8px 0">${esc(t('Как реагирует гость?'))}</div>` +
         nx.map((n, i) => `<button class="btn option" data-i="${i}">${esc(n.label)}</button>`).join('');
       ctl.querySelectorAll('[data-i]').forEach(b => b.onclick = () => step(sc, nx[+b.dataset.i].to, log));
     }
@@ -567,17 +637,18 @@ function step(sc, nodeId, log) {
   const mic = $('#mic');
   if (mic) mic.onclick = async () => {
     if (mic.classList.contains('on')) { listen.current && listen.current.stop(); return; }
-    speechSynthesis && speechSynthesis.cancel();
-    mic.classList.add('on'); $('#heard').textContent = 'Слушаю…';
-    try {
-      const alts = await listen(sc.lang, t => { $('#heard').textContent = t; });
-      mic.classList.remove('on');
-      if (!alts.length) { $('#heard').textContent = 'Не расслышал, ещё раз'; return; }
-      after(bestMatch(refs, alts));
-    } catch (err) {
-      mic.classList.remove('on');
-      $('#heard').textContent = err === 'not-allowed' ? 'Нет доступа к микрофону' : 'Ошибка: ' + err;
-    }
+    stopSpeech();
+    mic.classList.add('on'); $('#heard').textContent = t('Слушаю…');
+    let alts;
+    try { alts = await listen(sc.lang, s => { $('#heard').textContent = s; }); }
+    catch (err) { mic.classList.remove('on'); $('#heard').textContent = micError(err); return; }
+    mic.classList.remove('on');
+    if (!alts.length) { $('#heard').textContent = t('Ничего не расслышал, попробуй ещё раз'); return; }
+    ctl.innerHTML = `<div class="spinner">${esc(t('Проверяю…'))}</div>`;
+    const situation = `${node.guest ? `The guest said: "${node.guest}". ` : ''}The waiter should: ${node.hint_en || node.hint || ''}`;
+    const v = await evaluate({ refs, alts, target: sc.lang, situation });
+    Object.assign(CTX, { heard: v.heard, score: v.score, verdict: v.verdict, comment: v.comment || '' });
+    after(v);
   };
   if (!refs.length && !isEnd) after(null);
 }
@@ -586,11 +657,11 @@ function finishScene(sc, endId, log) {
   st.runs++; if (!st.ends.includes(endId)) st.ends.push(endId);
   S.scenes[sc.id] = st; store.save();
   const scored = log.filter(l => l.score !== null);
-  const avg = scored.length ? Math.round(100 * scored.reduce((a, l) => a + l.score, 0) / scored.length) : null;
-  $('#ctl').innerHTML = `<div class="card center"><b>Конец сцены</b>
-    ${avg !== null ? `<div class="score">${avg}%</div><div class="muted small">среднее совпадение с вариантом</div>` : ''}
-    <div class="muted small">Концовок открыто: ${st.ends.length}</div>
-    <div class="row" style="margin-top:10px"><button class="btn" id="list">Все сцены</button><button class="btn primary" id="again">Ещё раз</button></div></div>`;
+  const avg = scored.length ? Math.round(scored.reduce((a, l) => a + l.score, 0) / scored.length) : null;
+  $('#ctl').innerHTML = `<div class="card center"><b>${esc(t('Конец сцены'))}</b>
+    ${avg !== null ? `<div class="score">${avg}%</div><div class="muted small">${esc(t('средняя оценка ответов'))}</div>` : ''}
+    <div class="muted small">${esc(t('Концовок открыто: {n}', { n: st.ends.length }))}</div>
+    <div class="row" style="margin-top:10px"><button class="btn" id="list">${esc(t('Все сцены'))}</button><button class="btn primary" id="again">${esc(t('Ещё раз'))}</button></div></div>`;
   $('#list').onclick = () => go('scenes');
   $('#again').onclick = () => playScene(sc);
   window.scrollTo(0, document.body.scrollHeight);
@@ -598,15 +669,15 @@ function finishScene(sc, endId, log) {
 
 // ---------- quiz ----------
 function viewQuizHome(opts = {}) {
-  if (!C.quiz) return render(`<p class="muted">Квиз не загрузился.</p>`);
+  if (!C.quiz) return render(`<p class="muted">${esc(t('Квиз не загрузился.'))}</p>`);
   if (opts.set) { const s = C.quiz.sets.find(x => x.id === opts.set); if (s) return playQuiz(s); }
-  const v = render(`<h2>Квиз</h2>
+  const v = render(`<h2>${esc(t('Квиз'))}</h2>
     ${C.quiz.sets.map(s => {
       const best = (S.quiz[s.id] || {}).best;
       return `<button class="card tight option" data-set="${s.id}"><b>${esc(L(s, 'title'))}</b>
-        <div class="stat-row"><span>Вопросов: ${s.questions.length}</span><span>${best != null ? 'Лучший: ' + best + '%' : 'ещё не проходил'}</span></div></button>`;
+        <div class="stat-row"><span>${esc(t('Вопросов: {n}', { n: s.questions.length }))}</span><span>${esc(best != null ? t('Лучший: {n}%', { n: best }) : t('ещё не проходил'))}</span></div></button>`;
     }).join('')}
-    ${C.quiz.rules && C.quiz.rules.length ? `<details class="card"><summary>Правила сочетаний (шпаргалка)</summary>
+    ${C.quiz.rules && C.quiz.rules.length ? `<details class="card"><summary>${esc(t('Правила сочетаний (шпаргалка)'))}</summary>
       ${C.quiz.rules.map(r => `<div class="rule"><b>${esc(r[PL()] || r.ru)}</b>${PL() !== 'es' ? `<div class="muted">${esc(r.es)}</div>` : ''}</div>`).join('')}</details>` : ''}`);
   v.querySelectorAll('[data-set]').forEach(b => b.onclick = () => playQuiz(C.quiz.sets.find(s => s.id === b.dataset.set)));
 }
@@ -615,23 +686,22 @@ function playQuiz(set) {
     const order = shuffle(q.options.map((o, i) => i));
     return { q: L(q, 'q'), why: L(q, 'why'), options: order.map(i => q.options[i]), answer: order.indexOf(q.answer) };
   });
-  const sess = { set, qs, i: 0, right: 0, wrong: [] };
-  showQ(sess);
+  showQ({ set, qs, i: 0, right: 0, wrong: [] });
 }
 function showQ(sess) {
   const q = sess.qs[sess.i];
-  if (q) setCtx({ mode: 'quiz', set: sess.set.id, q: q.q, answer: q.options[q.answer] });
   if (!q) {
     const pct = Math.round(100 * sess.right / sess.qs.length);
     const qr = S.quiz[sess.set.id] || {}; qr.best = Math.max(qr.best || 0, pct); S.quiz[sess.set.id] = qr; store.save();
-    const v = render(`<h2>${esc(L(sess.set, 'title'))}</h2><div class="card center"><div class="score">${pct}%</div>
-      <p>${sess.right} из ${sess.qs.length}</p></div>
-      ${sess.wrong.length ? `<h3>Разобрать ошибки</h3>` + sess.wrong.map(w => `<div class="card tight"><b>${esc(w.q)}</b>
+    render(`<h2>${esc(L(sess.set, 'title'))}</h2><div class="card center"><div class="score">${pct}%</div>
+      <p>${esc(t('{a} из {b}', { a: sess.right, b: sess.qs.length }))}</p></div>
+      ${sess.wrong.length ? `<h3>${esc(t('Разобрать ошибки'))}</h3>` + sess.wrong.map(w => `<div class="card tight"><b>${esc(w.q)}</b>
         <div class="w-ok">${esc(w.options[w.answer])}</div><div class="muted small">${esc(w.why || '')}</div></div>`).join('') : ''}
-      <div class="row"><button class="btn" id="b">Все квизы</button><button class="btn primary" id="a">Ещё раз</button></div>`);
+      <div class="row"><button class="btn" id="b">${esc(t('Все квизы'))}</button><button class="btn primary" id="a">${esc(t('Ещё раз'))}</button></div>`);
     $('#b').onclick = () => go('quiz'); $('#a').onclick = () => playQuiz(sess.set);
     return;
   }
+  setCtx({ mode: 'quiz', set: sess.set.id, q: q.q, answer: q.options[q.answer] });
   const v = render(`<div class="stat-row"><span>${esc(L(sess.set, 'title'))}</span><span>${sess.i + 1}/${sess.qs.length}</span></div>
     <div class="progress"><i style="width:${100 * sess.i / sess.qs.length}%"></i></div>
     <div class="card" style="margin-top:12px"><div class="prompt">${esc(q.q)}</div></div>
@@ -641,38 +711,37 @@ function showQ(sess) {
     const pick = +b.dataset.o;
     v.querySelectorAll('[data-o]').forEach(x => { x.disabled = true; if (+x.dataset.o === q.answer) x.classList.add('right'); });
     if (pick === q.answer) sess.right++; else { b.classList.add('wrong'); sess.wrong.push(q); }
-    $('#why').innerHTML = `${q.why ? `<div class="note">${esc(q.why)}</div>` : ''}<button class="btn primary wide" id="next" style="margin-top:12px">Дальше</button>`;
+    $('#why').innerHTML = `${q.why ? `<div class="note">${esc(q.why)}</div>` : ''}<button class="btn primary wide" id="next" style="margin-top:12px">${esc(t('Дальше'))}</button>`;
     $('#next').onclick = () => { sess.i++; showQ(sess); };
   });
 }
 
 // ---------- ✋ reports ----------
 // Same idea as the ✋ button in LA: the note leaves straight from the lesson
-// with its context (which card / scene / question), so nothing depends on
-// remembering it later. If the phone is offline the note waits in the outbox
-// and goes out on the next send or app start.
-const REPORT_API = 'https://77-42-69-208.sslip.io/camarero-api/report';
+// with its context (which card / scene / question, what was heard and how it
+// was graded), so nothing depends on remembering it later. If the phone is
+// offline the note waits in the outbox and goes out on the next send or start.
 let CTX = { mode: 'plan' };
 function setCtx(o) { CTX = Object.assign({ mode: state.tab }, o); }
-S.outbox = S.outbox || [];
 
 function ctxSummary(c) {
   const parts = [];
-  if (c.mode === 'cards' || c.mode === 'speak') parts.push(`${c.mode === 'cards' ? 'Карточка' : 'Вслух'} ${c.item}`, c.ru, c.es, c.en);
-  else if (c.mode === 'scene') parts.push(`Сцена ${c.scene} / ${c.node}`, c.guest && 'Гость: ' + c.guest, c.you && 'Вариант: ' + c.you);
-  else if (c.mode === 'quiz') parts.push(`Квиз ${c.set}`, c.q, c.answer && 'Ответ: ' + c.answer);
-  else parts.push('Экран: ' + c.mode);
-  if (c.heard) parts.push(`Распознано: «${c.heard}» (${c.score}%)`);
+  if (c.mode === 'cards' || c.mode === 'speak') parts.push(`${t(c.mode === 'cards' ? 'Карточка' : 'Вслух')} ${c.item}`, c.prompt || c.ru, c.es, c.en);
+  else if (c.mode === 'scene') parts.push(`${t('Сцена')} ${c.scene} / ${c.node}`, c.guest && `${t('Гость')}: ${c.guest}`, c.you && `${t('Вариант')}: ${c.you}`);
+  else if (c.mode === 'quiz') parts.push(`${t('Квиз')} ${c.set}`, c.q, c.answer && `${t('Ответ')}: ${c.answer}`);
+  else parts.push(`${t('Экран')}: ${c.mode}`);
+  if (c.heard) parts.push(`${t('Распознано')}: «${c.heard}» (${c.score}%${c.verdict ? ', ' + t(VERDICT_UI[c.verdict][1]) : ''})`);
+  if (c.comment) parts.push(c.comment);
   return parts.filter(Boolean).join('\n');
 }
 function toast(msg) {
-  const t = $('#toast'); t.textContent = msg; t.hidden = false;
-  clearTimeout(toast.t); toast.t = setTimeout(() => { t.hidden = true; }, 2600);
+  const el = $('#toast'); el.textContent = msg; el.hidden = false;
+  clearTimeout(toast.timer); toast.timer = setTimeout(() => { el.hidden = true; }, 2600);
 }
-async function postReport(rec) {
+async function postReport(r) {
   // text/plain keeps it a "simple" CORS request: no preflight round trip.
-  const r = await fetch(REPORT_API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(rec) });
-  if (!r.ok) throw new Error(r.status);
+  const res = await fetch(API + '/report', { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(r) });
+  if (!res.ok) throw new Error(res.status);
 }
 async function flushOutbox() {
   let sent = 0;
@@ -685,7 +754,7 @@ async function flushOutbox() {
 function initReports() {
   const dlg = $('#report'), tags = new Set();
   $('#reportBtn').onclick = () => {
-    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    stopSpeech();
     tags.clear();
     dlg.querySelectorAll('[data-tag]').forEach(b => b.setAttribute('aria-pressed', 'false'));
     $('#reportText').value = '';
@@ -700,15 +769,15 @@ function initReports() {
   $('#reportSend').onclick = async () => {
     const text = $('#reportText').value.trim();
     if (!text && !tags.size) { $('#reportText').focus(); return; }
-    const rec = Object.assign({}, CTX, {
-      text: text || '(без комментария)', tags: [...tags].join(', '),
+    const r = Object.assign({}, CTX, {
+      text: text || '(—)', tags: [...tags].join(', '), ui: PL(),
       lang: S.settings.lang, at: new Date().toISOString(), ua: navigator.userAgent.slice(0, 120),
     });
-    S.outbox.push(rec); store.save();
+    S.outbox.push(r); store.save();
     dlg.close();
     const before = S.outbox.length;
     await flushOutbox();
-    toast(S.outbox.length < before ? 'Записано ✋ — разберу' : `Нет связи — сохранил, отправлю позже (${S.outbox.length})`);
+    toast(S.outbox.length < before ? t('Записано ✋ — разберу') : t('Нет связи — сохранил, отправлю позже ({n})', { n: S.outbox.length }));
   };
 }
 
@@ -721,7 +790,7 @@ function fillVoiceSelects() {
   for (const [id, lang] of [['voiceEs', 'es'], ['voiceEn', 'en']]) {
     const sel = $('#' + id); if (!sel) continue;
     const vs = tts.voices.filter(v => v.lang.toLowerCase().startsWith(lang));
-    sel.innerHTML = `<option value="">Автовыбор</option>` + vs.map(v => `<option ${S.settings[id] === v.name ? 'selected' : ''}>${esc(v.name)} (${esc(v.lang)})</option>`).join('');
+    sel.innerHTML = `<option value="">${esc(t('Автовыбор'))}</option>` + vs.map(v => `<option ${S.settings[id] === v.name ? 'selected' : ''}>${esc(v.name)} (${esc(v.lang)})</option>`).join('');
     sel.onchange = () => { S.settings[id] = sel.value.replace(/ \([^)]*\)$/, ''); store.save(); tts.say(lang === 'en' ? 'Hi there, how are you?' : '¡Buenas! ¿Qué os pongo?', lang); };
   }
 }
@@ -731,17 +800,20 @@ function initSettings() {
     $('#rate').value = S.settings.rate; $('#rateOut').textContent = S.settings.rate;
     $('#newPerSession').value = S.settings.newPerSession;
     $('#promptLang').value = PL();
+    $('#aiCheck').checked = !!S.settings.aiCheck;
     fillVoiceSelects(); dlg.showModal();
   };
   $('#rate').oninput = e => { S.settings.rate = +e.target.value; $('#rateOut').textContent = S.settings.rate; store.save(); };
-  $('#promptLang').onchange = e => { S.settings.promptLang = e.target.value; store.save(); go(state.tab); };
+  $('#promptLang').onchange = e => { S.settings.promptLang = e.target.value; store.save(); applyStaticI18n(); fillVoiceSelects(); go(state.tab); };
+  $('#aiCheck').onchange = e => { S.settings.aiCheck = e.target.checked; store.save(); };
   $('#newPerSession').onchange = e => { S.settings.newPerSession = Math.max(5, +e.target.value || 20); store.save(); };
   $('#exportBtn').onclick = () => {
     const blob = new Blob([JSON.stringify(S, null, 1)], { type: 'application/json' });
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'camarero-progress.json'; a.click();
   };
   $('#resetBtn').onclick = () => {
-    if (!$('#resetBtn').dataset.armed) { $('#resetBtn').dataset.armed = '1'; $('#resetBtn').textContent = 'Точно сбросить?'; return; }
+    const b = $('#resetBtn');
+    if (!b.dataset.armed) { b.dataset.armed = '1'; b.textContent = t('Точно сбросить?'); return; }
     S.cards = {}; S.quiz = {}; S.scenes = {}; S.plan = {}; store.save(); dlg.close(); go(state.tab);
   };
   $('#langBtn').onclick = () => { setLang(S.settings.lang === 'es' ? 'en' : 'es'); go(state.tab); };
@@ -749,6 +821,7 @@ function initSettings() {
 
 // ---------- boot ----------
 (async function boot() {
+  applyStaticI18n();
   setLang(S.settings.lang);
   initSettings();
   initReports();
@@ -759,5 +832,5 @@ function initSettings() {
   try { tab = sessionStorage.getItem('camarero.tab') || 'plan'; } catch (e) {}
   go(tab);
   flushOutbox();
-  if (errors.length) view().prepend(h(`<div class="note">Не загрузилось: ${esc(errors.join('; '))}</div>`));
+  if (errors.length) view().prepend(h(`<div class="note">${esc(t('Не загрузилось: {n}', { n: errors.join('; ') }))}</div>`));
 })();

@@ -1,10 +1,14 @@
 {
   "id": "vocab",
   "title": "Словарь зала и кухни",
+  "title_en": "Floor and kitchen vocabulary",
+  "title_es": "Vocabulario de sala y cocina",
   "sections": [
     {
       "id": "sala",
       "title": "Зал и бар: жаргон и предметы",
+      "title_en": "Floor and bar: jargon and objects",
+      "title_es": "Sala y barra: jerga y objetos",
       "items": [
         {"id": "voc-sala-01", "kind": "word", "ru": "заказ (бумажка/запись для кухни)", "es": "la comanda", "en": "the order ticket", "note": "«Pasar la comanda» — передать заказ на кухню/в систему", "p_en": "the order ticket (written order for the kitchen)", "p_es": "Papel o registro con lo que ha pedido una mesa, para cocina", "note_en": "'Pasar la comanda' = send the order to the kitchen / the system", "note_es": "«Pasar la comanda»: enviar el pedido a cocina o al sistema"},
         {"id": "voc-sala-02", "kind": "word", "ru": "счёт", "es": "la cuenta", "en": "the bill / the check", "note": "«¿Me cobras?» — гость просит рассчитать (разговорно)", "p_en": "the bill / the check", "p_es": "Papel con el total que tiene que pagar la mesa", "note_en": "'¿Me cobras?' = the guest asks to pay (colloquial)", "note_es": "«¿Me cobras?»: el cliente pide pagar (coloquial)"},
@@ -45,6 +49,8 @@
     {
       "id": "cocina",
       "title": "Кухня: способы приготовления",
+      "title_en": "Kitchen: cooking methods",
+      "title_es": "Cocina: formas de cocinar",
       "items": [
         {"id": "voc-cocina-01", "kind": "word", "ru": "на гриле-плите (раскалённая плоская поверхность)", "es": "a la plancha", "en": "griddled / grilled on a flat-top", "p_en": "griddled on a flat-top", "p_es": "Hecho sobre una superficie metálica lisa y muy caliente"},
         {"id": "voc-cocina-02", "kind": "word", "ru": "на углях", "es": "a la brasa", "en": "char-grilled over embers", "note": "Звучит премиально — «a la brasa» отлично продаёт мясо и рыбу", "p_en": "char-grilled over embers", "p_es": "Hecho sobre carbón o leña encendidos", "note_en": "Sounds premium — it sells meat and fish well", "note_es": "Suena a calidad: vende muy bien carne y pescado"},
@@ -79,6 +85,8 @@
     {
       "id": "punto",
       "title": "Прожарка и особые просьбы",
+      "title_en": "Doneness and special requests",
+      "title_es": "Puntos y peticiones especiales",
       "items": [
         {"id": "voc-punto-01", "kind": "word", "ru": "почти сырое (только обжарено с двух сторон)", "es": "vuelta y vuelta", "en": "blue / very rare", "p_en": "blue / very rare", "p_es": "Carne apenas marcada por los dos lados, casi cruda"},
         {"id": "voc-punto-02", "kind": "word", "ru": "с кровью", "es": "poco hecho", "en": "rare", "note": "Синоним: «sangrante»", "p_en": "rare", "p_es": "Carne con el centro rojo y jugoso", "note_en": "Synonym: 'sangrante'", "note_es": "Sinónimo: «sangrante»"},
@@ -98,6 +106,8 @@
     {
       "id": "vajilla",
       "title": "Посуда и стекло",
+      "title_en": "Tableware and glassware",
+      "title_es": "Vajilla y cristalería",
       "items": [
         {"id": "voc-vajilla-01", "kind": "word", "ru": "мелкая тарелка", "es": "el plato llano", "en": "dinner plate", "p_en": "dinner plate (flat)", "p_es": "Pieza de vajilla sin fondo, para el segundo"},
         {"id": "voc-vajilla-02", "kind": "word", "ru": "глубокая тарелка", "es": "el plato hondo", "en": "soup bowl / deep plate", "p_en": "soup bowl / deep plate", "p_es": "Pieza de vajilla con fondo, para sopas y cremas"},
@@ -121,6 +131,8 @@
     {
       "id": "alergenos",
       "title": "14 аллергенов (обязательны по закону ЕС)",
+      "title_en": "The 14 allergens (required by EU law)",
+      "title_es": "Los 14 alérgenos (obligatorios por ley UE)",
       "items": [
         {"id": "voc-alergenos-01", "kind": "word", "ru": "злаки с глютеном", "es": "el gluten (cereales con gluten)", "en": "gluten (cereals containing gluten)", "note": "Пшеница, рожь, ячмень, овёс. Скрыто: панировка, кляр, соусы с мукой, пиво, сухари в фарше", "p_en": "gluten (cereals containing gluten)", "p_es": "Proteína de trigo, cebada, centeno y avena; problema para los celíacos", "note_en": "Wheat, rye, barley, oats. Hidden in: breadcrumbs, batter, flour-thickened sauces, beer, breadcrumbs in mince", "note_es": "Escondido en rebozados, salsas con harina, cerveza, pan rallado en la carne picada"},
         {"id": "voc-alergenos-02", "kind": "word", "ru": "ракообразные", "es": "los crustáceos", "en": "crustaceans", "note": "Креветки, лангустины, крабы, омары. Скрыто: бульон для риса (arroz a banda, fideuà)", "p_en": "crustaceans", "p_es": "Gambas, langostinos, cangrejos, bogavantes…", "note_en": "Prawns, langoustines, crabs, lobsters. Hidden in rice stock (arroz a banda, fideuà)", "note_es": "Escondidos en el caldo del arroz (a banda, fideuà)"},
@@ -142,6 +154,8 @@
     {
       "id": "ingredientes",
       "title": "Продукты: рыба, мясо, овощи, соусы",
+      "title_en": "Ingredients: fish, meat, vegetables, sauces",
+      "title_es": "Ingredientes: pescado, carne, verdura, salsas",
       "items": [
         {"id": "voc-ingredientes-01", "kind": "word", "ru": "креветки", "es": "las gambas", "en": "prawns / shrimp", "p_en": "prawns / shrimp", "p_es": "Crustáceo pequeño y rosado, típico al ajillo o a la plancha"},
         {"id": "voc-ingredientes-02", "kind": "word", "ru": "крупные креветки (королевские / тигровые)", "es": "los langostinos", "en": "king prawns", "p_en": "king prawns", "p_es": "Crustáceo grande, mayor que una gamba, típico a la plancha"},

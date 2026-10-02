@@ -1,10 +1,14 @@
 {
   "id": "bebidas",
   "title": "Напитки: пиво, вино, кофе, коктейли",
+  "title_en": "Drinks: beer, wine, coffee, cocktails",
+  "title_es": "Bebidas: cerveza, vino, café, cócteles",
   "sections": [
     {
       "id": "cerveza",
       "title": "Пиво",
+      "title_en": "Beer",
+      "title_es": "Cerveza",
       "items": [
         {"id": "beb-cerveza-01", "kind": "word", "ru": "Маленькое разливное пиво (самый частый заказ)", "es": "una caña", "en": "a small draught beer", "note": "Объём зависит от бара и региона, обычно ~200 мл. Если гость просто говорит «una cerveza» — уточни: «¿Caña o tercio?»", "p_en": "Small draught beer, the most common order in Spain", "p_es": "Cerveza de barril pequeña, lo que más se pide", "note_en": "Size depends on the bar and region, usually ~200 ml. If a guest just says «una cerveza», check: «¿Caña o tercio?»", "note_es": "El tamaño depende del bar y de la zona, normalmente unos 200 ml. Si el cliente solo dice «una cerveza», pregunta: «¿Caña o tercio?»"},
         {"id": "beb-cerveza-02", "kind": "word", "ru": "Разливное побольше, чем caña", "es": "un doble", "en": "a larger draught", "note": "Размер «doble» тоже плавает от бара к бару (≈300–400 мл). Узнай в первый день, что значит «doble» именно у вас.", "p_en": "A bigger draught beer than the standard small one", "p_es": "Cerveza de barril más grande que la normal", "note_en": "The size of a «doble» also varies from bar to bar (≈300–400 ml). On day one, find out what «doble» means where you work.", "note_es": "El tamaño también cambia de un bar a otro (≈300–400 ml). El primer día pregunta cuánto es en tu bar."},
@@ -27,6 +31,8 @@
     {
       "id": "vino",
       "title": "Вино",
+      "title_en": "Wine",
+      "title_es": "Vino",
       "items": [
         {"id": "beb-vino-01", "kind": "word", "ru": "Бокал вина / бутылка", "es": "una copa / una botella", "en": "a glass / a bottle", "p_en": "A glass of wine / a bottle", "p_es": "Vino para una persona o el envase entero para la mesa"},
         {"id": "beb-vino-02", "kind": "word", "ru": "Красное / белое / розовое", "es": "tinto / blanco / rosado", "en": "red / white / rosé", "note": "«Un tinto» = бокал красного. Не путать с «tinto de verano» (это красное с газировкой).", "p_en": "Red / white / rosé", "p_es": "Los tres colores del vino", "note_en": "«Un tinto» = a glass of red. Don't confuse with «tinto de verano» (red wine with soda).", "note_es": "«Un tinto» es una copa de vino tinto. No confundir con el «tinto de verano», que lleva gaseosa."},
@@ -60,6 +66,8 @@
     {
       "id": "vermut-sangria",
       "title": "Вермут, сангрия, валенсийская классика",
+      "title_en": "Vermouth, sangria, Valencian classics",
+      "title_es": "Vermut, sangría y clásicos valencianos",
       "items": [
         {"id": "beb-vermut-01", "kind": "word", "ru": "Вермут из крана", "es": "vermut de grifo", "en": "vermouth on tap", "p_en": "Vermouth on tap", "p_es": "Vermut servido del tirador"},
         {"id": "beb-vermut-02", "kind": "word", "ru": "Как подают вермут", "es": "vermut rojo (o blanco) con hielo, una rodaja de naranja y una aceituna", "en": "red (or white) vermouth with ice, an orange slice and an olive", "note": "Часто с сифоном (каплей газировки) — спроси: «¿Con sifón?»", "p_en": "How vermouth is served", "p_es": "Cómo se sirve el vermut", "note_en": "Often with a splash of soda from a siphon — ask: «¿Con sifón?»", "note_es": "Muchas veces con un chorrito de sifón; pregunta: «¿Con sifón?»"},
@@ -76,6 +84,8 @@
     {
       "id": "cafe",
       "title": "Кофе и безалкогольное",
+      "title_en": "Coffee and soft drinks",
+      "title_es": "Café y sin alcohol",
       "items": [
         {"id": "beb-cafe-01", "kind": "word", "ru": "Эспрессо", "es": "un café solo", "en": "an espresso", "p_en": "Espresso", "p_es": "Café corto, sin leche"},
         {"id": "beb-cafe-02", "kind": "word", "ru": "Эспрессо с каплей молока", "es": "un cortado", "en": "an espresso with a dash of milk", "p_en": "Espresso with a dash of milk", "p_es": "Café corto con una gotita de leche"},
@@ -100,6 +110,8 @@
     {
       "id": "copas",
       "title": "Copas: крепкое и микс-дринки",
+      "title_en": "Copas: spirits and mixed drinks",
+      "title_es": "Copas: combinados",
       "items": [
         {"id": "beb-copas-01", "kind": "word", "ru": "Крепкое + газировка в высоком стакане", "es": "un cubata / un combinado / una copa", "en": "a mixed drink / a spirit and mixer", "p_en": "A spirit + mixer in a tall glass", "p_es": "Licor fuerte con refresco en vaso alto"},
         {"id": "beb-copas-02", "kind": "phrase", "ru": "Гость заказал ром — спросить, с чем", "es": "¿Con qué lo quieres? ¿Cola, limón, naranja?", "en": "What would you like it with? Coke, lemon, orange?", "p_en": "A guest ordered rum — ask what with", "p_es": "El cliente ha pedido ron: pregunta con qué refresco"},
@@ -123,6 +135,8 @@
     {
       "id": "cocteles",
       "title": "Коктейли (топ-20)",
+      "title_en": "Cocktails (top 20)",
+      "title_es": "Cócteles (los 20 más pedidos)",
       "items": [
         {"id": "beb-cocteles-01", "kind": "word", "ru": "Мохито", "es": "mojito", "en": "mojito", "note": "Fresquito, con hierbabuena y lima; el más pedido del verano.", "extra": {"base": "ron blanco", "receta": "≈45 ml ron blanco, lima, azúcar, hierbabuena, hielo picado, soda", "vaso": "vaso alto", "sabor": "fresco, mentolado, cítrico"}, "p_en": "Rum, mint, lime, sugar and soda", "p_es": "Ron, hierbabuena, lima, azúcar y soda", "note_en": "Refreshing, with mint and lime; the most-ordered drink of summer.", "note_es": "Fresquito, con hierbabuena y lima; el más pedido del verano."},
         {"id": "beb-cocteles-02", "kind": "word", "ru": "Кайпиринья", "es": "caipiriña", "en": "caipirinha", "note": "La bebida de Brasil: cachaça con lima machacada, más fuerte de lo que parece.", "extra": {"base": "cachaça", "receta": "≈60 ml cachaça, media lima en trozos machacada, azúcar, hielo picado", "vaso": "vaso bajo (old fashioned)", "sabor": "cítrico, dulce, potente"}, "p_en": "Brazilian cachaça with crushed lime and sugar", "p_es": "Cachaça brasileña con lima machacada y azúcar", "note_en": "Brazil's drink: cachaça with crushed lime, stronger than it seems.", "note_es": "La bebida de Brasil: cachaça con lima machacada, más fuerte de lo que parece."},
@@ -153,6 +167,8 @@
     {
       "id": "refrescos-agua",
       "title": "Вода и газировки",
+      "title_en": "Water and soft drinks",
+      "title_es": "Agua y refrescos",
       "items": [
         {"id": "beb-refrescos-01", "kind": "word", "ru": "Вода с газом / без газа", "es": "agua con gas / sin gas", "en": "sparkling / still water", "p_en": "Sparkling / still water", "p_es": "Agua con burbujas o sin ellas"},
         {"id": "beb-refrescos-02", "kind": "word", "ru": "Комнатной температуры / холодная", "es": "del tiempo / fría", "en": "room temperature / cold", "note": "Испанцы часто просят воду «del tiempo». Всегда уточняй: «¿Fría o del tiempo?»", "p_en": "Room temperature / cold", "p_es": "A temperatura ambiente o de la nevera", "note_en": "Spaniards often ask for water «del tiempo». Always check: «¿Fría o del tiempo?»", "note_es": "Muchos españoles piden el agua a temperatura ambiente. Pregunta siempre: «¿Fría o del tiempo?»"},
@@ -169,6 +185,8 @@
     {
       "id": "frases-barra",
       "title": "Фразы за баром",
+      "title_en": "Behind the bar",
+      "title_es": "Frases de barra",
       "items": [
         {"id": "beb-barra-01", "kind": "phrase", "ru": "Что тебе налить? (основная фраза бармена)", "es": "¿Qué te pongo?", "es_alt": "¿Qué le pongo?", "en": "What can I get you?", "p_en": "What can I get you? (the bartender's basic line)", "p_es": "La pregunta básica del barman al cliente"},
         {"id": "beb-barra-02", "kind": "phrase", "ru": "Что-нибудь ещё?", "es": "¿Algo más?", "en": "Anything else?", "p_en": "Anything else?", "p_es": "Pregunta si le apetece pedir otra cosa"},

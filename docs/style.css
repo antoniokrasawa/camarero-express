@@ -206,5 +206,14 @@ textarea {
   background: var(--surface-2); color: var(--text); font: inherit; resize: vertical;
 }
 main { padding-bottom: 64px; }
+.tabs button b { font-weight: inherit; }
+.settings label.check-row { flex-direction: row; align-items: center; gap: 8px; font-size: 15px; }
+.check-row input { width: 20px; height: 20px; accent-color: var(--accent); }
+.verdict { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-weight: 800; font-size: 18px; }
+.verdict .pct { font-size: 26px; }
+.v-correct { color: var(--good); } .v-minor { color: var(--warn); } .v-wrong { color: var(--bad); }
+.label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; margin-top: 10px; }
+.said { font-style: italic; }
+.spinner { text-align: center; color: var(--muted); padding: 14px 0; }
 details summary { cursor: pointer; font-weight: 600; padding: 4px 0; }
 .rule { padding: 6px 0; border-top: 1px solid var(--line); font-size: 14px; }

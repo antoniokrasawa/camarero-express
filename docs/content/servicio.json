@@ -1,10 +1,14 @@
 {
   "id": "servicio",
   "title": "Сервис: от входа до счёта",
+  "title_en": "Service: from the door to the bill",
+  "title_es": "Servicio: de la puerta a la cuenta",
   "sections": [
     {
       "id": "bienvenida",
       "title": "Встреча гостя",
+      "title_en": "Welcoming guests",
+      "title_es": "Recibir a los clientes",
       "items": [
         {"id": "srv-bienvenida-01", "kind": "phrase", "ru": "Поздороваться с вошедшими и спросить, сколько их", "es": "¡Buenas! ¿Cuántos sois?", "es_alt": "Buenas noches, ¿para cuántas personas?", "en": "Hi there! How many of you?", "note": "«Buenas» — универсальное приветствие в любое время дня", "p_en": "Greet the guests coming in and ask how many they are", "p_es": "Saluda a los que entran y pregunta cuántas personas son", "note_en": "«Buenas» is an all-purpose greeting at any time of day", "note_es": "«Buenas» vale como saludo a cualquier hora"},
         {"id": "srv-bienvenida-02", "kind": "phrase", "ru": "Спросить, есть ли бронь", "es": "¿Tenéis reserva?", "es_alt": "¿Tienen reserva?", "en": "Do you have a booking?", "p_en": "Ask if they have a booking", "p_es": "Pregunta si han reservado"},
@@ -23,6 +27,8 @@
     {
       "id": "mesa",
       "title": "Посадка и меню",
+      "title_en": "Seating and menus",
+      "title_es": "Sentar y dar la carta",
       "items": [
         {"id": "srv-mesa-01", "kind": "phrase", "ru": "Спросить: терраса или внутри", "es": "¿Preferís terraza o dentro?", "es_alt": "¿Prefieren terraza o dentro?", "en": "Would you prefer the terrace or inside?", "p_en": "Ask: terrace or inside?", "p_es": "Pregunta si quieren terraza o interior"},
         {"id": "srv-mesa-02", "kind": "phrase", "ru": "Подвести к столу и предложить сесть", "es": "Esta es vuestra mesa. Sentaos donde queráis.", "es_alt": "Esta es su mesa. Siéntense, por favor.", "en": "Here's your table. Have a seat wherever you like.", "p_en": "Show them to the table and invite them to sit", "p_es": "Llévalos a la mesa e invítalos a sentarse"},
@@ -41,6 +47,8 @@
     {
       "id": "bebidas",
       "title": "Заказ напитков",
+      "title_en": "Taking drink orders",
+      "title_es": "Tomar nota de bebidas",
       "items": [
         {"id": "srv-bebidas-01", "kind": "phrase", "ru": "Спросить, что будут пить", "es": "¿Qué os pongo para beber?", "es_alt": "¿Qué les pongo para beber?", "en": "What can I get you to drink?", "note": "«poner» — классика бара: «¿Qué te pongo?»", "p_en": "Ask what they'd like to drink", "p_es": "Pregunta qué van a beber", "note_en": "«poner» is the bar classic: «¿Qué te pongo?»", "note_es": "Con «poner»: es lo más natural en barra"},
         {"id": "srv-bebidas-02", "kind": "phrase", "ru": "Коротко — «Пить?»", "es": "¿Y para beber?", "en": "And to drink?", "p_en": "Short version: «To drink?»", "p_es": "Versión corta: pregunta por la bebida"},
@@ -59,6 +67,8 @@
     {
       "id": "pedido",
       "title": "Заказ еды",
+      "title_en": "Taking food orders",
+      "title_es": "Tomar nota de comida",
       "items": [
         {"id": "srv-pedido-01", "kind": "phrase", "ru": "Спросить, готовы ли заказать", "es": "¿Ya sabéis lo que vais a tomar?", "es_alt": "¿Ya saben lo que van a tomar?", "en": "Are you ready to order?", "p_en": "Ask if they're ready to order", "p_es": "Pregunta si ya han decidido"},
         {"id": "srv-pedido-02", "kind": "phrase", "ru": "Не готовы — дать ещё время", "es": "Tranquilos, sin prisa. Vuelvo en un momento.", "es_alt": "Tranquilos, sin prisa. Vuelvo en un momento.", "en": "No rush at all, I'll come back in a moment.", "p_en": "Not ready — give them more time", "p_es": "No están listos: dales más tiempo"},
@@ -79,6 +89,8 @@
     {
       "id": "recomendar",
       "title": "Рекомендации и допродажа",
+      "title_en": "Recommending and upselling",
+      "title_es": "Recomendar y vender más",
       "items": [
         {"id": "srv-recomendar-01", "kind": "phrase", "ru": "Гость просит посоветовать — уточнить, что любит", "es": "¿Os apetece más carne, pescado o algo para picar?", "es_alt": "¿Les apetece más carne, pescado o algo para picar?", "en": "Do you fancy meat, fish, or something to nibble on?", "p_en": "Guest asks for advice — find out what they like", "p_es": "Te piden consejo: averigua qué les apetece"},
         {"id": "srv-recomendar-02", "kind": "phrase", "ru": "Рассказать про блюдо вне меню", "es": "Hoy tenemos fuera de carta un pulpo a la brasa buenísimo.", "es_alt": "Hoy tenemos fuera de carta un pulpo a la brasa excelente.", "en": "Today we've got an off-menu chargrilled octopus — it's really good.", "p_en": "Tell them about the off-menu special", "p_es": "Cuenta el plato que hay hoy fuera de la carta"},
@@ -97,6 +109,8 @@
     {
       "id": "durante",
       "title": "Во время еды",
+      "title_en": "During the meal",
+      "title_es": "Durante la comida",
       "items": [
         {"id": "srv-durante-01", "kind": "phrase", "ru": "Подать блюдо и назвать его", "es": "Aquí tenéis: el pulpo a la gallega. ¡Que aproveche!", "es_alt": "Aquí tienen: el pulpo a la gallega. ¡Que aproveche!", "en": "Here you go — the Galician-style octopus. Enjoy!", "p_en": "Serve the dish and name it", "p_es": "Sirve el plato diciendo qué es"},
         {"id": "srv-durante-02", "kind": "phrase", "ru": "Предупредить: тарелка горячая", "es": "Cuidado, que el plato quema.", "es_alt": "Cuidado, que el plato está muy caliente.", "en": "Careful, the plate's very hot.", "p_en": "Warn: hot plate", "p_es": "Avisa de que el plato está muy caliente"},
@@ -115,6 +129,8 @@
     {
       "id": "problemas",
       "title": "Проблемы и жалобы",
+      "title_en": "Problems and complaints",
+      "title_es": "Problemas y quejas",
       "items": [
         {"id": "srv-problemas-01", "kind": "phrase", "ru": "Блюдо закончилось", "es": "Lo siento, el rape se nos ha acabado. ¿Te puedo recomendar otra cosa?", "es_alt": "Lo siento, el rape se nos ha terminado. ¿Le puedo recomendar otra cosa?", "en": "I'm sorry, we've run out of monkfish. Can I recommend something else?", "p_en": "A dish has run out", "p_es": "Un plato se ha agotado: díselo y ofrece otro"},
         {"id": "srv-problemas-02", "kind": "phrase", "ru": "Еда задерживается — предупредить заранее", "es": "Perdonad la espera, la cocina va un poco liada. En cinco minutos lo tenéis.", "es_alt": "Disculpen la espera, la cocina va un poco saturada. En cinco minutos lo tienen.", "en": "Sorry for the wait, the kitchen's very busy. It'll be with you in five minutes.", "note": "Лучше предупредить самому, чем ждать жалобы", "p_en": "Food is delayed — warn them in advance", "p_es": "La comida se retrasa: avisa antes de que se quejen", "note_en": "Better to warn them yourself than wait for a complaint", "note_es": "Mejor avisar tú que esperar la queja"},
@@ -134,6 +150,8 @@
     {
       "id": "postre-cafe",
       "title": "Десерт и кофе",
+      "title_en": "Dessert and coffee",
+      "title_es": "Postre y café",
       "items": [
         {"id": "srv-postre-01", "kind": "phrase", "ru": "Предложить десерт", "es": "¿Os apetece algo de postre?", "es_alt": "¿Les apetece algo de postre?", "en": "Would you like anything for dessert?", "p_en": "Offer dessert", "p_es": "Ofrece algo dulce para terminar"},
         {"id": "srv-postre-02", "kind": "phrase", "ru": "Перечислить десерты устно", "es": "De postre tenemos tarta de queso, flan casero y helado.", "en": "For dessert we have cheesecake, homemade flan and ice cream.", "p_en": "List the desserts out loud", "p_es": "Di de memoria los postres que hay"},
@@ -150,6 +168,8 @@
     {
       "id": "cuenta",
       "title": "Счёт и прощание",
+      "title_en": "The bill and goodbye",
+      "title_es": "La cuenta y la despedida",
       "items": [
         {"id": "srv-cuenta-01", "kind": "phrase", "ru": "Спросить, принести ли счёт", "es": "¿Os traigo la cuenta?", "es_alt": "¿Les traigo la cuenta?", "en": "Shall I bring the bill?", "p_en": "Ask if you should bring the bill", "p_es": "Pregunta si quieren que les traigas la cuenta"},
         {"id": "srv-cuenta-02", "kind": "phrase", "ru": "Гость просит счёт — ответить", "es": "¡Claro, ahora te la traigo!", "es_alt": "¡Por supuesto, enseguida se la traigo!", "en": "Sure, I'll bring it right over!", "p_en": "Guest asks for the bill — answer", "p_es": "Te piden la cuenta: responde"},

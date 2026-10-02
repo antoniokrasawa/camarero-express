@@ -12,77 +12,81 @@
 <header class="top">
   <h1>Camarero Express</h1>
   <div class="top-actions">
-    <button id="langBtn" class="pill" title="Язык тренировки">ES</button>
-    <button id="settingsBtn" class="icon-btn" title="Настройки" aria-label="Настройки">⚙</button>
+    <button id="langBtn" class="pill" data-i18n-title="Язык тренировки">ES</button>
+    <button id="settingsBtn" class="icon-btn" data-i18n-title="Настройки">⚙</button>
   </div>
 </header>
 
 <main id="view" aria-live="polite">
-  <p class="muted center">Загружаю…</p>
+  <p class="muted center" data-i18n="Загружаю…">Загружаю…</p>
 </main>
 
 <nav class="tabs" role="tablist">
-  <button data-tab="plan" role="tab"><span>📅</span>План</button>
-  <button data-tab="cards" role="tab"><span>🃏</span>Карточки</button>
-  <button data-tab="speak" role="tab"><span>🎤</span>Вслух</button>
-  <button data-tab="scenes" role="tab"><span>🎭</span>Сцены</button>
-  <button data-tab="quiz" role="tab"><span>❓</span>Квиз</button>
+  <button data-tab="plan" role="tab"><span>📅</span><b data-i18n="План">План</b></button>
+  <button data-tab="cards" role="tab"><span>🃏</span><b data-i18n="Карточки">Карточки</b></button>
+  <button data-tab="speak" role="tab"><span>🎤</span><b data-i18n="Вслух">Вслух</b></button>
+  <button data-tab="scenes" role="tab"><span>🎭</span><b data-i18n="Сцены">Сцены</b></button>
+  <button data-tab="quiz" role="tab"><span>❓</span><b data-i18n="Квиз">Квиз</b></button>
 </nav>
 
 <dialog id="settings">
   <form method="dialog" class="settings">
-    <h2>Настройки</h2>
-    <label>Язык подсказок (что читаешь)
+    <h2 data-i18n="Настройки">Настройки</h2>
+    <label><span>🌐 <span data-i18n="Язык приложения">Язык приложения</span></span>
       <select id="promptLang">
         <option value="ru">Русский</option>
         <option value="en">English</option>
-        <option value="es">Español — полное погружение</option>
+        <option value="es">Español</option>
       </select>
     </label>
-    <p class="muted small" style="margin-top:-8px">На каком языке отвечаешь — переключатель ES / EN вверху.</p>
-    <label>Скорость озвучки
+    <p class="muted small" style="margin-top:-8px" data-i18n="Интерфейс, подсказки, комментарии и объяснения. На каком языке отвечаешь — переключатель ES / EN вверху.">…</p>
+    <label class="check-row"><input type="checkbox" id="aiCheck"> <span data-i18n="Автопроверка ответов (AI)">Автопроверка ответов (AI)</span></label>
+    <p class="muted small" style="margin-top:-8px" data-i18n="Если сказанное не совпало с эталоном дословно, AI решает, правильно ли это и естественно ли. Около $0,001 за проверку.">…</p>
+    <label><span data-i18n="Скорость озвучки">Скорость озвучки</span>
       <input type="range" id="rate" min="0.6" max="1.2" step="0.05">
       <output id="rateOut"></output>
     </label>
-    <label>Голос ES <select id="voiceEs"></select></label>
-    <label>Голос EN <select id="voiceEn"></select></label>
-    <label>Новых карточек за сессию
+    <label><span data-i18n="Голос ES">Голос ES</span> <select id="voiceEs"></select></label>
+    <label><span data-i18n="Голос EN">Голос EN</span> <select id="voiceEn"></select></label>
+    <label><span data-i18n="Новых карточек за сессию">Новых карточек за сессию</span>
       <input type="number" id="newPerSession" min="5" max="60" step="5">
     </label>
-    <p class="muted small">Прогресс хранится только в этом браузере.</p>
+    <p class="muted small" data-i18n="Прогресс хранится только в этом браузере.">…</p>
     <div class="row">
-      <button type="button" id="exportBtn" class="btn ghost">Экспорт прогресса</button>
-      <button type="button" id="resetBtn" class="btn danger">Сбросить всё</button>
+      <button type="button" id="exportBtn" class="btn ghost" data-i18n="Экспорт прогресса">Экспорт прогресса</button>
+      <button type="button" id="resetBtn" class="btn danger" data-i18n="Сбросить всё">Сбросить всё</button>
     </div>
-    <button class="btn primary wide">Готово</button>
+    <button class="btn primary wide" data-i18n="Готово">Готово</button>
   </form>
 </dialog>
 
-<button id="reportBtn" class="fab" title="Пожаловаться на то, что сейчас на экране" aria-label="Пожаловаться">✋</button>
+<button id="reportBtn" class="fab" data-i18n-title="Пожаловаться">✋</button>
 
 <dialog id="report">
   <form method="dialog" class="settings" id="reportForm">
-    <h2>✋ Что не так?</h2>
+    <h2 data-i18n="✋ Что не так?">✋ Что не так?</h2>
     <div class="note small" id="reportCtx"></div>
     <div class="chips" id="reportTags">
-      <button type="button" class="chip" data-tag="испанский">Ошибка в испанском</button>
-      <button type="button" class="chip" data-tag="неестественно">Так не говорят</button>
-      <button type="button" class="chip" data-tag="факт">Неверный факт</button>
-      <button type="button" class="chip" data-tag="перевод">Перевод / русский</button>
-      <button type="button" class="chip" data-tag="распознавание">Не распознало</button>
-      <button type="button" class="chip" data-tag="баг">Баг приложения</button>
-      <button type="button" class="chip" data-tag="идея">Идея</button>
+      <button type="button" class="chip" data-tag="испанский" data-i18n="Ошибка в испанском">Ошибка в испанском</button>
+      <button type="button" class="chip" data-tag="неестественно" data-i18n="Так не говорят">Так не говорят</button>
+      <button type="button" class="chip" data-tag="факт" data-i18n="Неверный факт">Неверный факт</button>
+      <button type="button" class="chip" data-tag="перевод" data-i18n="Перевод / подсказка">Перевод / подсказка</button>
+      <button type="button" class="chip" data-tag="распознавание" data-i18n="Не распознало">Не распознало</button>
+      <button type="button" class="chip" data-tag="оценка" data-i18n="Оценка нечестная">Оценка нечестная</button>
+      <button type="button" class="chip" data-tag="баг" data-i18n="Баг приложения">Баг приложения</button>
+      <button type="button" class="chip" data-tag="идея" data-i18n="Идея">Идея</button>
     </div>
-    <textarea id="reportText" rows="4" placeholder="Своими словами: что не так или как надо…"></textarea>
+    <textarea id="reportText" rows="4" data-i18n-ph="Своими словами: что не так или как надо…"></textarea>
     <div class="row">
-      <button type="button" class="btn ghost" id="reportCancel">Отмена</button>
-      <button type="button" class="btn primary" id="reportSend">Отправить</button>
+      <button type="button" class="btn ghost" id="reportCancel" data-i18n="Отмена">Отмена</button>
+      <button type="button" class="btn primary" id="reportSend" data-i18n="Отправить">Отправить</button>
     </div>
   </form>
 </dialog>
 
 <div id="toast" class="toast" hidden></div>
 
+<script src="i18n.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
