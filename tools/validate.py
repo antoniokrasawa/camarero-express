@@ -41,6 +41,11 @@ for d in DECKS:
                     err(f"{d}/{sec.get('id')}: item {it.get('id')} lacks {f}")
             if it.get("kind") not in ("phrase", "word"):
                 err(f"{d}: {it.get('id')} kind={it.get('kind')!r}")
+            for f in ("p_en", "p_es"):
+                if not it.get(f):
+                    err(f"{d}: {it.get('id')} lacks {f} (prompt in EN/ES)")
+            if it.get("note") and not (it.get("note_en") and it.get("note_es")):
+                err(f"{d}: {it.get('id')} has note but lacks note_en/note_es")
             if "extra" in it and not isinstance(it["extra"], dict):
                 err(f"{d}: {it.get('id')} extra must be an object")
     summary.append(f"{d}: {n} items, {len(deck.get('sections', []))} sections")

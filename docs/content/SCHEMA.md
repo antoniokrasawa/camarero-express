@@ -40,6 +40,8 @@ Item fields:
 | `es_alt` | no | An alternative, usually the formal `usted` version or a synonym. |
 | `en` | no | English version, used for tourists. Skip it for terms that have no use in English. |
 | `note` | no | A short comment in Russian: a nuance, a pitfall, when to use it. |
+| `p_en` / `p_es` | yes | The same prompt as `ru`, in English or Spanish. Settings ⚙ → "Язык подсказок" picks which one is shown. `p_es` must not give away the answer: describe the situation or define the word without naming it. |
+| `note_en` / `note_es` | if `note` exists | Translations of `note`. |
 | `extra` | no | A free-form object for details such as `{"glass":"copa balón","recipe":"..."}`. It is rendered as a small table. |
 
 ## Quiz: `quiz.json`
@@ -92,4 +94,5 @@ Item fields:
 - `guest` is the guest's line, read aloud by TTS. It is optional, because sometimes the waiter speaks first.
 - `you` holds the reference answers. The first one is the main answer that the speech-recognition result is compared against.
 - `next` holds the guest's possible reactions. Each `to` must name a node that exists.
+- Scenes also have `title_en`/`title_es`/`context_en`/`context_es`, and nodes have `hint_en`/`hint_es`. Quiz sets have `title_*`, questions have `why_*` (and `q_*` where `q` contains Russian), and rules have `en`.
 - A node with `end: true` (or one without `next`) ends the scene.

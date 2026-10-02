@@ -59,7 +59,7 @@ const store = (() => {
   };
 })();
 const S = store.data;
-S.settings = Object.assign({ lang: 'es', rate: 0.95, newPerSession: 20, voiceEs: '', voiceEn: '' }, S.settings);
+S.settings = Object.assign({ promptLang: 'ru', lang: 'es', rate: 0.95, newPerSession: 20, voiceEs: '', voiceEn: '' }, S.settings);
 
 // ---------- content ----------
 const C = { decks: {}, items: [], byId: {}, quiz: null, scenes: [] };
@@ -94,6 +94,16 @@ const view = () => $('#view');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const now = () => Date.now();
+// Prompt language (what you READ): ru / en / es. Target language (what you SAY) is S.settings.lang.
+const PL = () => S.settings.promptLang || 'ru';
+// Field in the prompt language with fallback to the Russian original: L(node, 'hint') -> hint_en / hint_es / hint.
+function L(o, base) { const p = PL(); return (p !== 'ru' && o[base + '_' + p]) || o[base]; }
+function promptOf(it) {
+  const p = PL();
+  if (p === 'en') return it.p_en || (S.settings.lang !== 'en' && it.en) || it.ru;
+  if (p === 'es') return it.p_es || it.ru;
+  return it.ru;
+}
 
 function h(html) { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content; }
 function render(html) { const v = view(); v.innerHTML = ''; v.appendChild(h(html)); window.scrollTo(0, 0); return v; }
@@ -290,12 +300,13 @@ function viewCardsHome(opts = {}) {
   if (opts.deck) { cardSel.deck = opts.deck; cardSel.sections = opts.sections || []; }
   if (opts.autostart) { cardSel.list = false; return startCards(); }
   const lang = S.settings.lang;
-  cardSel.dir = cardSel.dir.startsWith('es') ? 'es-ru' : 'ru-' + lang;
+  cardSel.dir = cardSel.dir.startsWith('es') ? 'es-p' : 'p-' + lang;
+  const pl = PL().toUpperCase();
   const items = itemsFor({ deck: cardSel.deck, sections: cardSel.sections });
   const st = deckStats(items);
   let html = `<h2>Карточки</h2>${pickerHtml(cardSel, {})}
-    <div class="seg"><button data-dir="ru-${lang}" aria-pressed="${cardSel.dir !== 'es-ru'}">RU → ${lang.toUpperCase()}</button>
-    <button data-dir="es-ru" aria-pressed="${cardSel.dir === 'es-ru'}">ES → RU</button></div>
+    <div class="seg"><button data-dir="p-${lang}" aria-pressed="${cardSel.dir !== 'es-p'}">${pl} → ${lang.toUpperCase()}</button>
+    <button data-dir="es-p" aria-pressed="${cardSel.dir === 'es-p'}">ES → ${pl === 'ES' ? 'толкование' : pl}</button></div>
     <div class="card tight"><div class="stat-row"><span>Карточек: ${st.total}</span><span>Выучено: ${st.learned}</span><span>К повтору: ${st.due}</span></div>
     <div class="progress"><i style="width:${st.total ? 100 * st.learned / st.total : 0}%"></i></div></div>
     <div class="row"><button class="btn primary" id="start">Начать</button><button class="btn" id="list">${cardSel.list ? 'Скрыть список' : 'Список'}</button></div>`;
@@ -313,14 +324,14 @@ function viewCardsHome(opts = {}) {
 }
 function listHtml(items) {
   const q = tokens(cardSel.q).join(' ');
-  const shown = items.filter(it => !q || tokens([it.es, it.es_alt, it.en, it.ru].join(' ')).join(' ').includes(q));
+  const shown = items.filter(it => !q || tokens([it.es, it.es_alt, it.en, it.ru, promptOf(it)].join(' ')).join(' ').includes(q));
   if (!shown.length) return `<p class="muted">Ничего не найдено.</p>`;
   return shown.map(it => {
     const r = rec(it.id);
     return `<div class="list-item"><span class="box-dot b${r ? r.box : 0}"></span><b>${esc(it.es)}</b>
       <button class="say" data-say="${esc(it.es)}" data-lang="es" aria-label="Озвучить">🔊</button>
-      <div>${esc(it.ru)}</div>${it.en ? `<div class="muted small">EN: ${esc(it.en)}</div>` : ''}
-      ${it.note ? `<div class="muted small">${esc(it.note)}</div>` : ''}</div>`;
+      <div>${esc(promptOf(it))}</div>${it.en && PL() !== 'en' ? `<div class="muted small">EN: ${esc(it.en)}</div>` : ''}
+      ${it.note ? `<div class="muted small">${esc(L(it, 'note'))}</div>` : ''}</div>`;
   }).join('');
 }
 function bindSay(root) {
@@ -353,20 +364,20 @@ function showCard(sess) {
     $('#back').onclick = () => go('cards'); $('#more').onclick = startCards;
     return;
   }
-  const lang = sess.to === 'ru' ? 'es' : sess.to;
-  const front = sess.from === 'ru' ? it.ru : it.es;
-  const back = sess.from === 'ru' ? (sess.to === 'en' ? it.en : it.es) : it.ru;
-  const backAlt = sess.from === 'ru' && sess.to === 'es' ? it.es_alt : '';
+  const lang = sess.to === 'p' ? 'es' : sess.to;
+  const front = sess.from === 'p' ? promptOf(it) : it.es;
+  const back = sess.from === 'p' ? (sess.to === 'en' ? it.en : it.es) : promptOf(it);
+  const backAlt = sess.from === 'p' && sess.to === 'es' ? it.es_alt : '';
   const v = render(`<div class="stat-row"><span>${esc(C.decks[it.deck].title)} · ${esc(it.sectionTitle)}</span><span>${sess.done}/${sess.total}</span></div>
     <div class="progress"><i style="width:${100 * sess.done / sess.total}%"></i></div>
     <div class="card" style="margin-top:12px">
       <div class="prompt">${esc(front)} ${sess.from === 'es' ? `<button class="say" data-say="${esc(it.es)}" data-lang="es">🔊</button>` : ''}</div>
       <div id="back" hidden>
-        <div class="answer">${esc(back)} ${sess.to !== 'ru' ? `<button class="say" data-say="${esc(back)}" data-lang="${lang}">🔊</button>` : ''}</div>
+        <div class="answer">${esc(back)} ${sess.to !== 'p' ? `<button class="say" data-say="${esc(back)}" data-lang="${lang}">🔊</button>` : ''}</div>
         ${backAlt ? `<div class="answer-alt">или: ${esc(backAlt)} <button class="say" data-say="${esc(backAlt)}" data-lang="es">🔊</button></div>` : ''}
-        ${sess.from === 'ru' && sess.to === 'es' && it.en ? `<div class="answer-alt">EN: ${esc(it.en)}</div>` : ''}
+        ${sess.from === 'p' && sess.to === 'es' && it.en && PL() !== 'en' ? `<div class="answer-alt">EN: ${esc(it.en)}</div>` : ''}
         ${sess.from === 'es' && it.en ? `<div class="answer-alt">EN: ${esc(it.en)}</div>` : ''}
-        ${it.note ? `<div class="note">${esc(it.note)}</div>` : ''}${extraHtml(it)}
+        ${it.note ? `<div class="note">${esc(L(it, 'note'))}</div>` : ''}${extraHtml(it)}
       </div>
     </div>
     <button class="btn primary wide" id="reveal">Показать ответ</button>
@@ -378,7 +389,7 @@ function showCard(sess) {
   bindSay(v);
   $('#reveal').onclick = () => {
     $('#back').hidden = false; $('#reveal').hidden = true; $('#grades').hidden = false;
-    if (sess.to !== 'ru') tts.say(back, lang);
+    if (sess.to !== 'p') tts.say(back, lang);
   };
   v.querySelectorAll('[data-g]').forEach(b => b.onclick = () => {
     const r = grade(it.id, b.dataset.g);
@@ -429,7 +440,7 @@ function showSpeak(sess) {
   const refs = lang === 'en' ? [it.en] : [it.es, it.es_alt].filter(Boolean);
   const v = render(`<div class="stat-row"><span>${esc(it.sectionTitle)}</span><span>${sess.done}/${sess.total}</span></div>
     <div class="progress"><i style="width:${100 * sess.done / sess.total}%"></i></div>
-    <div class="card" style="margin-top:12px"><div class="crumb">Ситуация</div><div class="prompt">${esc(it.ru)}</div></div>
+    <div class="card" style="margin-top:12px"><div class="crumb">Ситуация</div><div class="prompt">${esc(promptOf(it))}</div></div>
     ${SR ? `<button class="mic" id="mic" aria-label="Говорить">🎤</button><div class="heard" id="heard">Нажми и скажи</div>` : ''}
     <div id="result"></div>
     <button class="btn ${SR ? '' : 'primary'} wide" id="reveal">${SR ? 'Не знаю — показать' : 'Сказал — показать эталон'}</button>
@@ -444,8 +455,8 @@ function showSpeak(sess) {
       ${m ? `<div class="score" style="color:var(--${m.score >= .8 ? 'good' : m.score >= .5 ? 'warn' : 'bad'})">${Math.round(m.score * 100)}%</div>` : ''}
       <div class="answer">${m ? paintRef(m.ref, m.hit) : esc(ref)} <button class="say" data-say="${esc(m ? m.ref : ref)}" data-lang="${lang}">🔊</button></div>
       ${refs.slice(1).map(r => `<div class="answer-alt">или: ${esc(r)}</div>`).join('')}
-      ${lang === 'es' && it.en ? `<div class="answer-alt">EN: ${esc(it.en)}</div>` : ''}
-      ${it.note ? `<div class="note">${esc(it.note)}</div>` : ''}</div>`;
+      ${lang === 'es' && it.en && PL() !== 'en' ? `<div class="answer-alt">EN: ${esc(it.en)}</div>` : ''}
+      ${it.note ? `<div class="note">${esc(L(it, 'note'))}</div>` : ''}</div>`;
     bindSay($('#result'));
     $('#reveal').hidden = true; $('#grades').hidden = false;
     tts.say(m ? m.ref : ref, lang);
@@ -491,8 +502,8 @@ function viewScenes(opts = {}) {
       const st = S.scenes[sc.id] || { runs: 0, ends: [] };
       const ends = Object.entries(sc.nodes).filter(([, n]) => n.end || !n.next || !n.next.length).length;
       return `<button class="card tight option" data-scene="${sc.id}" style="text-align:left">
-        <b>${esc(sc.title)}</b> <span class="pill" style="font-size:11px;padding:1px 8px">${sc.lang.toUpperCase()}</span>
-        <div class="muted small">${esc(sc.context)}</div>
+        <b>${esc(L(sc, 'title'))}</b> <span class="pill" style="font-size:11px;padding:1px 8px">${sc.lang.toUpperCase()}</span>
+        <div class="muted small">${esc(L(sc, 'context'))}</div>
         <div class="stat-row"><span>Пройдено раз: ${st.runs}</span><span>Концовок: ${(st.ends || []).length}/${ends}</span></div></button>`;
     }).join('')}`);
   $('#calm').onclick = () => { wildGuest = false; viewScenes(); };
@@ -502,8 +513,8 @@ function viewScenes(opts = {}) {
 function playScene(sc) {
   const log = [];
   const v = render(`<div class="stat-row"><button class="btn ghost" id="exit" style="min-height:0;padding:4px 10px">← Сцены</button>
-    <span>${esc(sc.title)}${wildGuest ? ' · 🎲' : ''}</span></div>
-    <div class="card tight muted small">${esc(sc.context)}</div><div id="chat"></div><div id="ctl"></div>`);
+    <span>${esc(L(sc, 'title'))}${wildGuest ? ' · 🎲' : ''}</span></div>
+    <div class="card tight muted small">${esc(L(sc, 'context'))}</div><div id="chat"></div><div id="ctl"></div>`);
   $('#exit').onclick = () => go('scenes');
   step(sc, sc.start, log);
 }
@@ -521,7 +532,7 @@ function step(sc, nodeId, log) {
   const isEnd = node.end || !node.next || !node.next.length;
   if (isEnd && !(node.you && node.you.length)) return finishScene(sc, nodeId, log);
   const refs = node.you || [];
-  ctl.innerHTML = `${node.hint ? `<div class="hint">💡 ${esc(node.hint)}</div>` : ''}
+  ctl.innerHTML = `${node.hint ? `<div class="hint">💡 ${esc(L(node, 'hint'))}</div>` : ''}
     ${SR && refs.length ? `<button class="mic" id="mic" aria-label="Ответить">🎤</button><div class="heard" id="heard">Ответь гостю</div>` : ''}
     ${refs.length ? `<button class="btn wide" id="show">${SR ? 'Показать вариант ответа' : 'Ответил — показать вариант'}</button>` : ''}
     <div id="after"></div>`;
@@ -592,17 +603,17 @@ function viewQuizHome(opts = {}) {
   const v = render(`<h2>Квиз</h2>
     ${C.quiz.sets.map(s => {
       const best = (S.quiz[s.id] || {}).best;
-      return `<button class="card tight option" data-set="${s.id}"><b>${esc(s.title)}</b>
+      return `<button class="card tight option" data-set="${s.id}"><b>${esc(L(s, 'title'))}</b>
         <div class="stat-row"><span>Вопросов: ${s.questions.length}</span><span>${best != null ? 'Лучший: ' + best + '%' : 'ещё не проходил'}</span></div></button>`;
     }).join('')}
     ${C.quiz.rules && C.quiz.rules.length ? `<details class="card"><summary>Правила сочетаний (шпаргалка)</summary>
-      ${C.quiz.rules.map(r => `<div class="rule"><b>${esc(r.ru)}</b><div class="muted">${esc(r.es)}</div></div>`).join('')}</details>` : ''}`);
+      ${C.quiz.rules.map(r => `<div class="rule"><b>${esc(r[PL()] || r.ru)}</b>${PL() !== 'es' ? `<div class="muted">${esc(r.es)}</div>` : ''}</div>`).join('')}</details>` : ''}`);
   v.querySelectorAll('[data-set]').forEach(b => b.onclick = () => playQuiz(C.quiz.sets.find(s => s.id === b.dataset.set)));
 }
 function playQuiz(set) {
   const qs = shuffle(set.questions).map(q => {
     const order = shuffle(q.options.map((o, i) => i));
-    return { q: q.q, why: q.why, options: order.map(i => q.options[i]), answer: order.indexOf(q.answer) };
+    return { q: L(q, 'q'), why: L(q, 'why'), options: order.map(i => q.options[i]), answer: order.indexOf(q.answer) };
   });
   const sess = { set, qs, i: 0, right: 0, wrong: [] };
   showQ(sess);
@@ -613,7 +624,7 @@ function showQ(sess) {
   if (!q) {
     const pct = Math.round(100 * sess.right / sess.qs.length);
     const qr = S.quiz[sess.set.id] || {}; qr.best = Math.max(qr.best || 0, pct); S.quiz[sess.set.id] = qr; store.save();
-    const v = render(`<h2>${esc(sess.set.title)}</h2><div class="card center"><div class="score">${pct}%</div>
+    const v = render(`<h2>${esc(L(sess.set, 'title'))}</h2><div class="card center"><div class="score">${pct}%</div>
       <p>${sess.right} из ${sess.qs.length}</p></div>
       ${sess.wrong.length ? `<h3>Разобрать ошибки</h3>` + sess.wrong.map(w => `<div class="card tight"><b>${esc(w.q)}</b>
         <div class="w-ok">${esc(w.options[w.answer])}</div><div class="muted small">${esc(w.why || '')}</div></div>`).join('') : ''}
@@ -621,7 +632,7 @@ function showQ(sess) {
     $('#b').onclick = () => go('quiz'); $('#a').onclick = () => playQuiz(sess.set);
     return;
   }
-  const v = render(`<div class="stat-row"><span>${esc(sess.set.title)}</span><span>${sess.i + 1}/${sess.qs.length}</span></div>
+  const v = render(`<div class="stat-row"><span>${esc(L(sess.set, 'title'))}</span><span>${sess.i + 1}/${sess.qs.length}</span></div>
     <div class="progress"><i style="width:${100 * sess.i / sess.qs.length}%"></i></div>
     <div class="card" style="margin-top:12px"><div class="prompt">${esc(q.q)}</div></div>
     ${q.options.map((o, i) => `<button class="btn option" data-o="${i}">${esc(o)}</button>`).join('')}
@@ -719,9 +730,11 @@ function initSettings() {
   $('#settingsBtn').onclick = () => {
     $('#rate').value = S.settings.rate; $('#rateOut').textContent = S.settings.rate;
     $('#newPerSession').value = S.settings.newPerSession;
+    $('#promptLang').value = PL();
     fillVoiceSelects(); dlg.showModal();
   };
   $('#rate').oninput = e => { S.settings.rate = +e.target.value; $('#rateOut').textContent = S.settings.rate; store.save(); };
+  $('#promptLang').onchange = e => { S.settings.promptLang = e.target.value; store.save(); go(state.tab); };
   $('#newPerSession').onchange = e => { S.settings.newPerSession = Math.max(5, +e.target.value || 20); store.save(); };
   $('#exportBtn').onclick = () => {
     const blob = new Blob([JSON.stringify(S, null, 1)], { type: 'application/json' });

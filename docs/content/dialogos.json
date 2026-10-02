@@ -5,11 +5,17 @@
       "title": "Пара на ужин",
       "lang": "es",
       "context": "Вечер, ресторан. Пара без брони, не знают, что выбрать. У одной — аллергия.",
+      "title_en": "Couple at dinner",
+      "title_es": "Pareja en la cena",
+      "context_en": "Evening, restaurant. A couple with no booking who can't decide what to order. One of them has an allergy.",
+      "context_es": "Noche, restaurante. Una pareja sin reserva que no sabe qué pedir. Una de ellas tiene alergia.",
       "start": "n1",
       "nodes": {
         "n1": {
           "guest": "Hola, buenas noches. ¿Tenéis mesa para dos? No hemos reservado.",
           "hint": "Поздоровайся, предложи террасу или зал",
+          "hint_en": "Greet them, offer terrace or inside",
+          "hint_es": "Saluda y ofrece terraza o dentro",
           "you": ["¡Buenas noches! Sí, claro. ¿Preferís terraza o dentro?", "¡Hola! Sin problema. ¿Os sentáis fuera o dentro?"],
           "next": [
             { "label": "En la terraza, que hace buena noche", "to": "n2" },
@@ -19,6 +25,8 @@
         "n2": {
           "guest": "En la terraza, que hace buena noche.",
           "hint": "Проводи, дай меню, сразу предложи напитки",
+          "hint_en": "Show them to the table, give the menu, offer drinks right away",
+          "hint_es": "Acompáñalos, dales la carta y ofrece bebida enseguida",
           "you": ["Perfecto, acompañadme. Aquí tenéis la carta. ¿Os traigo algo de beber mientras miráis?"],
           "next": [
             { "label": "Una caña y un tinto de verano", "to": "n4" },
@@ -28,6 +36,8 @@
         "n3": {
           "guest": "Mejor dentro, que fuera refresca.",
           "hint": "Предложи хороший стол, спроси про напитки",
+          "hint_en": "Offer a nice table, ask about drinks",
+          "hint_es": "Ofrece una buena mesa y pregunta por la bebida",
           "you": ["Claro, esta mesa junto a la ventana está genial. ¿Algo de beber para empezar?"],
           "next": [
             { "label": "Una caña y un tinto de verano", "to": "n4" },
@@ -37,6 +47,8 @@
         "n4": {
           "guest": "Pues una caña y un tinto de verano.",
           "hint": "Прими заказ, уточни тинто де верано",
+          "hint_en": "Take the order, check how they want the tinto de verano",
+          "hint_es": "Toma nota y pregunta cómo quieren el tinto de verano",
           "you": ["Marchando. ¿El tinto de verano con limón o con gaseosa?"],
           "next": [
             { "label": "Con limón", "to": "n6" },
@@ -46,6 +58,8 @@
         "n5": {
           "guest": "Queremos vino, pero no sabemos cuál.",
           "hint": "Привяжи вино к еде: рыба — белое, мясо — красное",
+          "hint_en": "Link the wine to the food: fish – white, meat – red",
+          "hint_es": "Relaciona el vino con la comida: pescado, blanco; carne, tinto",
           "you": ["Si vais a cenar pescado, un Albariño fresquito; si es carne, un Rioja crianza muy suave."],
           "next": [
             { "label": "Una botella de Albariño", "to": "n6" },
@@ -55,6 +69,8 @@
         "n6": {
           "guest": "Vale. Y de comer... estamos un poco indecisos. ¿Qué está bueno hoy?",
           "hint": "Порекомендуй 2 блюда с продающими словами",
+          "hint_en": "Recommend 2 dishes using selling words",
+          "hint_es": "Recomienda dos platos con palabras que vendan",
           "you": ["Os recomiendo el arroz meloso de bogavante, cremoso y con muchísimo sabor, y el pulpo a la brasa, tiernísimo."],
           "next": [
             { "label": "Suena genial, pero yo soy alérgica al marisco", "to": "n7" },
@@ -64,6 +80,8 @@
         "n7": {
           "guest": "Uy, es que yo soy alérgica al marisco.",
           "hint": "Поблагодари, предложи безопасное и предупреди кухню",
+          "hint_en": "Thank her, offer safe options and warn the kitchen",
+          "hint_es": "Dale las gracias, propón opciones seguras y avisa a cocina",
           "you": ["Gracias por decírmelo. Entonces os propongo el arroz de verduras o la carne a la brasa, y aviso a cocina de la alergia."],
           "next": [
             { "label": "La carne, ¿cómo viene?", "to": "n9" },
@@ -73,6 +91,8 @@
         "n8": {
           "guest": "Vale, pues ya está.",
           "hint": "Подтверди заказ, предложи хлеб и воду",
+          "hint_en": "Confirm the order, offer bread and water",
+          "hint_es": "Confirma el pedido y ofrece pan y agua",
           "you": ["Genial. ¿Os traigo pan y agua para la mesa?"],
           "next": [
             { "label": "Sí, agua sin gas (después de cenar…)", "to": "n11" }
@@ -81,6 +101,8 @@
         "n9": {
           "guest": "La carne a la brasa, ¿cómo viene?",
           "hint": "Опиши мясо и спроси прожарку",
+          "hint_en": "Describe the meat and ask how they'd like it cooked",
+          "hint_es": "Describe la carne y pregunta el punto",
           "you": ["Es un entrecot de ternera muy jugoso, con patatas y pimientos. ¿Cómo la queréis: poco hecha, al punto o muy hecha?"],
           "next": [
             { "label": "Al punto, por favor", "to": "n8" }
@@ -89,6 +111,8 @@
         "n10": {
           "guest": "¿Pero seguro, seguro que el arroz no lleva nada de marisco? ¿Ni el caldo?",
           "hint": "Не обещай наугад — уточни на кухне",
+          "hint_en": "Don't promise blindly — check with the kitchen",
+          "hint_es": "No prometas a ciegas: compruébalo con cocina",
           "you": ["Prefiero no adivinar: lo consulto ahora mismo con cocina y te confirmo."],
           "next": [
             { "label": "Vale, gracias", "to": "n8" },
@@ -98,6 +122,8 @@
         "n11": {
           "guest": "Estaba todo buenísimo, de verdad.",
           "hint": "Порадуйся и предложи десерт",
+          "hint_en": "Show you're glad and offer dessert",
+          "hint_es": "Alégrate y ofrece postre",
           "you": ["¡Cuánto me alegro! ¿Os apetece algo de postre? La tarta de queso es casera y está espectacular."],
           "next": [
             { "label": "Una tarta para compartir y dos cortados", "to": "n12" },
@@ -107,6 +133,8 @@
         "n12": {
           "guest": "Una tarta para compartir y dos cortados.",
           "hint": "Подтверди: две ложки на десерт",
+          "hint_en": "Confirm: two spoons for the dessert",
+          "hint_es": "Confirma: dos cucharillas para el postre",
           "you": ["Perfecto, la tarta con dos cucharillas. Ahora mismo os lo traigo."],
           "next": [
             { "label": "(después) La cuenta, por favor", "to": "n13" }
@@ -115,6 +143,8 @@
         "n13": {
           "guest": "¿Nos traes la cuenta, por favor?",
           "hint": "Спроси: вместе или раздельно, карта или наличные",
+          "hint_en": "Ask: together or separately, card or cash",
+          "hint_es": "Pregunta: juntos o por separado, tarjeta o efectivo",
           "you": ["Claro. ¿Pagáis juntos o por separado? ¿Con tarjeta?"],
           "next": [
             { "label": "Juntos, con tarjeta", "to": "fin1" },
@@ -138,11 +168,17 @@
       "title": "Туристы на обеде (English)",
       "lang": "en",
       "context": "Обед, туристы из UK. Хотят паэлью, спрашивают про сангрию, чаевые и раздельный счёт.",
+      "title_en": "Tourists at lunch (English)",
+      "title_es": "Turistas a mediodía (en inglés)",
+      "context_en": "Lunch, tourists from the UK. They want paella and ask about sangria, tipping and splitting the bill.",
+      "context_es": "Comida, turistas británicos. Quieren paella y preguntan por la sangría, la propina y pagar por separado.",
       "start": "n1",
       "nodes": {
         "n1": {
           "guest": "Hi! Table for three? Do you speak English?",
           "hint": "Поприветствуй, предложи террасу или зал",
+          "hint_en": "Welcome them, offer terrace or inside",
+          "hint_es": "Dales la bienvenida y ofrece terraza o dentro",
           "you": ["Of course! Welcome. Would you like to sit inside or on the terrace?"],
           "next": [
             { "label": "Terrace, please", "to": "n2" }
@@ -151,6 +187,8 @@
         "n2": {
           "guest": "This looks great. What exactly is paella valenciana?",
           "hint": "Объясни: курица, кролик, стручковая фасоль, шафран",
+          "hint_en": "Explain: chicken, rabbit, green beans, saffron",
+          "hint_es": "Explica: pollo, conejo, judía verde y azafrán",
           "you": ["It's the original Valencian rice: chicken, rabbit and green beans, cooked slowly with saffron."],
           "next": [
             { "label": "Rabbit? Hmm, anything else?", "to": "n3" },
@@ -160,6 +198,8 @@
         "n3": {
           "guest": "Rabbit? I'm not sure about that. Anything else?",
           "hint": "Предложи альтернативы: морская паэлья, арроз а банда",
+          "hint_en": "Offer alternatives: seafood paella, arroz a banda",
+          "hint_es": "Ofrece alternativas: paella de marisco, arroz a banda",
           "you": ["Then try the seafood paella, or the arroz a banda, rice cooked in a rich fish stock."],
           "next": [
             { "label": "Seafood paella!", "to": "n5" },
@@ -169,6 +209,8 @@
         "n4": {
           "guest": "Can I get just one portion for myself?",
           "hint": "Паэлья — минимум на двоих, готовится ~25 минут",
+          "hint_en": "Paella is for two people minimum and takes ~25 minutes",
+          "hint_es": "La paella es mínimo para dos y tarda unos 25 minutos",
           "you": ["Sorry, paellas are made for a minimum of two people, and they take about twenty-five minutes."],
           "next": [
             { "label": "OK, we'll share one between three", "to": "n5" },
@@ -178,6 +220,8 @@
         "n5": {
           "guest": "Great, we'll share it.",
           "hint": "Похвали выбор, допродай закуску на время ожидания",
+          "hint_en": "Praise the choice, upsell a starter while they wait",
+          "hint_es": "Elogia la elección y ofrece algo para picar mientras esperan",
           "you": ["Lovely choice. While you wait, would you like some bread with alioli or patatas bravas?"],
           "next": [
             { "label": "Bravas, please", "to": "n7" }
@@ -186,6 +230,8 @@
         "n6": {
           "guest": "We'd rather have something quicker.",
           "hint": "Предложи быстрые тапас с прилагательными",
+          "hint_en": "Offer quick tapas with descriptive adjectives",
+          "hint_es": "Ofrece tapas rápidas con adjetivos que vendan",
           "you": ["No problem. I'd go for some tapas: crispy calamari, patatas bravas and creamy ham croquettes."],
           "next": [
             { "label": "Perfect, let's do that", "to": "n7" }
@@ -194,6 +240,8 @@
         "n7": {
           "guest": "What should we drink? Everyone says sangria.",
           "hint": "Объясни разницу: sangría vs tinto de verano",
+          "hint_en": "Explain the difference: sangría vs tinto de verano",
+          "hint_es": "Explica la diferencia: sangría o tinto de verano",
           "you": ["Sangria is red wine with fruit and a bit of liqueur. Tinto de verano is lighter: red wine with lemon soda."],
           "next": [
             { "label": "A jug of sangria, then", "to": "n8" },
@@ -203,6 +251,8 @@
         "n8": {
           "guest": "That was amazing! Could we have the bill, please?",
           "hint": "Порадуйся, принеси счёт, спроси способ оплаты",
+          "hint_en": "Show you're glad, bring the bill, ask how they'll pay",
+          "hint_es": "Alégrate, trae la cuenta y pregunta cómo pagan",
           "you": ["So glad you enjoyed it! Here you are. Card or cash?"],
           "next": [
             { "label": "Can we split it three ways?", "to": "n9" },
@@ -212,6 +262,8 @@
         "n9": {
           "guest": "Can we split it three ways?",
           "hint": "Предложи поровну или кто что ел",
+          "hint_en": "Offer equal split or each pays for what they had",
+          "hint_es": "Ofrece dividir a partes iguales o que cada uno pague lo suyo",
           "you": ["Sure. I can split it equally, or each of you pays for what you had."],
           "next": [
             { "label": "Equally, by card", "to": "fin1" }
@@ -220,6 +272,8 @@
         "n10": {
           "guest": "Quick question: do we need to leave a tip here?",
           "hint": "Честно: не обязательно, без давления",
+          "hint_en": "Be honest: not compulsory, no pressure",
+          "hint_es": "Sé sincero: no es obligatoria, sin presionar",
           "you": ["It's not compulsory in Spain. If you were happy, a little extra is always appreciated."],
           "next": [
             { "label": "Fair enough, here you go", "to": "fin1" },
@@ -243,11 +297,17 @@
       "title": "Бар, ночная смена: только напитки",
       "lang": "es",
       "context": "Коктейль-бар, компания из пяти. Раунды, кто-то хочет сладкое, джин-тоник, перебравший гость, последний раунд.",
+      "title_en": "Bar, night shift: drinks only",
+      "title_es": "Bar, turno de noche: solo bebidas",
+      "context_en": "Cocktail bar, a group of five. Rounds, someone wants something sweet, a gin and tonic, a guest who has had too much, last round.",
+      "context_es": "Coctelería, un grupo de cinco. Rondas, alguien quiere algo dulce, un gin-tonic, un cliente que ha bebido de más y la última ronda.",
       "start": "n1",
       "nodes": {
         "n1": {
           "guest": "¡Buenas! Somos cinco. ¿Qué tenéis de cócteles?",
           "hint": "Дай карту, назови 2-3 хита",
+          "hint_en": "Hand over the menu, name 2–3 best sellers",
+          "hint_es": "Dales la carta y nombra 2 o 3 cócteles que más salen",
           "you": ["¡Buenas noches! Aquí tenéis la carta. Lo que más sale es el mojito, el espresso martini y el Aperol spritz."],
           "next": [
             { "label": "Una ronda: dos mojitos y tres cañas", "to": "n2" },
@@ -257,6 +317,8 @@
         "n2": {
           "guest": "Venga, dos mojitos y tres cañas.",
           "hint": "Прими, уточни вид мохито",
+          "hint_en": "Take the order, check which mojito",
+          "hint_es": "Toma nota y pregunta qué mojito quieren",
           "you": ["Marchando. ¿Los mojitos normales o de fresa?"],
           "next": [
             { "label": "Normales", "to": "n4" }
@@ -265,6 +327,8 @@
         "n3": {
           "guest": "Yo quiero algo dulce y que no sea muy fuerte.",
           "hint": "Порекомендуй сладкий и лёгкий коктейль",
+          "hint_en": "Recommend a sweet, light cocktail",
+          "hint_es": "Recomienda un cóctel dulce y suave",
           "you": ["Te recomiendo una piña colada: cremosa, dulce y suave. O un daiquiri de fresa, muy refrescante."],
           "next": [
             { "label": "La piña colada", "to": "n4" },
@@ -274,6 +338,8 @@
         "n5": {
           "guest": "¿Y tenéis algo sin alcohol?",
           "hint": "Предложи безалкогольную версию",
+          "hint_en": "Offer an alcohol-free version",
+          "hint_es": "Ofrece una versión sin alcohol",
           "you": ["Claro, te hago un mojito sin alcohol o una piña colada sin, igual de rica."],
           "next": [
             { "label": "El mojito sin alcohol", "to": "n4" }
@@ -282,6 +348,8 @@
         "n4": {
           "guest": "Y para mí un gin-tonic.",
           "hint": "Уточни джин",
+          "hint_en": "Ask which gin",
+          "hint_es": "Pregunta qué ginebra",
           "you": ["¿Con qué ginebra lo quieres? Tenemos Tanqueray, Bombay, Hendrick's y Puerto de Indias."],
           "next": [
             { "label": "Con Hendrick's", "to": "n6" },
@@ -291,6 +359,8 @@
         "n6": {
           "guest": "Con Hendrick's.",
           "hint": "Подтверди с гарниром",
+          "hint_en": "Confirm, with the garnish",
+          "hint_es": "Confirma, con la guarnición",
           "you": ["Perfecto, con pepino y tónica premium. Ahora mismo os lo llevo todo."],
           "next": [
             { "label": "(un rato después) Otra ronda igual", "to": "n7" }
@@ -299,6 +369,8 @@
         "n6b": {
           "guest": "La que tú me digas, sorpréndeme.",
           "hint": "Порекомендуй с описанием",
+          "hint_en": "Recommend one and describe it",
+          "hint_es": "Recomienda una y descríbela",
           "you": ["Te pongo Puerto de Indias de fresa: suave, afrutada, y con tónica queda genial."],
           "next": [
             { "label": "(un rato después) Otra ronda igual", "to": "n7" }
@@ -307,6 +379,8 @@
         "n7": {
           "guest": "¡Otra ronda igual, por favor!",
           "hint": "Прими повтор",
+          "hint_en": "Take the repeat order",
+          "hint_es": "Apunta la repetición",
           "you": ["¡Hecho! Os la llevo a la mesa."],
           "next": [
             { "label": "Uno del grupo va muy cargado y pide chupitos", "to": "n8" },
@@ -316,6 +390,8 @@
         "n8": {
           "guest": "¡Ponme un chupito de tequila! ¡Y otro! Que yo invito.",
           "hint": "Гость сильно пьян — вежливо откажи, предложи воду",
+          "hint_en": "The guest is very drunk — refuse politely, offer water",
+          "hint_es": "El cliente va muy bebido: niégate con educación y ofrece agua",
           "you": ["Creo que por hoy ya has tomado bastante. ¿Te traigo un agua fresquita? Invita la casa."],
           "next": [
             { "label": "Vale, vale, un agua", "to": "n10" },
@@ -325,6 +401,8 @@
         "n9": {
           "guest": "¡Venga, hombre, no seas así! ¡Solo uno!",
           "hint": "Стой на своём спокойно",
+          "hint_en": "Calmly stand your ground",
+          "hint_es": "Mantente firme, con calma",
           "you": ["Lo siento, de verdad, no te puedo servir más alcohol. El agua te la traigo encantado."],
           "next": [
             { "label": "Bueno... el agua", "to": "n10" },
@@ -334,6 +412,8 @@
         "n10": {
           "guest": "Oye, ¿hasta qué hora estáis?",
           "hint": "Скажи время закрытия, предупреди о последнем раунде",
+          "hint_en": "Say the closing time, warn about the last round",
+          "hint_es": "Di la hora de cierre y avisa de la última ronda",
           "you": ["Cerramos a las dos. Os aviso, que en un rato es la última ronda."],
           "next": [
             { "label": "(más tarde)", "to": "n11" }
@@ -341,6 +421,8 @@
         },
         "n11": {
           "hint": "Объяви последний раунд",
+          "hint_en": "Call the last round",
+          "hint_es": "Anuncia la última ronda",
           "you": ["Chicos, última ronda. ¿Os pongo algo más antes de cerrar?"],
           "next": [
             { "label": "La última: otra de mojitos", "to": "fin1" },
@@ -364,11 +446,17 @@
       "title": "Терраса в час пик: menú del día",
       "lang": "es",
       "context": "Обед в будний день, всё забито. Гость спешит, приносят не то блюдо, что-то закончилось.",
+      "title_en": "Terrace at rush hour: menú del día",
+      "title_es": "Terraza en hora punta: menú del día",
+      "context_en": "Weekday lunch, every table taken. A guest in a hurry, the wrong dish arrives, something has run out.",
+      "context_es": "Comida entre semana, todo lleno. Un cliente con prisa, sale un plato equivocado y algo se ha acabado.",
       "start": "n1",
       "nodes": {
         "n1": {
           "guest": "Hola, ¿tenéis menú del día?",
           "hint": "Объясни, что входит в menú del día",
+          "hint_en": "Explain what the menú del día includes",
+          "hint_es": "Explica qué incluye el menú del día",
           "you": ["Sí: primero, segundo, postre o café, pan y bebida."],
           "next": [
             { "label": "Vale, ¿qué hay hoy?", "to": "n2" },
@@ -378,6 +466,8 @@
         "n2": {
           "guest": "¿Qué hay hoy?",
           "hint": "Перечисли первые и вторые",
+          "hint_en": "List the starters and mains",
+          "hint_es": "Di los primeros y los segundos",
           "you": ["De primero, ensalada mixta, lentejas o macarrones. De segundo, pollo al ajillo, merluza a la plancha o albóndigas."],
           "next": [
             { "label": "Lentejas y merluza", "to": "n4" },
@@ -387,6 +477,8 @@
         "n3": {
           "guest": "Tengo media hora, ¿qué sale más rápido?",
           "hint": "Назови быстрые блюда, предложи подать всё сразу",
+          "hint_en": "Name the quick dishes, offer to serve everything at once",
+          "hint_es": "Nombra los platos rápidos y ofrece sacarlo todo junto",
           "you": ["La ensalada y la merluza a la plancha salen enseguida. Si quieres, te lo marcho todo junto."],
           "next": [
             { "label": "Perfecto, todo junto", "to": "n4" }
@@ -395,6 +487,8 @@
         "n4": {
           "guest": "Venga, pues eso. Y de beber, agua.",
           "hint": "Прими, уточни воду",
+          "hint_en": "Take the order, ask about the water",
+          "hint_es": "Toma nota y pregunta cómo quiere el agua",
           "you": ["Marchando. ¿Agua fría o natural?"],
           "next": [
             { "label": "Fría (un rato después…)", "to": "n6" }
@@ -403,6 +497,8 @@
         "n5": {
           "guest": "Ensalada y albóndigas.",
           "hint": "Похвали выбор, спроси напиток",
+          "hint_en": "Praise the choice, ask about drinks",
+          "hint_es": "Elogia la elección y pregunta por la bebida",
           "you": ["¡Muy bien! Las albóndigas son caseras, en salsa de tomate, buenísimas. ¿Para beber?"],
           "next": [
             { "label": "Una caña (un rato después…)", "to": "n6" }
@@ -411,6 +507,8 @@
         "n6": {
           "guest": "Perdona, me has traído pollo y yo he pedido otra cosa.",
           "hint": "Извинись, исправь быстро, без оправданий",
+          "hint_en": "Apologise and fix it fast, no excuses",
+          "hint_es": "Discúlpate y arréglalo rápido, sin excusas",
           "you": ["Uy, perdona, error mío. Te lo cambio ahora mismo."],
           "next": [
             { "label": "Vale, pero rápido, que voy justo", "to": "n7" },
@@ -420,6 +518,8 @@
         "n7": {
           "guest": "Vale, pero rápido, que voy justo de tiempo.",
           "hint": "Пообещай приоритет и подкинь что-то на время ожидания",
+          "hint_en": "Promise priority and give them something while they wait",
+          "hint_es": "Promete prioridad y deja algo para picar mientras",
           "you": ["Lo pido con prioridad en cocina, son dos minutos. Mientras, te dejo pan y unas olivas."],
           "next": [
             { "label": "Gracias", "to": "n8" }
@@ -428,6 +528,8 @@
         "n8": {
           "guest": "¿Qué hay de postre?",
           "hint": "Перечисли десерты или кофе",
+          "hint_en": "List the desserts or coffee",
+          "hint_es": "Di los postres o el café",
           "you": ["Flan casero, natillas o fruta del tiempo. O café, si prefieres."],
           "next": [
             { "label": "Un flan", "to": "n9" },
@@ -437,6 +539,8 @@
         "n9": {
           "guest": "Venga, un flan.",
           "hint": "Подтверди",
+          "hint_en": "Confirm",
+          "hint_es": "Confirma",
           "you": ["Marchando un flan."],
           "next": [
             { "label": "Y la cuenta ya", "to": "n11" }
@@ -445,6 +549,8 @@
         "n10": {
           "guest": "¿No tenéis tarta de queso? La he visto en la pizarra.",
           "hint": "Блюдо закончилось — извинись и предложи замену",
+          "hint_en": "The dish has run out — apologise and offer a replacement",
+          "hint_es": "Se ha acabado: discúlpate y ofrece otra opción",
           "you": ["Se nos ha acabado, lo siento. Te recomiendo el flan casero, cremosísimo, o las natillas."],
           "next": [
             { "label": "Bueno, el flan", "to": "n9" },
@@ -454,6 +560,8 @@
         "n11": {
           "guest": "Y la cuenta ya, que tengo que irme.",
           "hint": "Принеси счёт с терминалом",
+          "hint_en": "Bring the bill with the card machine",
+          "hint_es": "Trae la cuenta con el datáfono",
           "you": ["Claro, te la traigo con el datáfono. ¿Con tarjeta?"],
           "next": [
             { "label": "Sí, con tarjeta", "to": "fin1" },
@@ -477,11 +585,17 @@
       "title": "Целиакия и аллергия на орехи",
       "lang": "es",
       "context": "Гостья — целиакия (без глютена), её друг — сильная аллергия на орехи. Никогда не гадай — проверяй на кухне.",
+      "title_en": "Coeliac disease and nut allergy",
+      "title_es": "Celiaquía y alergia a los frutos secos",
+      "context_en": "The guest is coeliac (gluten-free) and her friend has a severe nut allergy. Never guess: check with the kitchen.",
+      "context_es": "La clienta es celíaca (sin gluten) y su amigo tiene una alergia fuerte a los frutos secos. Nunca adivines: compruébalo con cocina.",
       "start": "n1",
       "nodes": {
         "n1": {
           "guest": "Antes de pedir: soy celíaca. ¿Tenéis opciones sin gluten?",
           "hint": "Отнесись серьёзно, пообещай проверить на кухне",
+          "hint_en": "Take it seriously, promise to check with the kitchen",
+          "hint_es": "Tómatelo en serio y promete comprobarlo con cocina",
           "you": ["Gracias por avisar. Tenemos platos sin gluten marcados en la carta, y lo confirmo todo con cocina."],
           "next": [
             { "label": "Y mi amigo es alérgico a los frutos secos", "to": "n2" },
@@ -491,6 +605,8 @@
         "n2": {
           "guest": "Y él es alérgico a los frutos secos, bastante fuerte.",
           "hint": "Запиши и предупреди кухню про обоих",
+          "hint_en": "Note it down and warn the kitchen about both",
+          "hint_es": "Apúntalo y avisa a cocina de las dos cosas",
           "you": ["Apuntado. Aviso en cocina de las dos cosas y os digo qué platos son seguros."],
           "next": [
             { "label": "¿Y el arroz lleva gluten?", "to": "n3" }
@@ -499,6 +615,8 @@
         "n3": {
           "guest": "¿El arroz lleva algo con gluten?",
           "hint": "Не уверен — иди на кухню, не гадай",
+          "hint_en": "Not sure — go to the kitchen, don't guess",
+          "hint_es": "Si no estás seguro, ve a cocina, no adivines",
           "you": ["Creo que no, pero prefiero no arriesgar: lo consulto con cocina y vuelvo enseguida."],
           "next": [
             { "label": "(vuelves de cocina)", "to": "n4" }
@@ -506,6 +624,8 @@
         },
         "n4": {
           "hint": "Передай ответ кухни, предупреди про фритюр",
+          "hint_en": "Pass on the kitchen's answer, warn about the fryer",
+          "hint_es": "Transmite la respuesta de cocina y avisa de la freidora",
           "you": ["Me confirman que el arroz es sin gluten. Lo que no podemos garantizar son los fritos, por la freidora."],
           "next": [
             { "label": "¿Por qué los fritos no?", "to": "n5" },
@@ -515,6 +635,8 @@
         "n5": {
           "guest": "¿Y por qué los fritos no?",
           "hint": "Объясни перекрёстное загрязнение",
+          "hint_en": "Explain cross-contamination",
+          "hint_es": "Explica la contaminación cruzada",
           "you": ["Porque la freidora es compartida con los rebozados, y podría haber contaminación cruzada."],
           "next": [
             { "label": "Entendido, nada de fritos", "to": "n6" }
@@ -523,6 +645,8 @@
         "n6": {
           "guest": "Pues el arroz para mí. ¿Y para él, algo sin frutos secos?",
           "hint": "Предложи безопасное, предупреди про соус с миндалём",
+          "hint_en": "Offer something safe, warn about the almond sauce",
+          "hint_es": "Ofrece algo seguro y avisa de la salsa con almendra",
           "you": ["Según cocina, la carne a la brasa con verduras no lleva frutos secos. La salsa romesco no, que lleva almendra."],
           "next": [
             { "label": "Perfecto. ¿Tenéis pan sin gluten?", "to": "n7" },
@@ -532,6 +656,8 @@
         "n7": {
           "guest": "¿Y tenéis pan sin gluten?",
           "hint": "Предложи закрытую упаковку",
+          "hint_en": "Offer it sealed in its packaging",
+          "hint_es": "Ofrécelo cerrado, en su envase",
           "you": ["Sí, tenemos pan sin gluten envasado. Te lo traigo cerrado, sin tocarlo."],
           "next": [
             { "label": "Genial (después de comer…)", "to": "n8" }
@@ -540,6 +666,8 @@
         "n8": {
           "guest": "¿Hay algún postre que podamos tomar los dos?",
           "hint": "Назови безопасное, про сомнительное — уточнишь",
+          "hint_en": "Name the safe options; check the doubtful ones",
+          "hint_es": "Di lo que es seguro; lo dudoso, lo consultas",
           "you": ["El sorbete de limón y la fruta. La tarta de queso no lo sé seguro, lo pregunto."],
           "next": [
             { "label": "Dos sorbetes", "to": "fin1" },
@@ -550,6 +678,8 @@
         "n9": {
           "guest": "¿Y la tarta de Santiago?",
           "hint": "Тарта де Сантьяго = миндаль!",
+          "hint_en": "Tarta de Santiago = almonds!",
+          "hint_es": "¡La tarta de Santiago lleva almendra!",
           "you": ["Esa no, que es de almendra. Para él, mejor el sorbete o la fruta."],
           "next": [
             { "label": "Vale, sorbete", "to": "fin1" }
@@ -558,6 +688,8 @@
         "n10": {
           "guest": "Oye, no sé... me pica un poco la garganta.",
           "hint": "Возможная реакция: зови старшего, спроси про лекарство, 112",
+          "hint_en": "Possible reaction: call the manager, ask about medication, 112",
+          "hint_es": "Posible reacción: avisa al encargado, pregunta por la medicación, 112",
           "you": ["Aviso ahora mismo al encargado. ¿Llevas tu medicación? Tómala ya, y llamamos al 112."],
           "next": [
             { "label": "Sí, llevo el autoinyector", "to": "fin2" },
@@ -581,11 +713,17 @@
       "title": "Жалоба: долго ждали, блюдо холодное",
       "lang": "es",
       "context": "Гости ждут 40 минут, потом приносят холодное. Злятся. Извиниться, решить, позвать encargado.",
+      "title_en": "Complaint: long wait, cold dish",
+      "title_es": "Queja: mucha espera y el plato frío",
+      "context_en": "The guests have waited 40 minutes, then the food arrives cold. They're angry. Apologise, fix it, call the manager (encargado).",
+      "context_es": "Los clientes llevan 40 minutos esperando y luego el plato llega frío. Están enfadados. Discúlpate, soluciónalo y llama al encargado.",
       "start": "n1",
       "nodes": {
         "n1": {
           "guest": "Perdona, llevamos cuarenta minutos esperando y aquí no llega nada.",
           "hint": "Признай, извинись без оправданий, иди узнать",
+          "hint_en": "Admit it, apologise without excuses, go and find out",
+          "hint_es": "Reconócelo, discúlpate sin excusas y ve a ver qué pasa",
           "you": ["Tenéis toda la razón, lo siento mucho. Voy a cocina a ver cómo va y os digo ahora mismo."],
           "next": [
             { "label": "Vale, pero date prisa", "to": "n2" },
@@ -594,6 +732,8 @@
         },
         "n2": {
           "hint": "Вернись с конкретикой и компенсацией",
+          "hint_en": "Come back with specifics and compensation",
+          "hint_es": "Vuelve con algo concreto y una compensación",
           "you": ["Ya sale vuestro pedido, dos minutos. Y hablo con el encargado para invitaros a una ronda."],
           "next": [
             { "label": "Bueno, gracias", "to": "n4" }
@@ -602,6 +742,8 @@
         "n3": {
           "guest": "¡Es increíble! ¡La mesa de al lado ha llegado después y ya está comiendo!",
           "hint": "Не спорь, признай ошибку, дай приоритет",
+          "hint_en": "Don't argue, admit the mistake, give it priority",
+          "hint_es": "No discutas, reconoce el error y dale prioridad",
           "you": ["Lo entiendo, y lo siento. Ha habido un error con vuestra comanda; lo priorizo ahora mismo."],
           "next": [
             { "label": "Más te vale", "to": "n2" }
@@ -610,6 +752,8 @@
         "n4": {
           "guest": "Oye, esto está frío. Esto no puede ser.",
           "hint": "Не спорь: забери и предложи свежее",
+          "hint_en": "Don't argue: take it away and offer a fresh one",
+          "hint_es": "No discutas: retíralo y ofrece uno recién hecho",
           "you": ["Disculpadme. Os lo cambio ahora mismo y sale recién hecho."],
           "next": [
             { "label": "Vale, pero que sea rápido", "to": "n6" },
@@ -619,6 +763,8 @@
         "n5": {
           "guest": "No, mira, ya se me han quitado las ganas.",
           "hint": "Предложи позвать encargado",
+          "hint_en": "Offer to call the manager (encargado)",
+          "hint_es": "Ofrece llamar al encargado",
           "you": ["Lo entiendo perfectamente. ¿Os importa si viene un momento el encargado a hablar con vosotros?"],
           "next": [
             { "label": "Que venga", "to": "n7" },
@@ -628,6 +774,8 @@
         "n6": {
           "guest": "Vale, pero que sea rápido.",
           "hint": "Пообещай и компенсируй десертом",
+          "hint_en": "Promise it and compensate with dessert",
+          "hint_es": "Promételo y compensa con el postre",
           "you": ["Ahora mismo. Y le pido al encargado que os invite al postre, por las molestias."],
           "next": [
             { "label": "(al final todo bien)", "to": "fin1" }
@@ -636,6 +784,8 @@
         "n7": {
           "guest": "Que venga, sí.",
           "hint": "Ещё раз извинись",
+          "hint_en": "Apologise once more",
+          "hint_es": "Vuelve a disculparte",
           "you": ["Ahora mismo viene. Os pido disculpas otra vez, esto no es lo normal aquí."],
           "next": [
             { "label": "(el encargado lo arregla)", "to": "fin1" },
@@ -645,6 +795,8 @@
         "n8": {
           "guest": "Nos vamos, y no pensamos pagar esto.",
           "hint": "Не конфликтуй — решение об оплате не твоё, зови старшего",
+          "hint_en": "Don't fight — the bill isn't your call, get the manager",
+          "hint_es": "No entres en conflicto: lo de pagar no lo decides tú, llama al encargado",
           "you": ["Lo siento mucho. Os paso con el encargado para que lo resolváis; eso no lo puedo decidir yo."],
           "next": [
             { "label": "Vale, que venga", "to": "fin2" }
@@ -667,11 +819,17 @@
       "title": "Гость не может выбрать вино",
       "lang": "es",
       "context": "Большая винная карта, гость теряется. Сначала еда, потом вкус, потом бокал или бутылка.",
+      "title_en": "Guest can't choose a wine",
+      "title_es": "El cliente no sabe qué vino elegir",
+      "context_en": "Big wine list, the guest is lost. First the food, then the taste, then glass or bottle.",
+      "context_es": "Carta de vinos larga y el cliente se pierde. Primero la comida, luego el gusto y después copa o botella.",
       "start": "n1",
       "nodes": {
         "n1": {
           "guest": "Querríamos vino, pero la carta es enorme y no tengo ni idea.",
           "hint": "Сначала спроси, что будут есть",
+          "hint_en": "First ask what they're going to eat",
+          "hint_es": "Primero pregunta qué van a cenar",
           "you": ["¡Os ayudo! ¿Qué vais a cenar?"],
           "next": [
             { "label": "Una dorada y un arroz a banda", "to": "n2" },
@@ -682,6 +840,8 @@
         "n2": {
           "guest": "Una dorada y un arroz a banda.",
           "hint": "Белое — уточни стиль",
+          "hint_en": "White — ask about the style",
+          "hint_es": "Blanco: pregunta qué estilo prefieren",
           "you": ["Entonces un blanco. ¿Lo preferís fresco y afrutado, o con más cuerpo?"],
           "next": [
             { "label": "Fresco y afrutado", "to": "n5" },
@@ -691,6 +851,8 @@
         "n3": {
           "guest": "Un chuletón para compartir.",
           "hint": "Красное — уточни: мягкое или мощное",
+          "hint_en": "Red — ask: smooth or powerful",
+          "hint_es": "Tinto: pregunta si suave o potente",
           "you": ["Con eso va genial un tinto. ¿Algo suave y afrutado, o más potente?"],
           "next": [
             { "label": "Potente", "to": "n7" },
@@ -700,6 +862,8 @@
         "n4": {
           "guest": "Aún no lo sabemos, primero el vino.",
           "hint": "Предложи универсальное",
+          "hint_en": "Suggest something versatile",
+          "hint_es": "Propón algo que vaya con todo",
           "you": ["Entonces algo versátil: un rosado bien fresquito o un Verdejo, que van con casi todo."],
           "next": [
             { "label": "El Verdejo", "to": "n9" },
@@ -709,6 +873,8 @@
         "n5": {
           "guest": "Fresco y afrutado.",
           "hint": "Альбариньо — опиши",
+          "hint_en": "Albariño — describe it",
+          "hint_es": "Describe el Albariño",
           "you": ["Un Albariño: fresco, con un toque cítrico, perfecto con el pescado."],
           "next": [
             { "label": "¿Por copas o solo botella?", "to": "n9" }
@@ -717,6 +883,8 @@
         "n6": {
           "guest": "Con más cuerpo.",
           "hint": "Годельо — опиши",
+          "hint_en": "Godello — describe it",
+          "hint_es": "Describe el Godello",
           "you": ["Os recomiendo un Godello: más redondo, un poco cremoso, ideal con el arroz."],
           "next": [
             { "label": "¿Por copas o solo botella?", "to": "n9" }
@@ -725,6 +893,8 @@
         "n7": {
           "guest": "Potente, que la carne lo merece.",
           "hint": "Рибера крианса — опиши",
+          "hint_en": "Ribera crianza — describe it",
+          "hint_es": "Describe el Ribera crianza",
           "you": ["Un Ribera del Duero crianza: intenso, con fruta madura y un toque de madera."],
           "next": [
             { "label": "¿Por copas o solo botella?", "to": "n9" }
@@ -733,6 +903,8 @@
         "n8": {
           "guest": "Suave, que a ella no le gustan los vinos fuertes.",
           "hint": "Молодая гарнача — опиши",
+          "hint_en": "Young Garnacha — describe it",
+          "hint_es": "Describe la Garnacha joven",
           "you": ["Una Garnacha joven: afrutada, ligera, muy fácil de beber."],
           "next": [
             { "label": "¿Por copas o solo botella?", "to": "n9" },
@@ -742,6 +914,8 @@
         "n9": {
           "guest": "¿Lo tenéis por copas o solo botella?",
           "hint": "Сравни бокал и бутылку",
+          "hint_en": "Compare glass vs bottle",
+          "hint_es": "Compara copa y botella",
           "you": ["Lo tenemos por copas, pero si vais a tomar dos o tres cada uno, os sale mejor la botella."],
           "next": [
             { "label": "La botella", "to": "n11" },
@@ -751,6 +925,8 @@
         "n10": {
           "guest": "¿Y no tenéis algo de aquí, de Valencia?",
           "hint": "Местное: Бобаль (Утьель-Рекена), мускат к десерту",
+          "hint_en": "Local: Bobal (Utiel-Requena), Moscatel with dessert",
+          "hint_es": "Lo de aquí: Bobal (Utiel-Requena) y Moscatel con el postre",
           "you": ["Claro: un tinto de Bobal de Utiel-Requena, con mucha fruta negra. Y para el postre, Moscatel de Valencia."],
           "next": [
             { "label": "El Bobal", "to": "n9" },
@@ -760,6 +936,8 @@
         "n11": {
           "guest": "Venga, la botella.",
           "hint": "Открой при гостях, предложи попробовать",
+          "hint_en": "Open it in front of them, offer a taste",
+          "hint_es": "Ábrela delante de ellos y ofrece probarlo",
           "you": ["Perfecto. Os la abro aquí. ¿Quién lo prueba?"],
           "next": [
             { "label": "Está muy bueno", "to": "fin1" },
@@ -769,6 +947,8 @@
         "n12": {
           "guest": "De momento, dos copas.",
           "hint": "Прими, предложи повторить позже",
+          "hint_en": "Confirm, offer another one later",
+          "hint_es": "Confirma y ofrece otra más tarde",
           "you": ["Marchando. Si os gusta, luego os pongo otra."],
           "next": [
             { "label": "(lo prueban)", "to": "fin1" }
@@ -777,6 +957,8 @@
         "n13": {
           "guest": "Mmm... no sé, me sabe un poco raro.",
           "hint": "Не спорь: возможно, пробка — предложи заменить",
+          "hint_en": "Don't argue: it may be corked — offer to replace it",
+          "hint_es": "No discutas: puede tener corcho, ofrece cambiarla",
           "you": ["Puede que tenga corcho. Os lo cambio por otra botella sin problema."],
           "next": [
             { "label": "Gracias, este sí", "to": "fin1" },
@@ -800,11 +982,17 @@
       "title": "Almuerzo в баре (Валенсия, утро)",
       "lang": "es",
       "context": "10-11 утра, барная стойка, местные на almuerzo/esmorzaret: бокадильо, оливки с арахисом, пиво, cremaet. Постоянные подкалывают.",
+      "title_en": "Almuerzo at the bar (Valencia, morning)",
+      "title_es": "Almuerzo en la barra (Valencia, por la mañana)",
+      "context_en": "10–11 am at the bar, locals having almuerzo/esmorzaret: bocadillo, olives with peanuts, beer, cremaet. The regulars tease you.",
+      "context_es": "De 10 a 11 de la mañana, en la barra, la gente del barrio de almuerzo/esmorzaret: bocadillo, olivas con cacahuetes, cerveza y cremaet. Los habituales te vacilan.",
       "start": "n1",
       "nodes": {
         "n1": {
           "guest": "¡Bon dia! ¿Qué hay de almuerzo hoy?",
           "hint": "Назови бокадильо дня",
+          "hint_en": "Name today's bocadillos",
+          "hint_es": "Di los bocadillos del día",
           "you": ["¡Bon dia! Hoy tenemos brascada, blanc i negre y tortilla de patatas."],
           "next": [
             { "label": "Ponme una brascada", "to": "n2" },
@@ -814,6 +1002,8 @@
         "n3": {
           "guest": "Soy nuevo por aquí, ¿qué lleva la brascada?",
           "hint": "Опиши с продающими словами",
+          "hint_en": "Describe it with selling words",
+          "hint_es": "Descríbelo con palabras que vendan",
           "you": ["Ternera a la plancha, cebolla pochada y jamón. Un clásico, contundente y buenísimo."],
           "next": [
             { "label": "Venga, una", "to": "n2" }
@@ -822,6 +1012,8 @@
         "n2": {
           "guest": "Ponme una brascada.",
           "hint": "Уточни размер и напиток",
+          "hint_en": "Ask the size and the drink",
+          "hint_es": "Pregunta el tamaño y la bebida",
           "you": ["¿Entero o medio? ¿Y para beber?"],
           "next": [
             { "label": "Entero, y una cerveza", "to": "n4" },
@@ -831,6 +1023,8 @@
         "n4": {
           "guest": "Y trae las olivas y los cacahuetes, ¿eh?",
           "hint": "Cacaueti — арахис с оливками, входит в almuerzo",
+          "hint_en": "Cacaueti — peanuts with olives, part of the almuerzo",
+          "hint_es": "El cacaueti (cacahuetes con olivas) va con el almuerzo",
           "you": ["¡Claro! El cacaueti y las olivas van con el almuerzo."],
           "next": [
             { "label": "(se acaba el bocadillo)", "to": "n5" }
@@ -838,6 +1032,8 @@
         },
         "n5": {
           "hint": "Предложи кофе: cremaet или кортадо",
+          "hint_en": "Offer coffee: cremaet or cortado",
+          "hint_es": "Ofrece café: cremaet o cortado",
           "you": ["¿Qué, un cremaet para terminar, o un cortado?"],
           "next": [
             { "label": "Un cremaet, bien quemado", "to": "n6" },
@@ -847,6 +1043,8 @@
         "n6": {
           "guest": "Un cremaet, pero bien quemado.",
           "hint": "Подтверди и скажи, как готовишь",
+          "hint_en": "Confirm and say how you make it",
+          "hint_es": "Confirma y explica cómo lo preparas",
           "you": ["Marchando: ron quemado con azúcar, canela y piel de limón, y el café encima."],
           "next": [
             { "label": "(un habitual te vacila)", "to": "n8" }
@@ -855,6 +1053,8 @@
         "n7": {
           "guest": "Un cortado, que luego tengo que conducir.",
           "hint": "Подтверди",
+          "hint_en": "Confirm",
+          "hint_es": "Confirma",
           "you": ["Haces bien. Un cortado ahora mismo."],
           "next": [
             { "label": "(un habitual te vacila)", "to": "n8" }
@@ -863,6 +1063,8 @@
         "n8": {
           "guest": "¡Oye, chaval! ¿Eres nuevo? ¿Eres del Valencia o del Levante?",
           "hint": "Лёгкая болтовня с постоянным: с юмором, без конфликта",
+          "hint_en": "Light banter with a regular: humour, no conflict",
+          "hint_es": "Charla ligera con un habitual: con humor y sin conflicto",
           "you": ["Llevo una semana. Y de fútbol todavía no me mojo, que no quiero perder clientes."],
           "next": [
             { "label": "(se ríe) Muy listo, muy listo", "to": "n9" },
@@ -872,6 +1074,8 @@
         "n10": {
           "guest": "Pues aquí, o eres del Valencia o no entras, ¿eh?",
           "hint": "Подыграй",
+          "hint_en": "Play along",
+          "hint_es": "Síguele el juego",
           "you": ["Pues entonces, ¡amunt València! Y el café sale perfecto igual."],
           "next": [
             { "label": "(se ríe)", "to": "n9" }
@@ -880,6 +1084,8 @@
         "n9": {
           "guest": "Bueno, cóbrame, que llego tarde.",
           "hint": "Быстро рассчитай",
+          "hint_en": "Work out the bill quickly",
+          "hint_es": "Cobra rápido",
           "you": ["Son ocho cincuenta. ¿Con tarjeta o en efectivo?"],
           "next": [
             { "label": "En efectivo, toma", "to": "fin1" },
@@ -889,6 +1095,8 @@
         "n11": {
           "guest": "Apúntamelo, que mañana vuelvo y te pago.",
           "hint": "В долг — не твоё решение, спроси хозяина",
+          "hint_en": "Putting it on a tab isn't your call — ask the boss",
+          "hint_es": "Fiar no lo decides tú: pregunta al jefe",
           "you": ["Uf, eso lo tengo que consultar con el jefe. Déjame preguntarle un segundo."],
           "next": [
             { "label": "Vale, pago con tarjeta", "to": "fin1" },
