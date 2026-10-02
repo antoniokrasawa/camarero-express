@@ -233,6 +233,7 @@ function go(tab, opts = {}) {
   if ('speechSynthesis' in window) speechSynthesis.cancel();
   if (listen.current) try { listen.current.abort(); } catch (e) {}
   state = Object.assign({ tab }, opts);
+  setCtx({});
   document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === tab));
   try { sessionStorage.setItem('camarero.tab', tab); } catch (e) {}
   ({ plan: viewPlan, cards: viewCardsHome, speak: viewSpeakHome, scenes: viewScenes, quiz: viewQuizHome })[tab](opts);
@@ -345,6 +346,7 @@ function startCards() {
 }
 function showCard(sess) {
   const it = sess.queue[0];
+  if (it) setCtx({ mode: 'cards', item: it.id, ru: it.ru, es: it.es, en: it.en || '', dir: sess.from + '-' + sess.to });
   if (!it) {
     render(`<h2>Сессия готова</h2><div class="card center"><p>Пройдено карточек: <b>${sess.done}</b></p>
       <div class="row"><button class="btn" id="back">К разделам</button><button class="btn primary" id="more">Ещё</button></div></div>`);
@@ -416,6 +418,7 @@ function startSpeak(items) {
 }
 function showSpeak(sess) {
   const it = sess.queue[0];
+  if (it) setCtx({ mode: 'speak', item: it.id, ru: it.ru, es: it.es, en: it.en || '' });
   if (!it) {
     render(`<h2>Готово</h2><div class="card center"><p>Отработано фраз: <b>${sess.done}</b></p>
       <div class="row"><button class="btn" id="b">Назад</button><button class="btn primary" id="m">Ещё</button></div></div>`);
@@ -458,6 +461,7 @@ function showSpeak(sess) {
       mic.classList.remove('on');
       if (!alts.length) { $('#heard').textContent = 'Ничего не расслышал, попробуй ещё раз'; return; }
       const m = bestMatch(refs, alts);
+      CTX.heard = m.said; CTX.score = Math.round(m.score * 100);
       $('#heard').textContent = '«' + m.said + '»';
       showRef(m);
       // Pre-select the suggested grade by score.
@@ -505,6 +509,7 @@ function playScene(sc) {
 }
 function step(sc, nodeId, log) {
   const node = sc.nodes[nodeId];
+  setCtx({ mode: 'scene', scene: sc.id, node: nodeId, guest: node && node.guest || '', you: node && node.you && node.you[0] || '' });
   const chat = $('#chat'), ctl = $('#ctl');
   if (!node) { ctl.innerHTML = `<p class="muted">Узел «${esc(nodeId)}» не найден.</p>`; return; }
   if (node.guest) {
@@ -523,6 +528,7 @@ function step(sc, nodeId, log) {
   window.scrollTo(0, document.body.scrollHeight);
   const after = (m) => {
     const said = m ? m.said : null;
+    if (m) { CTX.heard = m.said; CTX.score = Math.round(m.score * 100); }
     if (said) chat.appendChild(h(`<div class="bubble you"><span class="who">Ты · ${Math.round(m.score * 100)}%</span>${esc(said)}</div>`));
     const ref = m ? m.ref : refs[0];
     if (ref) {
@@ -603,6 +609,7 @@ function playQuiz(set) {
 }
 function showQ(sess) {
   const q = sess.qs[sess.i];
+  if (q) setCtx({ mode: 'quiz', set: sess.set.id, q: q.q, answer: q.options[q.answer] });
   if (!q) {
     const pct = Math.round(100 * sess.right / sess.qs.length);
     const qr = S.quiz[sess.set.id] || {}; qr.best = Math.max(qr.best || 0, pct); S.quiz[sess.set.id] = qr; store.save();
@@ -626,6 +633,72 @@ function showQ(sess) {
     $('#why').innerHTML = `${q.why ? `<div class="note">${esc(q.why)}</div>` : ''}<button class="btn primary wide" id="next" style="margin-top:12px">Дальше</button>`;
     $('#next').onclick = () => { sess.i++; showQ(sess); };
   });
+}
+
+// ---------- ✋ reports ----------
+// Same idea as the ✋ button in LA: the note leaves straight from the lesson
+// with its context (which card / scene / question), so nothing depends on
+// remembering it later. If the phone is offline the note waits in the outbox
+// and goes out on the next send or app start.
+const REPORT_API = 'https://77-42-69-208.sslip.io/camarero-api/report';
+let CTX = { mode: 'plan' };
+function setCtx(o) { CTX = Object.assign({ mode: state.tab }, o); }
+S.outbox = S.outbox || [];
+
+function ctxSummary(c) {
+  const parts = [];
+  if (c.mode === 'cards' || c.mode === 'speak') parts.push(`${c.mode === 'cards' ? 'Карточка' : 'Вслух'} ${c.item}`, c.ru, c.es, c.en);
+  else if (c.mode === 'scene') parts.push(`Сцена ${c.scene} / ${c.node}`, c.guest && 'Гость: ' + c.guest, c.you && 'Вариант: ' + c.you);
+  else if (c.mode === 'quiz') parts.push(`Квиз ${c.set}`, c.q, c.answer && 'Ответ: ' + c.answer);
+  else parts.push('Экран: ' + c.mode);
+  if (c.heard) parts.push(`Распознано: «${c.heard}» (${c.score}%)`);
+  return parts.filter(Boolean).join('\n');
+}
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.hidden = false;
+  clearTimeout(toast.t); toast.t = setTimeout(() => { t.hidden = true; }, 2600);
+}
+async function postReport(rec) {
+  // text/plain keeps it a "simple" CORS request: no preflight round trip.
+  const r = await fetch(REPORT_API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(rec) });
+  if (!r.ok) throw new Error(r.status);
+}
+async function flushOutbox() {
+  let sent = 0;
+  while (S.outbox.length) {
+    try { await postReport(S.outbox[0]); S.outbox.shift(); store.save(); sent++; }
+    catch (e) { break; }
+  }
+  return sent;
+}
+function initReports() {
+  const dlg = $('#report'), tags = new Set();
+  $('#reportBtn').onclick = () => {
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    tags.clear();
+    dlg.querySelectorAll('[data-tag]').forEach(b => b.setAttribute('aria-pressed', 'false'));
+    $('#reportText').value = '';
+    $('#reportCtx').textContent = ctxSummary(CTX);
+    dlg.showModal();
+  };
+  dlg.querySelectorAll('[data-tag]').forEach(b => b.onclick = () => {
+    tags.has(b.dataset.tag) ? tags.delete(b.dataset.tag) : tags.add(b.dataset.tag);
+    b.setAttribute('aria-pressed', tags.has(b.dataset.tag));
+  });
+  $('#reportCancel').onclick = () => dlg.close();
+  $('#reportSend').onclick = async () => {
+    const text = $('#reportText').value.trim();
+    if (!text && !tags.size) { $('#reportText').focus(); return; }
+    const rec = Object.assign({}, CTX, {
+      text: text || '(без комментария)', tags: [...tags].join(', '),
+      lang: S.settings.lang, at: new Date().toISOString(), ua: navigator.userAgent.slice(0, 120),
+    });
+    S.outbox.push(rec); store.save();
+    dlg.close();
+    const before = S.outbox.length;
+    await flushOutbox();
+    toast(S.outbox.length < before ? 'Записано ✋ — разберу' : `Нет связи — сохранил, отправлю позже (${S.outbox.length})`);
+  };
 }
 
 // ---------- settings ----------
@@ -665,11 +738,13 @@ function initSettings() {
 (async function boot() {
   setLang(S.settings.lang);
   initSettings();
+  initReports();
   tts.load();
   document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => go(b.dataset.tab));
   const errors = await loadContent();
   let tab = 'plan';
   try { tab = sessionStorage.getItem('camarero.tab') || 'plan'; } catch (e) {}
   go(tab);
+  flushOutbox();
   if (errors.length) view().prepend(h(`<div class="note">Не загрузилось: ${esc(errors.join('; '))}</div>`));
 })();

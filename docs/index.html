@@ -50,6 +50,31 @@
   </form>
 </dialog>
 
+<button id="reportBtn" class="fab" title="Пожаловаться на то, что сейчас на экране" aria-label="Пожаловаться">✋</button>
+
+<dialog id="report">
+  <form method="dialog" class="settings" id="reportForm">
+    <h2>✋ Что не так?</h2>
+    <div class="note small" id="reportCtx"></div>
+    <div class="chips" id="reportTags">
+      <button type="button" class="chip" data-tag="испанский">Ошибка в испанском</button>
+      <button type="button" class="chip" data-tag="неестественно">Так не говорят</button>
+      <button type="button" class="chip" data-tag="факт">Неверный факт</button>
+      <button type="button" class="chip" data-tag="перевод">Перевод / русский</button>
+      <button type="button" class="chip" data-tag="распознавание">Не распознало</button>
+      <button type="button" class="chip" data-tag="баг">Баг приложения</button>
+      <button type="button" class="chip" data-tag="идея">Идея</button>
+    </div>
+    <textarea id="reportText" rows="4" placeholder="Своими словами: что не так или как надо…"></textarea>
+    <div class="row">
+      <button type="button" class="btn ghost" id="reportCancel">Отмена</button>
+      <button type="button" class="btn primary" id="reportSend">Отправить</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast" class="toast" hidden></div>
+
 <script src="app.js"></script>
 </body>
 </html>
