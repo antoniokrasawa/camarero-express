@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<title>Camarero Express</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍷</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <h1>Camarero Express</h1>
+  <div class="top-actions">
+    <button id="langBtn" class="pill" title="Язык тренировки">ES</button>
+    <button id="settingsBtn" class="icon-btn" title="Настройки" aria-label="Настройки">⚙</button>
+  </div>
+</header>
+
+<main id="view" aria-live="polite">
+  <p class="muted center">Загружаю…</p>
+</main>
+
+<nav class="tabs" role="tablist">
+  <button data-tab="plan" role="tab"><span>📅</span>План</button>
+  <button data-tab="cards" role="tab"><span>🃏</span>Карточки</button>
+  <button data-tab="speak" role="tab"><span>🎤</span>Вслух</button>
+  <button data-tab="scenes" role="tab"><span>🎭</span>Сцены</button>
+  <button data-tab="quiz" role="tab"><span>❓</span>Квиз</button>
+</nav>
+
+<dialog id="settings">
+  <form method="dialog" class="settings">
+    <h2>Настройки</h2>
+    <label>Скорость озвучки
+      <input type="range" id="rate" min="0.6" max="1.2" step="0.05">
+      <output id="rateOut"></output>
+    </label>
+    <label>Голос ES <select id="voiceEs"></select></label>
+    <label>Голос EN <select id="voiceEn"></select></label>
+    <label>Новых карточек за сессию
+      <input type="number" id="newPerSession" min="5" max="60" step="5">
+    </label>
+    <p class="muted small">Прогресс хранится только в этом браузере.</p>
+    <div class="row">
+      <button type="button" id="exportBtn" class="btn ghost">Экспорт прогресса</button>
+      <button type="button" id="resetBtn" class="btn danger">Сбросить всё</button>
+    </div>
+    <button class="btn primary wide">Готово</button>
+  </form>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>

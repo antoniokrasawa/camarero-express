@@ -1,0 +1,192 @@
+{
+  "id": "bebidas",
+  "title": "Напитки: пиво, вино, кофе, коктейли",
+  "sections": [
+    {
+      "id": "cerveza",
+      "title": "Пиво",
+      "items": [
+        {"id": "beb-cerveza-01", "kind": "word", "ru": "Маленькое разливное пиво (самый частый заказ)", "es": "una caña", "en": "a small draught beer", "note": "Объём зависит от бара и региона, обычно ~200 мл. Если гость просто говорит «una cerveza» — уточни: «¿Caña o tercio?»"},
+        {"id": "beb-cerveza-02", "kind": "word", "ru": "Разливное побольше, чем caña", "es": "un doble", "en": "a larger draught", "note": "Размер «doble» тоже плавает от бара к бару (≈300–400 мл). Узнай в первый день, что значит «doble» именно у вас."},
+        {"id": "beb-cerveza-03", "kind": "word", "ru": "Разливное в высоком узком стакане", "es": "un tubo", "en": "a tall glass of draught beer"},
+        {"id": "beb-cerveza-04", "kind": "word", "ru": "Кружка пива (~0,5 л)", "es": "una jarra", "en": "a pint / a large mug", "note": "Туристы говорят «a pint» — это ближе всего к jarra."},
+        {"id": "beb-cerveza-05", "kind": "word", "ru": "Бутылка 33 cl", "es": "un tercio", "en": "a 33 cl bottle"},
+        {"id": "beb-cerveza-06", "kind": "word", "ru": "Маленькая бутылочка (20–25 cl)", "es": "un quinto / un botellín", "en": "a small bottle", "note": "Quinto = 20 cl (пятая часть литра). Botellín — общее «бутылочка»."},
+        {"id": "beb-cerveza-07", "kind": "word", "ru": "Пиво с газировкой (шанди)", "es": "una clara", "en": "a shandy", "note": "По умолчанию — с gaseosa (сладковатая газировка). «Clara con limón» — с лимонной газировкой. Если не ясно: «¿Con gaseosa o con limón?»"},
+        {"id": "beb-cerveza-08", "kind": "word", "ru": "Безалкогольное пиво", "es": "una sin (alcohol) / una cero cero", "en": "an alcohol-free beer", "note": "«Sin» обычно до 1%, «0,0» — совсем без алкоголя. Гости часто так и говорят: «una sin»."},
+        {"id": "beb-cerveza-09", "kind": "word", "ru": "Тёмное/янтарное «поджаренное» пиво", "es": "una tostada", "en": "an amber beer", "note": "В Валенсии классика — Turia, тостада местного происхождения (с 1935, сейчас в группе Damm)."},
+        {"id": "beb-cerveza-10", "kind": "word", "ru": "Разливное (из крана)", "es": "de barril / de grifo", "en": "on tap / draught"},
+        {"id": "beb-cerveza-11", "kind": "word", "ru": "Типичные марки пива в Валенсии", "es": "Amstel, Turia, Estrella Damm, Mahou", "en": "Amstel, Turia, Estrella Damm, Mahou", "note": "Amstel — очень распространена в Валенсии; Turia — местная тостада. Точный набор кранов зависит от поставщика бара — запомни свой в первый день."},
+        {"id": "beb-cerveza-12", "kind": "phrase", "ru": "Уточнить, какое пиво: разливное маленькое или бутылку", "es": "¿Caña o tercio?", "en": "Draught or bottle?"},
+        {"id": "beb-cerveza-13", "kind": "phrase", "ru": "Гость спрашивает, какое у вас пиво — ответить", "es": "De grifo tenemos Amstel y Turia, que es tostada. Y de botella, Estrella y sin alcohol.", "en": "On tap we have Amstel and Turia, an amber lager. In bottles, Estrella and alcohol-free.", "note": "Подставь свои марки. Главное — сразу назвать варианты, а не «tenemos varias»."},
+        {"id": "beb-cerveza-14", "kind": "phrase", "ru": "Кончился кег, сейчас поменяю", "es": "Se ha acabado el barril, ahora mismo lo cambio. Dame un minuto.", "en": "The keg just ran out, I'll change it right now. Give me a minute."},
+        {"id": "beb-cerveza-15", "kind": "phrase", "ru": "Предложить ещё по одной", "es": "¿Os pongo otra ronda?", "es_alt": "¿Les pongo otra?", "en": "Another round?"},
+        {"id": "beb-cerveza-16", "kind": "phrase", "ru": "Продать тостаду тому, кто не знает", "es": "Si os apetece algo diferente, probad la Turia: es una tostada de aquí, con más cuerpo y un toque a caramelo.", "en": "If you fancy something different, try Turia: a local amber beer, fuller, with a hint of caramel."}
+      ]
+    },
+    {
+      "id": "vino",
+      "title": "Вино",
+      "items": [
+        {"id": "beb-vino-01", "kind": "word", "ru": "Бокал вина / бутылка", "es": "una copa / una botella", "en": "a glass / a bottle"},
+        {"id": "beb-vino-02", "kind": "word", "ru": "Красное / белое / розовое", "es": "tinto / blanco / rosado", "en": "red / white / rosé", "note": "«Un tinto» = бокал красного. Не путать с «tinto de verano» (это красное с газировкой)."},
+        {"id": "beb-vino-03", "kind": "word", "ru": "Молодое вино (без выдержки)", "es": "joven", "en": "young / unoaked", "note": "Свежее, фруктовое, недорогое — хороший «вино по бокалам»."},
+        {"id": "beb-vino-04", "kind": "word", "ru": "Короткий контакт с дубом (несколько месяцев)", "es": "roble", "en": "lightly oaked"},
+        {"id": "beb-vino-05", "kind": "word", "ru": "Выдержка: crianza", "es": "crianza", "en": "crianza (aged ~2 years, part in oak)", "note": "Для красного — минимум 2 года выдержки, из них не меньше 6 мес (в Риохе и Рибере — 12 мес) в дубе. Сбалансированное, «самое безопасное» для рекомендации."},
+        {"id": "beb-vino-06", "kind": "word", "ru": "Выдержка: reserva / gran reserva", "es": "reserva / gran reserva", "en": "reserva / gran reserva (longer aged)", "note": "Reserva красное — минимум 3 года (из них ≥1 в дубе). Gran reserva — минимум 5 лет. Мягче, сложнее, дороже — к мясу и особым случаям."},
+        {"id": "beb-vino-07", "kind": "word", "ru": "Сухое / полусухое / сладкое", "es": "seco / semiseco / dulce", "en": "dry / off-dry / sweet"},
+        {"id": "beb-vino-08", "kind": "word", "ru": "Тело вина: лёгкое / с телом / мощное", "es": "ligero / con cuerpo / potente", "en": "light / medium / full-bodied"},
+        {"id": "beb-vino-09", "kind": "phrase", "ru": "Показать бутылку гостю перед открытием", "es": "Os enseño la botella: Rioja crianza, del 2021. ¿Es esta, verdad?", "en": "Here's the bottle: a Rioja crianza, 2021. This is the one, right?", "note": "Покажи этикетку тому, кто заказывал, назови вино и год."},
+        {"id": "beb-vino-10", "kind": "phrase", "ru": "Предложить попробовать вино перед тем как разлить", "es": "¿Quién lo va a probar?", "es_alt": "¿Desea probarlo?", "en": "Who'd like to taste it?", "note": "Наливаешь глоток тому, кто заказал; после «está bien» — сначала дамам/гостям, последним — тому, кто пробовал."},
+        {"id": "beb-vino-11", "kind": "phrase", "ru": "Гость просит попробовать вино по бокалу перед заказом", "es": "¡Claro! Te pongo un poquito para que lo pruebes.", "en": "Of course! Let me pour you a little taste."},
+        {"id": "beb-vino-12", "kind": "phrase", "ru": "Предложить держать белое в ведёрке со льдом", "es": "¿Os dejo la botella en la cubitera para que se mantenga fresquita?", "en": "Shall I leave the bottle in an ice bucket to keep it cool?"},
+        {"id": "beb-vino-13", "kind": "word", "ru": "Риоха — самый известный красный регион, темпранильо", "es": "Rioja", "en": "Rioja", "note": "Un Rioja crianza nunca falla: fruta roja, un toque de vainilla de la barrica y muy fácil de beber.", "extra": {"estilo": "tinto, tempranillo, medio cuerpo, notas de madera", "va con": "carnes, embutidos, quesos curados, arroces de carne"}},
+        {"id": "beb-vino-14", "kind": "word", "ru": "Рибера-дель-Дуэро — более мощное темпранильо", "es": "Ribera del Duero", "en": "Ribera del Duero", "note": "Si os gusta el tinto con carácter, el Ribera es más intenso: fruta negra y mucho cuerpo, perfecto con la carne.", "extra": {"estilo": "tinto, tempranillo (tinto fino), potente", "va con": "chuletón, cordero, carne a la brasa"}},
+        {"id": "beb-vino-15", "kind": "word", "ru": "Вердехо из Руэды — самое популярное белое", "es": "Verdejo (Rueda)", "en": "Verdejo from Rueda", "note": "El Verdejo es el blanco que más se pide: fresco, afrutado, con un toque herbal. Va con casi todo.", "extra": {"estilo": "blanco, fresco, cítrico, hierba", "va con": "ensaladas, pescado, tapas, arroces de marisco"}},
+        {"id": "beb-vino-16", "kind": "word", "ru": "Альбариньо — галисийское белое, к морепродуктам", "es": "Albariño (Rías Baixas)", "en": "Albariño", "note": "El Albariño es de Galicia, de al lado del mar: fresco, con un punto salino. Con marisco es una maravilla.", "extra": {"estilo": "blanco, aromático, ácido, salino", "va con": "marisco, pescado, pulpo, arroz a banda"}},
+        {"id": "beb-vino-17", "kind": "word", "ru": "Годельо — белое с телом и минеральностью", "es": "Godello", "en": "Godello", "note": "El Godello es un blanco con más cuerpo, untuoso y mineral; aguanta platos con salsa.", "extra": {"estilo": "blanco, con cuerpo, mineral", "va con": "pescado al horno, pollo, setas, quesos suaves"}},
+        {"id": "beb-vino-18", "kind": "word", "ru": "Менсия — лёгкое красное из Бьерсо", "es": "Mencía (Bierzo)", "en": "Mencía", "note": "La Mencía es un tinto ligero y fresco, muy fácil; si no queréis algo pesado, es ideal.", "extra": {"estilo": "tinto ligero, fruta roja, fresco", "va con": "pulpo, atún, embutidos, platos de cuchara suaves"}},
+        {"id": "beb-vino-19", "kind": "word", "ru": "Гарнача — сочное фруктовое красное", "es": "Garnacha", "en": "Grenache (Garnacha)", "note": "La Garnacha es jugosa y frutal, con un toque especiado; gusta a todo el mundo.", "extra": {"estilo": "tinto, fruta madura, especias suaves", "va con": "carnes a la brasa, embutidos, verduras asadas"}},
+        {"id": "beb-vino-20", "kind": "word", "ru": "Монастрель — мощное красное с юго-востока (Хумилья, Аликанте)", "es": "Monastrell", "en": "Monastrell (Mourvèdre)", "note": "El Monastrell es de aquí al lado, de Alicante y Jumilla: potente, con fruta negra; para carnes y guisos.", "extra": {"estilo": "tinto potente, fruta negra, cálido", "va con": "guisos, rabo de toro, carnes rojas, quesos curados"}},
+        {"id": "beb-vino-21", "kind": "word", "ru": "Бобаль — местный сорт Валенсии (Утьель-Рекена)", "es": "Bobal (Utiel-Requena)", "en": "Bobal, a local Valencian red", "note": "El Bobal es la uva de la provincia de Valencia: tinto con mucho color y fruta. Si queréis probar algo de aquí, es este.", "extra": {"estilo": "tinto, fruta negra, buena acidez; también rosados", "va con": "embutidos, carnes, all i pebre, arroz al horno"}},
+        {"id": "beb-vino-22", "kind": "word", "ru": "Кава — испанское игристое", "es": "cava", "en": "cava (Spanish sparkling)", "note": "Una copa de cava para empezar abre el apetito, y con los fritos queda genial.", "extra": {"estilo": "espumoso seco (brut), burbuja fina", "va con": "aperitivo, fritos, marisco, jamón"}},
+        {"id": "beb-vino-23", "kind": "word", "ru": "Фино / мансанилья — сухой херес", "es": "fino / manzanilla", "en": "dry sherry", "note": "Muy seco y salino, se sirve frío; con jamón y aceitunas es lo más.", "extra": {"estilo": "generoso seco, servir muy frío", "va con": "jamón, aceitunas, frituras, mariscos"}},
+        {"id": "beb-vino-24", "kind": "word", "ru": "Педро Хименес — очень сладкое десертное", "es": "Pedro Ximénez (PX)", "en": "Pedro Ximénez, a sweet sherry", "note": "Es dulce como un jarabe de pasas; solo o con helado de vainilla, de postre es espectacular.", "extra": {"estilo": "generoso dulce, pasas, higos, café", "va con": "postres de chocolate, helado de vainilla, quesos azules"}},
+        {"id": "beb-vino-25", "kind": "word", "ru": "Москатель из Валенсии — сладкое белое", "es": "Moscatel de Valencia", "en": "Valencian Moscatel (sweet white)", "note": "Un moscatel de aquí, dulce y muy aromático, para acompañar el postre.", "extra": {"estilo": "blanco dulce, floral, uva", "va con": "postres de fruta, flan, pastas, fartons"}},
+        {"id": "beb-vino-26", "kind": "phrase", "ru": "Гость не знает, какое вино взять — задать уточняющий вопрос", "es": "¿Lo preferís tinto, blanco o rosado? ¿Y algo ligerito o con más cuerpo?", "en": "Would you prefer red, white or rosé? And something light or fuller?"},
+        {"id": "beb-vino-27", "kind": "phrase", "ru": "Предложить вино по бокалу, если бутылка — много", "es": "Si no queréis botella, este lo tenemos también por copas.", "en": "If you don't want a full bottle, we also do this one by the glass."}
+      ]
+    },
+    {
+      "id": "vermut-sangria",
+      "title": "Вермут, сангрия, валенсийская классика",
+      "items": [
+        {"id": "beb-vermut-01", "kind": "word", "ru": "Вермут из крана", "es": "vermut de grifo", "en": "vermouth on tap"},
+        {"id": "beb-vermut-02", "kind": "word", "ru": "Как подают вермут", "es": "vermut rojo (o blanco) con hielo, una rodaja de naranja y una aceituna", "en": "red (or white) vermouth with ice, an orange slice and an olive", "note": "Часто с сифоном (каплей газировки) — спроси: «¿Con sifón?»"},
+        {"id": "beb-vermut-03", "kind": "word", "ru": "Время аперитива перед обедом (выходные, ~13:00)", "es": "la hora del vermut", "en": "vermouth hour (pre-lunch aperitif)"},
+        {"id": "beb-vermut-04", "kind": "word", "ru": "Красное вино с газировкой (лимонной или gaseosa)", "es": "tinto de verano", "en": "red wine with lemon soda", "note": "То, что реально пьют испанцы летом. Проще и легче сангрии.", "extra": {"receta": "vino tinto + gaseosa o refresco de limón, hielo, rodaja de limón"}},
+        {"id": "beb-vermut-05", "kind": "word", "ru": "Сангрия", "es": "sangría", "en": "sangria", "note": "В отличие от tinto de verano — с фруктами, сахаром и часто с крепким (бренди/ликёр). Её чаще заказывают туристы, обычно кувшином.", "extra": {"receta": "vino tinto, fruta troceada (naranja, melocotón, manzana), azúcar, a menudo un chorrito de brandy o licor, gaseosa", "vaso": "jarra para compartir"}},
+        {"id": "beb-vermut-06", "kind": "word", "ru": "Сангрия на каве", "es": "sangría de cava", "en": "cava sangria", "note": "Белый/игристый вариант — свежее и «праздничнее» красной."},
+        {"id": "beb-vermut-07", "kind": "word", "ru": "Агуа-де-Валенсия — главный коктейль города", "es": "agua de Valencia", "en": "Agua de Valencia", "note": "Lo inventaron aquí, en el Café Madrid, en 1959: zumo de naranja valenciana, cava, vodka y ginebra. Fresquito y peligroso.", "extra": {"receta": "zumo de naranja natural, cava, vodka, ginebra, un poco de azúcar, hielo", "vaso": "jarra para compartir, se sirve en copas", "sabor": "naranja, burbuja, fuerte aunque no lo parece"}},
+        {"id": "beb-vermut-08", "kind": "phrase", "ru": "Объяснить туристу разницу между tinto de verano и сангрией", "es": "El tinto de verano es vino con gaseosa, más ligero; la sangría lleva fruta y un poco de licor.", "en": "Tinto de verano is red wine with lemon soda, lighter; sangria has fruit and a splash of liqueur."},
+        {"id": "beb-vermut-09", "kind": "phrase", "ru": "Предложить компании кувшин агуа-де-Валенсии", "es": "Si sois varios, una jarra de agua de Valencia es lo típico de aquí. ¿Os la preparo?", "en": "If you're a group, a jug of Agua de Valencia is the local classic. Shall I make you one?"},
+        {"id": "beb-vermut-10", "kind": "phrase", "ru": "Гость спрашивает, большой ли кувшин", "es": "La jarra es de litro, salen unas cuatro o cinco copas.", "en": "The jug is a litre, about four or five glasses.", "note": "Объём кувшина уточни у себя в баре."}
+      ]
+    },
+    {
+      "id": "cafe",
+      "title": "Кофе и безалкогольное",
+      "items": [
+        {"id": "beb-cafe-01", "kind": "word", "ru": "Эспрессо", "es": "un café solo", "en": "an espresso"},
+        {"id": "beb-cafe-02", "kind": "word", "ru": "Эспрессо с каплей молока", "es": "un cortado", "en": "an espresso with a dash of milk"},
+        {"id": "beb-cafe-03", "kind": "word", "ru": "Кофе с молоком (≈ пополам)", "es": "un café con leche", "en": "a white coffee / latte"},
+        {"id": "beb-cafe-04", "kind": "word", "ru": "Молоко с каплей кофе", "es": "un (vaso de leche) manchado", "en": "milk with a splash of coffee", "note": "Противоположность cortado: тут молока много, кофе чуть-чуть."},
+        {"id": "beb-cafe-05", "kind": "word", "ru": "Эспрессо со сгущёнкой (два слоя в стеклянном стакане)", "es": "un café bombón", "en": "espresso with condensed milk", "note": "Типичный для Валенсии и побережья. Подаётся в стекле, чтобы были видны два слоя.", "extra": {"receta": "leche condensada abajo + café solo encima, ≈ 1:1"}},
+        {"id": "beb-cafe-06", "kind": "word", "ru": "Кофе с алкоголем (бренди/ром/виски)", "es": "un carajillo", "en": "espresso with a shot of brandy or rum", "note": "Уточни: «¿De qué lo quieres? ¿Coñac, ron, whisky, Baileys?» Quemadito — вариант с обожжённым ромом, сахаром, корицей и лимоном."},
+        {"id": "beb-cafe-07", "kind": "word", "ru": "Американо", "es": "un americano", "en": "an americano"},
+        {"id": "beb-cafe-08", "kind": "word", "ru": "Без кофеина: из машины или растворимый в пакетике", "es": "un descafeinado: de máquina o de sobre", "en": "decaf: from the machine or instant", "note": "Это стандартный вопрос: «¿Descafeinado de máquina o de sobre?»"},
+        {"id": "beb-cafe-09", "kind": "word", "ru": "Температура молока: холодное / комнатной / тёплое", "es": "con leche fría / del tiempo / templada", "en": "with cold / room-temperature / warm milk"},
+        {"id": "beb-cafe-10", "kind": "word", "ru": "Растительное / безлактозное молоко", "es": "leche de avena / de soja / sin lactosa", "en": "oat / soy / lactose-free milk"},
+        {"id": "beb-cafe-11", "kind": "word", "ru": "Кофе со льдом", "es": "un café con hielo", "en": "an iced coffee", "note": "В Испании это горячий эспрессо + отдельный стакан со льдом — гость сам переливает."},
+        {"id": "beb-cafe-12", "kind": "word", "ru": "Травяные чаи: ромашка, мята, чай", "es": "una infusión: manzanilla, poleo menta, té", "en": "a herbal tea: chamomile, mint, tea"},
+        {"id": "beb-cafe-13", "kind": "word", "ru": "Орчата — напиток из чуфы, символ Валенсии", "es": "horchata (de chufa)", "en": "horchata (tiger nut drink)", "note": "Холодная, сладкая, с fartons (длинные булочки для макания). Можно granizada — полузамороженная."},
+        {"id": "beb-cafe-14", "kind": "word", "ru": "Граниса — ледяная крошка (лимон, кофе)", "es": "granizado de limón / de café", "en": "lemon / coffee slush"},
+        {"id": "beb-cafe-15", "kind": "phrase", "ru": "Предложить кофе после еды", "es": "¿Os apetece un cafecito o una infusión?", "en": "Would you like a coffee or a tea?"},
+        {"id": "beb-cafe-16", "kind": "phrase", "ru": "Принять заказ на кофе у компании и повторить", "es": "Entonces: dos cortados, un con leche con leche de avena y un solo. ¿Correcto?", "en": "So that's two cortados, a latte with oat milk and an espresso. Right?", "note": "Повторять заказ вслух — признак профи и защита от ошибок."},
+        {"id": "beb-cafe-17", "kind": "phrase", "ru": "Предложить туристу попробовать бомбон", "es": "Si os gusta lo dulce, probad el café bombón: café con leche condensada, muy típico de aquí.", "en": "If you like sweet things, try a café bombón: espresso with condensed milk, very typical here."},
+        {"id": "beb-cafe-18", "kind": "phrase", "ru": "Предложить карахильо после ужина", "es": "¿Un carajillo para terminar? ¿De coñac, de ron o de Baileys?", "en": "A carajillo to finish? With brandy, rum or Baileys?"}
+      ]
+    },
+    {
+      "id": "copas",
+      "title": "Copas: крепкое и микс-дринки",
+      "items": [
+        {"id": "beb-copas-01", "kind": "word", "ru": "Крепкое + газировка в высоком стакане", "es": "un cubata / un combinado / una copa", "en": "a mixed drink / a spirit and mixer"},
+        {"id": "beb-copas-02", "kind": "phrase", "ru": "Гость заказал ром — спросить, с чем", "es": "¿Con qué lo quieres? ¿Cola, limón, naranja?", "en": "What would you like it with? Coke, lemon, orange?"},
+        {"id": "beb-copas-03", "kind": "phrase", "ru": "Спросить марку джина", "es": "¿Qué ginebra te pongo? Tenemos Beefeater, Tanqueray, Bombay y Hendrick's.", "en": "Which gin would you like? We've got Beefeater, Tanqueray, Bombay and Hendrick's."},
+        {"id": "beb-copas-04", "kind": "word", "ru": "Джин-тоник по-испански (в бокале-шаре)", "es": "un gin-tonic en copa balón", "en": "a gin and tonic in a balloon glass", "note": "Много льда, botánicos: цедра лимона/апельсина, огурец (к Hendrick's), ягоды можжевельника.", "extra": {"vaso": "copa balón", "receta": "≈50 ml ginebra + 200 ml tónica, mucho hielo, piel de cítrico"}},
+        {"id": "beb-copas-05", "kind": "word", "ru": "Украшения/специи в джин-тоник", "es": "los botánicos", "en": "the botanicals / garnish"},
+        {"id": "beb-copas-06", "kind": "word", "ru": "Ром с колой", "es": "un ron-cola", "en": "a rum and coke"},
+        {"id": "beb-copas-07", "kind": "word", "ru": "Водка с апельсином / с лимонной газировкой", "es": "un vodka con naranja / con limón", "en": "a vodka orange / vodka lemon"},
+        {"id": "beb-copas-08", "kind": "word", "ru": "Виски с колой", "es": "un whisky con cola", "en": "a whisky and coke"},
+        {"id": "beb-copas-09", "kind": "word", "ru": "Шот", "es": "un chupito", "en": "a shot"},
+        {"id": "beb-copas-10", "kind": "word", "ru": "Чистый / со льдом", "es": "solo / con hielo", "en": "neat / on the rocks"},
+        {"id": "beb-copas-11", "kind": "word", "ru": "Двойная порция", "es": "doble", "en": "a double"},
+        {"id": "beb-copas-12", "kind": "phrase", "ru": "Гость просит налить покрепче", "es": "¿Te la pongo cargadita?", "en": "Want it strong?", "note": "«Cargada» — с большим количеством алкоголя. Наливай по правилам бара — спроси у старшего, есть ли мерка (jigger)."},
+        {"id": "beb-copas-13", "kind": "word", "ru": "Дешёвый некачественный алкоголь (сленг)", "es": "garrafón", "en": "cheap bootleg-quality booze (slang)", "note": "Пригодится понимать шутки: «Aquí no ponemos garrafón»."},
+        {"id": "beb-copas-14", "kind": "word", "ru": "Ром: типичные марки", "es": "Barceló, Brugal, Bacardí", "en": "Barceló, Brugal, Bacardí"},
+        {"id": "beb-copas-15", "kind": "word", "ru": "Водка и виски: типичные марки", "es": "Absolut (vodka); J&B, Jack Daniel's (whisky)", "en": "Absolut (vodka); J&B, Jack Daniel's (whisky)"},
+        {"id": "beb-copas-16", "kind": "word", "ru": "Тоник / лимонная газировка как миксер", "es": "tónica / refresco de limón", "en": "tonic / lemon soda"},
+        {"id": "beb-copas-17", "kind": "phrase", "ru": "Продать джин подороже (апсейл)", "es": "Con Hendrick's y un poco de pepino queda muy fresquito, merece la pena.", "en": "With Hendrick's and a bit of cucumber it's really refreshing, worth it."}
+      ]
+    },
+    {
+      "id": "cocteles",
+      "title": "Коктейли (топ-20)",
+      "items": [
+        {"id": "beb-cocteles-01", "kind": "word", "ru": "Мохито", "es": "mojito", "en": "mojito", "note": "Fresquito, con hierbabuena y lima; el más pedido del verano.", "extra": {"base": "ron blanco", "receta": "≈45 ml ron blanco, lima, azúcar, hierbabuena, hielo picado, soda", "vaso": "vaso alto", "sabor": "fresco, mentolado, cítrico"}},
+        {"id": "beb-cocteles-02", "kind": "word", "ru": "Кайпиринья", "es": "caipiriña", "en": "caipirinha", "note": "La bebida de Brasil: cachaça con lima machacada, más fuerte de lo que parece.", "extra": {"base": "cachaça", "receta": "≈60 ml cachaça, media lima en trozos machacada, azúcar, hielo picado", "vaso": "vaso bajo (old fashioned)", "sabor": "cítrico, dulce, potente"}},
+        {"id": "beb-cocteles-03", "kind": "word", "ru": "Кайпироска (кайпиринья на водке)", "es": "caipiroska", "en": "caipiroska", "note": "Como la caipiriña pero con vodka, más suave de sabor.", "extra": {"base": "vodka", "receta": "vodka, lima machacada, azúcar, hielo picado", "vaso": "vaso bajo", "sabor": "cítrico, limpio"}},
+        {"id": "beb-cocteles-04", "kind": "word", "ru": "Маргарита", "es": "margarita", "en": "margarita", "note": "Tequila, triple seco y lima, con el borde de sal; clásica y refrescante.", "extra": {"base": "tequila", "receta": "≈50 ml tequila, 20 ml triple seco, 15 ml zumo de lima; borde de sal", "vaso": "copa de margarita o de cóctel", "sabor": "ácido, salado, intenso"}},
+        {"id": "beb-cocteles-05", "kind": "word", "ru": "Дайкири (классический и клубничный)", "es": "daiquiri (clásico o de fresa)", "en": "daiquiri (classic or strawberry)", "note": "El de fresa, batido con hielo, es un postre en copa.", "extra": {"base": "ron blanco", "receta": "≈45 ml ron blanco, 25 ml lima, 15 ml jarabe de azúcar; el de fresa: + fresas batidas con hielo", "vaso": "copa de cóctel", "sabor": "ácido y fresco / afrutado"}},
+        {"id": "beb-cocteles-06", "kind": "word", "ru": "Пина колада", "es": "piña colada", "en": "piña colada", "note": "Cremosa, de piña y coco: sabe a vacaciones.", "extra": {"base": "ron blanco", "receta": "≈50 ml ron, 30 ml crema de coco, 50 ml zumo de piña, hielo", "vaso": "vaso alto o copa hurricane", "sabor": "dulce, cremoso, tropical"}},
+        {"id": "beb-cocteles-07", "kind": "word", "ru": "Апероль шприц", "es": "Aperol spritz", "en": "Aperol spritz", "note": "El aperitivo italiano de moda: amargo, burbujas y naranja, entra solo.", "extra": {"base": "Aperol", "receta": "3 partes prosecco, 2 de Aperol, 1 de soda; rodaja de naranja", "vaso": "copa de vino grande con hielo", "sabor": "agridulce, amargo suave, burbuja"}},
+        {"id": "beb-cocteles-08", "kind": "word", "ru": "Хьюго шприц (с бузиной)", "es": "Hugo spritz", "en": "Hugo spritz", "note": "Más floral y suave que el Aperol: con flor de saúco y hierbabuena.", "extra": {"base": "prosecco", "receta": "prosecco, sirope o licor de flor de saúco, soda, hierbabuena, lima", "vaso": "copa de vino con hielo", "sabor": "floral, fresco, ligero"}},
+        {"id": "beb-cocteles-09", "kind": "word", "ru": "Космополитен", "es": "cosmopolitan", "en": "cosmopolitan", "note": "Rosa, elegante, de arándano rojo y lima.", "extra": {"base": "vodka (cítrico)", "receta": "≈40 ml vodka citron, 15 ml triple seco, 15 ml lima, 30 ml zumo de arándano rojo (cranberry)", "vaso": "copa de cóctel", "sabor": "afrutado, ácido"}},
+        {"id": "beb-cocteles-10", "kind": "word", "ru": "Негрони", "es": "negroni", "en": "negroni", "note": "Para los que les gusta amargo: ginebra, Campari y vermut, a partes iguales.", "extra": {"base": "ginebra", "receta": "30 ml ginebra, 30 ml Campari, 30 ml vermut rojo; piel de naranja", "vaso": "vaso bajo con hielo", "sabor": "amargo, intenso, seco"}},
+        {"id": "beb-cocteles-11", "kind": "word", "ru": "Московский мул", "es": "Moscow mule", "en": "Moscow mule", "note": "Vodka con cerveza de jengibre y lima, servido en la taza de cobre: picantito y muy fresco.", "extra": {"base": "vodka", "receta": "≈45 ml vodka, ginger beer, un poco de lima", "vaso": "taza de cobre (o vaso alto)", "sabor": "jengibre, cítrico, refrescante"}},
+        {"id": "beb-cocteles-12", "kind": "word", "ru": "Эспрессо мартини", "es": "espresso martini", "en": "espresso martini", "note": "Café y vodka con espumita: despierta y entona a la vez.", "extra": {"base": "vodka", "receta": "≈50 ml vodka, licor de café, un espresso recién hecho, jarabe; agitado con hielo", "vaso": "copa de cóctel", "sabor": "café, dulce, espuma"}},
+        {"id": "beb-cocteles-13", "kind": "word", "ru": "Кровавая Мэри", "es": "Bloody Mary", "en": "Bloody Mary", "note": "Salado y especiado, el cóctel del brunch.", "extra": {"base": "vodka", "receta": "≈45 ml vodka, zumo de tomate, limón, salsa Worcestershire, tabasco, sal y pimienta; apio", "vaso": "vaso alto", "sabor": "salado, picante"}},
+        {"id": "beb-cocteles-14", "kind": "word", "ru": "Секс на пляже", "es": "sex on the beach", "en": "sex on the beach", "note": "Dulce y afrutado, de melocotón y arándano rojo; muy pedido en verano.", "extra": {"base": "vodka", "receta": "vodka, licor de melocotón, zumo de naranja, zumo de arándano rojo (cranberry)", "vaso": "vaso alto", "sabor": "dulce, afrutado"}},
+        {"id": "beb-cocteles-15", "kind": "word", "ru": "Текила санрайз", "es": "tequila sunrise", "en": "tequila sunrise", "note": "Tequila y naranja con granadina que cae al fondo: parece un amanecer.", "extra": {"base": "tequila", "receta": "≈45 ml tequila, zumo de naranja, un chorrito de granadina", "vaso": "vaso alto", "sabor": "dulce, naranja"}},
+        {"id": "beb-cocteles-16", "kind": "word", "ru": "Порнстар мартини", "es": "pornstar martini", "en": "pornstar martini", "note": "De maracuyá y vainilla, y viene con un chupito de cava al lado.", "extra": {"base": "vodka de vainilla", "receta": "vodka de vainilla, licor de maracuyá, puré de maracuyá, lima; al lado un shot de cava/prosecco", "vaso": "copa de cóctel", "sabor": "tropical, dulce, ácido"}},
+        {"id": "beb-cocteles-17", "kind": "word", "ru": "Куба либре", "es": "cuba libre", "en": "cuba libre", "note": "Ron con cola y lima: un clásico de toda la vida.", "extra": {"base": "ron", "receta": "ron, cola, zumo/rodaja de lima, hielo", "vaso": "vaso alto", "sabor": "dulce, cola"}},
+        {"id": "beb-cocteles-18", "kind": "word", "ru": "Лонг-Айленд айс ти", "es": "Long Island iced tea", "en": "Long Island iced tea", "note": "Ojo: lleva cinco destilados, parece un té y es de los más fuertes.", "extra": {"base": "vodka, ron, ginebra, tequila, triple seco", "receta": "partes iguales de los 5 destilados + limón + jarabe + un toque de cola", "vaso": "vaso alto", "sabor": "fuerte, cítrico"}},
+        {"id": "beb-cocteles-19", "kind": "word", "ru": "Агуа-де-Валенсия", "es": "agua de Valencia", "en": "Agua de Valencia", "note": "El cóctel de la ciudad: naranja valenciana, cava, vodka y ginebra.", "extra": {"base": "cava + vodka + ginebra", "receta": "zumo de naranja natural, cava, vodka, ginebra, azúcar, hielo", "vaso": "jarra; se sirve en copas", "sabor": "naranja, burbuja, engaña"}},
+        {"id": "beb-cocteles-20", "kind": "word", "ru": "Сангрия", "es": "sangría", "en": "sangria", "note": "Vino tinto con fruta, perfecta para compartir en la terraza.", "extra": {"base": "vino tinto", "receta": "vino tinto, fruta troceada, azúcar, licor o brandy, gaseosa, hielo", "vaso": "jarra", "sabor": "afrutado, dulce"}},
+        {"id": "beb-cocteles-21", "kind": "phrase", "ru": "Гость не знает, какой коктейль — уточнить вкус", "es": "¿Te apetece algo dulce y afrutado, algo fresquito y cítrico, o algo más fuerte y amargo?", "en": "Do you fancy something sweet and fruity, something fresh and citrusy, or something stronger and bitter?"},
+        {"id": "beb-cocteles-22", "kind": "phrase", "ru": "Рекомендация, если хочет свежее и цитрусовое", "es": "Entonces te recomiendo un mojito o una caipiriña; si prefieres sin ron, una caipiroska.", "en": "Then I'd go for a mojito or a caipirinha; if you'd rather not have rum, a caipiroska."},
+        {"id": "beb-cocteles-23", "kind": "phrase", "ru": "Рекомендация, если хочет сладкое", "es": "Para algo dulce, la piña colada o el pornstar martini, que es de maracuyá. Gustan muchísimo.", "en": "For something sweet, the piña colada or the pornstar martini, it's passion fruit. People love them."},
+        {"id": "beb-cocteles-24", "kind": "phrase", "ru": "Сказать, что у вас нет этого коктейля, и предложить похожий", "es": "Ese no lo tenemos en carta, pero te puedo hacer algo parecido: ¿te va un daiquiri de fresa?", "en": "We don't have that one on the menu, but I can make something similar: how about a strawberry daiquiri?", "note": "Не обещай коктейль, пока не уточнил у бармена, что он его сделает."}
+      ]
+    },
+    {
+      "id": "refrescos-agua",
+      "title": "Вода и газировки",
+      "items": [
+        {"id": "beb-refrescos-01", "kind": "word", "ru": "Вода с газом / без газа", "es": "agua con gas / sin gas", "en": "sparkling / still water"},
+        {"id": "beb-refrescos-02", "kind": "word", "ru": "Комнатной температуры / холодная", "es": "del tiempo / fría", "en": "room temperature / cold", "note": "Испанцы часто просят воду «del tiempo». Всегда уточняй: «¿Fría o del tiempo?»"},
+        {"id": "beb-refrescos-03", "kind": "word", "ru": "Кола зеро", "es": "una Coca-Cola Zero", "en": "a Coke Zero"},
+        {"id": "beb-refrescos-04", "kind": "word", "ru": "Фанта апельсиновая / лимонная", "es": "una Fanta de naranja / de limón", "en": "an orange / lemon Fanta"},
+        {"id": "beb-refrescos-05", "kind": "word", "ru": "Тоник", "es": "una tónica", "en": "a tonic"},
+        {"id": "beb-refrescos-06", "kind": "word", "ru": "Сладкая прозрачная газировка (для clara, tinto de verano)", "es": "gaseosa", "en": "lemonade-style soda (like 7Up/Sprite but less sweet)"},
+        {"id": "beb-refrescos-07", "kind": "word", "ru": "Свежевыжатый апельсиновый сок", "es": "un zumo de naranja natural", "en": "a fresh orange juice", "note": "В Валенсии — must-have. Продающее: «recién exprimido, con naranja de aquí»."},
+        {"id": "beb-refrescos-08", "kind": "word", "ru": "Виноградный сок (безалкогольный)", "es": "un mosto", "en": "grape juice", "note": "Часто пьют вместо вина, иногда «mosto con hielo y limón»."},
+        {"id": "beb-refrescos-09", "kind": "word", "ru": "Изотоник Aquarius / холодный чай Nestea", "es": "un Aquarius / un Nestea", "en": "an Aquarius (sports drink) / a Nestea iced tea"},
+        {"id": "beb-refrescos-10", "kind": "phrase", "ru": "Предложить воду, когда сели", "es": "¿Os traigo agua? ¿Fría o del tiempo, con gas o sin gas?", "en": "Shall I bring some water? Cold or room temperature, still or sparkling?"}
+      ]
+    },
+    {
+      "id": "frases-barra",
+      "title": "Фразы за баром",
+      "items": [
+        {"id": "beb-barra-01", "kind": "phrase", "ru": "Что тебе налить? (основная фраза бармена)", "es": "¿Qué te pongo?", "es_alt": "¿Qué le pongo?", "en": "What can I get you?"},
+        {"id": "beb-barra-02", "kind": "phrase", "ru": "Что-нибудь ещё?", "es": "¿Algo más?", "en": "Anything else?"},
+        {"id": "beb-barra-03", "kind": "phrase", "ru": "Сейчас посчитаю / рассчитаю тебя", "es": "Te cobro ahora, ¿vale?", "en": "I'll take payment now, OK?", "note": "В барах часто платят сразу. «¿Me cobras?» — так гость просит рассчитать."},
+        {"id": "beb-barra-04", "kind": "phrase", "ru": "Налить ещё?", "es": "¿Te pongo otra?", "en": "Another one?"},
+        {"id": "beb-barra-05", "kind": "phrase", "ru": "Эта за счёт заведения", "es": "Esta te la invita la casa.", "en": "This one's on the house."},
+        {"id": "beb-barra-06", "kind": "phrase", "ru": "Последний заказ, закрываемся", "es": "Última ronda, que vamos a cerrar.", "en": "Last orders, we're closing soon."},
+        {"id": "beb-barra-07", "kind": "phrase", "ru": "Вежливо отказать пьяному гостю", "es": "Lo siento, ahora mismo no te puedo servir más. Te pongo un agua, ¿vale?", "en": "Sorry, I can't serve you any more right now. Let me get you some water, OK?", "note": "Спокойно, без морали, сразу предложить воду. Если спорит — позови старшего."},
+        {"id": "beb-barra-08", "kind": "phrase", "ru": "Со льдом?", "es": "¿Con hielo?", "en": "With ice?"},
+        {"id": "beb-barra-09", "kind": "phrase", "ru": "С лимоном?", "es": "¿Con limón?", "en": "With a slice of lemon?"},
+        {"id": "beb-barra-10", "kind": "phrase", "ru": "Покажи документ (проверка возраста)", "es": "¿Me enseñas el DNI, por favor?", "en": "Can I see some ID, please?", "note": "DNI — испанское удостоверение; у иностранцев — паспорт/ID. Продажа алкоголя — с 18."},
+        {"id": "beb-barra-11", "kind": "phrase", "ru": "Сейчас подойду (когда занят)", "es": "¡Ahora voy contigo! Un segundito.", "en": "Be right with you! One second.", "note": "Даже если завал — дай гостю понять, что ты его видишь."},
+        {"id": "beb-barra-12", "kind": "phrase", "ru": "Кто следующий?", "es": "¿A quién le toca?", "en": "Who's next?"},
+        {"id": "beb-barra-13", "kind": "phrase", "ru": "Открыть счёт / записать на счёт", "es": "¿Te lo apunto en la cuenta o me pagas ahora?", "en": "Shall I put it on your tab or will you pay now?"},
+        {"id": "beb-barra-14", "kind": "phrase", "ru": "Карта или наличные?", "es": "¿Con tarjeta o en efectivo?", "en": "Card or cash?"},
+        {"id": "beb-barra-15", "kind": "phrase", "ru": "Приложи карту к терминалу", "es": "Acerca la tarjeta al datáfono cuando quieras.", "en": "Tap your card on the reader whenever you're ready."},
+        {"id": "beb-barra-16", "kind": "phrase", "ru": "Гость хочет «как обычно» / порекомендовать то, что пьёт он", "es": "¿Lo de siempre?", "en": "The usual?"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "id": "quiz",
+  "title": "Квизы",
+  "rules": [
+    {"ru": "Вес к весу: лёгкое блюдо — лёгкое вино, мощное блюдо — мощное вино.", "es": "Ligero con ligero, potente con potente."},
+    {"ru": "Кислотность режет жир и жареное: свежее белое к фритюру, сливочным соусам, жирной рыбе.", "es": "La acidez limpia la grasa: un blanco fresco con fritos y salsas."},
+    {"ru": "Пузырьки + жареное и солёное = идеально (кава к кальмарам, крокетам, хамону).", "es": "Burbuja con frito y salado: cava con calamares, croquetas o jamón."},
+    {"ru": "Танины любят белок и жир: мощное красное к красному мясу на гриле.", "es": "El tanino pide carne: tinto con cuerpo para la carne roja."},
+    {"ru": "Острое: избегать танинных и очень крепких вин — они усиливают жжение; лучше свежее белое, розовое, лёгкое красное.", "es": "Con picante, nada de tintos tánicos: mejor un blanco fresco o un rosado."},
+    {"ru": "Десертное вино должно быть слаще десерта, иначе оно покажется кислым.", "es": "El vino de postre, siempre más dulce que el postre."},
+    {"ru": "Местное с местным: блюдо региона почти всегда дружит с вином того же региона.", "es": "Lo de aquí con lo de aquí: plato y vino de la misma tierra."},
+    {"ru": "Не знаешь, что предложить: к рису с морепродуктами — белое, а розовое — универсальный выход почти к любому столу.", "es": "Arroz de marisco, blanco; y si hay dudas, un rosado va con casi todo."}
+  ],
+  "sets": [
+    {
+      "id": "maridaje",
+      "title": "Что налить к блюду",
+      "questions": [
+        {"q": "Arroz a banda (рис на рыбном бульоне)", "options": ["Albariño", "Ribera del Duero reserva", "Pedro Ximénez"], "answer": 0, "why": "Рис с морепродуктами + свежее солёноватое белое; мощное красное задавит, PX — десертный."},
+        {"q": "Chuletón a la brasa", "options": ["Moscatel de Valencia", "Verdejo joven", "Ribera del Duero crianza"], "answer": 2, "why": "Жирное красное мясо на гриле просит танинное красное с телом."},
+        {"q": "Calamares a la romana", "options": ["Monastrell", "Cava brut", "Pedro Ximénez"], "answer": 1, "why": "Пузырьки и кислотность кавы очищают рот от фритюра."},
+        {"q": "Jamón ibérico", "options": ["Fino / manzanilla", "Moscatel de Valencia", "Rosado dulce"], "answer": 0, "why": "Сухой солёный херес — классическая пара к хамону; сладкие вина спорят с солью."},
+        {"q": "Coulant de chocolate", "options": ["Albariño", "Cava brut", "Pedro Ximénez"], "answer": 2, "why": "Десертное вино должно быть слаще десерта: PX с нотами изюма и кофе — идеально к шоколаду."},
+        {"q": "Ensalada de queso de cabra", "options": ["Monastrell", "Verdejo", "Ribera del Duero gran reserva"], "answer": 1, "why": "Свежий салат и кисловатый козий сыр — свежее белое с кислотностью."},
+        {"q": "Rabo de toro (тушёный бычий хвост)", "options": ["Monastrell", "Verdejo", "Cava brut"], "answer": 0, "why": "Насыщенное тушёное мясо — мощное тёплое красное."},
+        {"q": "Pulpo a la gallega", "options": ["Pedro Ximénez", "Ribera del Duero reserva", "Albariño"], "answer": 2, "why": "Галисийское блюдо + галисийское белое (вариант — лёгкая Mencía)."},
+        {"q": "Paella valenciana (pollo y conejo)", "options": ["Pedro Ximénez", "Rosado de Bobal", "Ribera del Duero gran reserva"], "answer": 1, "why": "Местное с местным: розовое из бобаля свежее и универсальное, не перебивает шафран."},
+        {"q": "Gambas al ajillo", "options": ["Verdejo", "Monastrell", "Moscatel de Valencia"], "answer": 0, "why": "Чеснок, масло и креветки — свежее белое с кислотностью."},
+        {"q": "Cordero asado", "options": ["Albariño", "Rioja reserva", "Cava brut"], "answer": 1, "why": "Запечённая баранина — выдержанное красное средней-полной полноты."},
+        {"q": "Patatas bravas (острый соус)", "options": ["Rioja gran reserva", "Moscatel de Valencia", "Cava brut"], "answer": 2, "why": "Жареное и острое: пузырьки и свежесть, без танинов, которые усиливают жжение."},
+        {"q": "Queso manchego curado", "options": ["Cava rosado semiseco", "Rioja crianza", "Rosado dulce"], "answer": 1, "why": "Выдержанный твёрдый сыр — классика с красным средней полноты."},
+        {"q": "Queso azul (Cabrales)", "options": ["Pedro Ximénez", "Verdejo", "Mencía"], "answer": 0, "why": "Солёный острый голубой сыр уравновешивает очень сладкое вино."},
+        {"q": "Lubina a la sal", "options": ["Ribera del Duero crianza", "Monastrell", "Albariño"], "answer": 2, "why": "Нежная белая рыба — свежее белое, красное её задавит."},
+        {"q": "Croquetas de jamón", "options": ["Cava brut", "Pedro Ximénez", "Monastrell"], "answer": 0, "why": "Жареное и сливочное — пузырьки режут жир."},
+        {"q": "Flan / postre de fruta", "options": ["Moscatel de Valencia", "Monastrell", "Ribera del Duero crianza"], "answer": 0, "why": "Сладкий цветочный москатель — к лёгким десертам; сухие красные с десертом кажутся кислыми."},
+        {"q": "Gambas al pil pil (picante)", "options": ["Monastrell potente", "Ribera del Duero reserva", "Verdejo fresco"], "answer": 2, "why": "Острое — без танинов и высокой крепости; свежее белое охлаждает."},
+        {"q": "Tabla de embutidos", "options": ["Moscatel de Valencia", "Bobal joven", "Pedro Ximénez"], "answer": 1, "why": "Молодое фруктовое красное — самый простой выбор к колбасам; местный бобаль — плюс."},
+        {"q": "Atún a la plancha", "options": ["Ribera del Duero gran reserva", "Pedro Ximénez", "Mencía"], "answer": 2, "why": "«Мясная» рыба выдерживает лёгкое свежее красное; гран-резерва слишком тяжёлое."}
+      ]
+    },
+    {
+      "id": "cocteles",
+      "title": "Коктейли",
+      "questions": [
+        {"q": "¿Cuál es la base del mojito?", "options": ["Vodka", "Ron blanco", "Tequila"], "answer": 1, "why": "Мохито — белый ром, лайм, сахар, мята, содовая."},
+        {"q": "¿Qué destilado lleva la caipiriña?", "options": ["Cachaça", "Ron", "Ginebra"], "answer": 0, "why": "Кайпиринья — на бразильской кашасе; на водке это caipiroska."},
+        {"q": "Negroni: ginebra, Campari y…", "options": ["Tónica", "Zumo de naranja", "Vermut rojo"], "answer": 2, "why": "Негрони — три ингредиента в равных частях: джин, кампари, красный вермут."},
+        {"q": "¿Qué lleva el borde de la copa de margarita?", "options": ["Azúcar", "Sal", "Canela"], "answer": 1, "why": "Классическая маргарита — с солёным краем."},
+        {"q": "Proporción del Aperol spritz", "options": ["3 prosecco : 2 Aperol : 1 soda", "1 : 1 : 1", "2 Aperol : 1 prosecco, sin soda"], "answer": 0, "why": "Классика 3-2-1: просекко, апероль, содовая."},
+        {"q": "¿En qué se sirve el Moscow mule?", "options": ["Copa balón", "Taza de cobre", "Copa de cóctel"], "answer": 1, "why": "Фирменная подача — медная кружка."},
+        {"q": "¿Qué NO lleva el agua de Valencia?", "options": ["Cava", "Zumo de naranja", "Ron"], "answer": 2, "why": "Агуа-де-Валенсия: апельсиновый сок, кава, водка и джин — рома нет."},
+        {"q": "En España, el gin-tonic se sirve normalmente en…", "options": ["Vaso de chupito", "Copa balón", "Taza de cobre"], "answer": 1, "why": "Испанская подача — бокал-шар с большим количеством льда."},
+        {"q": "Vodka, licor de café y un espresso recién hecho: ¿qué cóctel es?", "options": ["Espresso martini", "Carajillo", "Bloody Mary"], "answer": 0, "why": "Эспрессо мартини; карахильо — это кофе + бренди/ром без шейкера."},
+        {"q": "¿Qué zumo lleva el cosmopolitan?", "options": ["Piña", "Tomate", "Arándano rojo (cranberry)"], "answer": 2, "why": "Космополитен розовый из-за клюквенного сока. Клюква = arándano rojo; просто «arándano» в Испании — это черника."},
+        {"q": "¿Qué lleva el Bloody Mary?", "options": ["Zumo de tomate", "Zumo de naranja", "Crema de coco"], "answer": 0, "why": "Водка + томатный сок + специи (Worcestershire, табаско)."},
+        {"q": "El Long Island iced tea parece un té, pero…", "options": ["es sin alcohol", "lleva cinco destilados", "lleva té de verdad"], "answer": 1, "why": "Водка, ром, джин, текила, трипл-сек — один из самых крепких коктейлей."},
+        {"q": "El pornstar martini se sirve con…", "options": ["un café", "una cerveza", "un chupito de cava o prosecco al lado"], "answer": 2, "why": "Фирменная деталь — шот игристого рядом."},
+        {"q": "¿Qué lleva la piña colada además del ron?", "options": ["Crema de coco y zumo de piña", "Leche condensada", "Granadina y naranja"], "answer": 0, "why": "Ром, кокосовые сливки, ананасовый сок."},
+        {"q": "¿Qué crea el efecto «amanecer» del tequila sunrise?", "options": ["Campari", "Granadina", "Blue curaçao"], "answer": 1, "why": "Гренадин тяжелее и опускается на дно — получается градиент «рассвета»."}
+      ]
+    },
+    {
+      "id": "cafe-cerveza",
+      "title": "Кофе и пиво",
+      "questions": [
+        {"q": "Mucho café con una gota de leche:", "options": ["Manchado", "Cortado", "Bombón"], "answer": 1, "why": "Cortado — эспрессо, «разрезанный» каплей молока."},
+        {"q": "Mucha leche con una mancha de café:", "options": ["Manchado", "Cortado", "Americano"], "answer": 0, "why": "Manchado — молоко, «запятнанное» кофе."},
+        {"q": "Un café bombón es…", "options": ["Café con licor", "Café con nata", "Café con leche condensada"], "answer": 2, "why": "Эспрессо поверх сгущёнки, два слоя в стекле — типично для Валенсии."},
+        {"q": "Un carajillo es…", "options": ["Café con licor (coñac, ron…)", "Café con hielo", "Café con leche de avena"], "answer": 0, "why": "Карахильо — эспрессо с крепким алкоголем."},
+        {"q": "Un tercio es…", "options": ["Una jarra de medio litro", "Una botella de 33 cl", "Una caña pequeña"], "answer": 1, "why": "Tercio = треть литра, бутылка 33 cl."},
+        {"q": "Una clara es…", "options": ["Cerveza con gaseosa o limón", "Cerveza sin alcohol", "Cerveza rubia"], "answer": 0, "why": "Шанди: пиво с газировкой; «con limón» — с лимонной."},
+        {"q": "Agua «del tiempo» significa…", "options": ["Agua del día", "Agua con hielo", "Agua a temperatura ambiente"], "answer": 2, "why": "Del tiempo = комнатной температуры, не из холодильника."},
+        {"q": "Pregunta típica al pedir un descafeinado:", "options": ["¿Solo o doble?", "¿De máquina o de sobre?", "¿Grande o pequeño?"], "answer": 1, "why": "Без кофеина бывает из кофемашины или растворимый в пакетике."},
+        {"q": "Turia es…", "options": ["Una cerveza tostada valenciana", "Un vermut", "Un cava"], "answer": 0, "why": "Turia — валенсийская тостада (märzen), с 1935 года, сейчас в группе Damm."},
+        {"q": "La horchata valenciana se hace con…", "options": ["Almendra", "Chufa", "Arroz"], "answer": 1, "why": "Валенсийская орчата — из чуфы (земляного миндаля)."}
+      ]
+    },
+    {
+      "id": "alergenos",
+      "title": "Аллергены",
+      "questions": [
+        {"q": "El alioli de la mayoría de bares (tipo mayonesa) lleva…", "options": ["Huevo", "Leche", "Gluten"], "answer": 0, "why": "Традиционный алиоли — только чеснок и масло, но в барах его обычно делают на яйце; уточняй в кухне."},
+        {"q": "La salsa romesco contiene…", "options": ["Leche", "Soja", "Frutos de cáscara (almendra, avellana)"], "answer": 2, "why": "Ромеско делают на миндале и/или фундуке."},
+        {"q": "Croquetas de jamón: ¿qué alérgenos?", "options": ["Solo pescado", "Gluten y leche", "Sésamo"], "answer": 1, "why": "Бешамель (мука + молоко) и панировка; часто ещё яйцо."},
+        {"q": "El vino y el vinagre suelen contener…", "options": ["Sulfitos", "Apio", "Mostaza"], "answer": 0, "why": "Сульфиты — один из 14 обязательных аллергенов, есть почти во всех винах."},
+        {"q": "La fideuà lleva…", "options": ["Solo leche", "Cacahuetes", "Gluten y crustáceos"], "answer": 2, "why": "Лапша из пшеницы + креветки/лангустины (и рыбный бульон)."},
+        {"q": "Arroz negro (con tinta de calamar): alérgeno principal", "options": ["Altramuces", "Moluscos", "Mostaza"], "answer": 1, "why": "Кальмар и его чернила — моллюски (moluscos), отдельно от ракообразных."},
+        {"q": "Un cliente celíaco debe evitar…", "options": ["Gluten (trigo, cebada, centeno…)", "Lactosa", "Huevo"], "answer": 0, "why": "Целиакия — непереносимость глютена; важна и перекрёстная контаминация (фритюр, хлеб)."},
+        {"q": "Tarta de Santiago: ¿qué alérgenos lleva sobre todo?", "options": ["Cacahuete", "Sésamo", "Frutos de cáscara (almendra) y huevo"], "answer": 2, "why": "Основа — молотый миндаль, яйца и сахар."},
+        {"q": "El hummus contiene…", "options": ["Mostaza", "Sésamo", "Moluscos"], "answer": 1, "why": "В хумусе тахини — паста из кунжута (sésamo)."},
+        {"q": "¿Cuántos alérgenos de declaración obligatoria hay en la UE?", "options": ["10", "14", "20"], "answer": 1, "why": "14: глютен, ракообразные, яйца, рыба, арахис, соя, молоко, орехи, сельдерей, горчица, кунжут, сульфиты, люпин, моллюски."}
+      ]
+    }
+  ]
+}

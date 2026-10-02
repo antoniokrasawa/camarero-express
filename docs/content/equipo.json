@@ -1,0 +1,59 @@
+{
+  "id": "equipo",
+  "title": "С командой: кухня, коллеги",
+  "sections": [
+    {
+      "id": "cocina-pase",
+      "title": "Кухня и раздача (pase)",
+      "items": [
+        {"id": "eq-cocina-01", "kind": "phrase", "ru": "Сказать кухне начинать основные для 5-го стола", "es": "¡Marcha la cinco!", "es_alt": "¡Marchan los segundos de la cinco!", "note": "marchar = «запускай» (англ. fire): гости доедают закуски, пора готовить следующее"},
+        {"id": "eq-cocina-02", "kind": "phrase", "ru": "Подтвердить, что услышал (кухне или коллеге)", "es": "¡Oído!", "es_alt": "¡Oído cocina!", "note": "Стандартный ответ «понял, принял»"},
+        {"id": "eq-cocina-03", "kind": "phrase", "ru": "Попросить выдать блюда 3-го стола", "es": "¿Me sacas los de la tres?", "es_alt": "¿Me sacas lo de la mesa tres?"},
+        {"id": "eq-cocina-04", "kind": "phrase", "ru": "Спросить, сколько ещё ждать 12-й стол", "es": "¿Cuánto le queda a la doce?", "note": "Столы называют по номеру в женском роде: «la doce» = la mesa doce"},
+        {"id": "eq-cocina-05", "kind": "phrase", "ru": "Сказать, что к 7-му не хватает гарнира", "es": "A la siete le falta la guarnición."},
+        {"id": "eq-cocina-06", "kind": "phrase", "ru": "Кухня зовёт забрать готовое", "es": "¡Sale!", "es_alt": "¡Servicio!", "note": "Услышал — сразу иди на pase, блюдо остывает"},
+        {"id": "eq-cocina-07", "kind": "phrase", "ru": "Предупредить: горячо!", "es": "¡Ojo, que quema!", "es_alt": "¡Cuidado, que quema!"},
+        {"id": "eq-cocina-08", "kind": "phrase", "ru": "Предупредить, что идёшь сзади", "es": "¡Detrás!", "es_alt": "¡Paso, paso!", "note": "Кричат, проходя за спиной у коллеги с подносом / горячим"},
+        {"id": "eq-cocina-09", "kind": "phrase", "ru": "Передать на кухню аллергию гостя", "es": "Ojo con la ocho, que es celíaco.", "es_alt": "La ocho tiene alergia al marisco, ¿vale?", "note": "celíaco — непереносимость глютена"},
+        {"id": "eq-cocina-10", "kind": "phrase", "ru": "Вернуть блюдо: гость просит дожарить", "es": "Este entrecot vuelve, lo quiere más hecho.", "es_alt": "Esto vuelve: lo quería al punto y está poco hecho."},
+        {"id": "eq-cocina-11", "kind": "phrase", "ru": "Спросить, что закончилось", "es": "¿Qué se ha acabado hoy?", "es_alt": "¿Queda rape o se ha acabado?"},
+        {"id": "eq-cocina-12", "kind": "phrase", "ru": "Попросить подержать заказ (не запускать)", "es": "La cuatro espera, que todavía están con los entrantes.", "note": "Сигнал кухне: пока не запускать основное"}
+      ]
+    },
+    {
+      "id": "compis",
+      "title": "Коллеги и смена",
+      "items": [
+        {"id": "eq-compis-01", "kind": "phrase", "ru": "Представиться в первый день", "es": "Hola, soy Antonio, el nuevo. ¿Qué tal?"},
+        {"id": "eq-compis-02", "kind": "phrase", "ru": "Попросить помочь разобраться", "es": "Oye, ¿me echas un cable con el datáfono?", "note": "echar un cable — помочь, выручить"},
+        {"id": "eq-compis-03", "kind": "phrase", "ru": "Спросить, где что лежит", "es": "¿Dónde están las servilletas de repuesto?"},
+        {"id": "eq-compis-04", "kind": "phrase", "ru": "Спросить, какие у тебя столы", "es": "¿Qué mesas llevo yo?", "es_alt": "¿Qué zona me toca hoy?"},
+        {"id": "eq-compis-05", "kind": "phrase", "ru": "Сказать коллеге, что прикроешь его зону", "es": "Tranqui, yo te cubro la terraza.", "note": "Tranqui — «спокойно, не парься»"},
+        {"id": "eq-compis-06", "kind": "phrase", "ru": "Сказать, что идёшь за льдом", "es": "Voy a por hielo, ¿necesitas algo?"},
+        {"id": "eq-compis-07", "kind": "phrase", "ru": "Спросить, как идёт вечер", "es": "¿Cómo va la noche?", "es_alt": "¿Qué tal va la cosa?"},
+        {"id": "eq-compis-08", "kind": "phrase", "ru": "Прокомментировать завал", "es": "¡Qué movida hoy!", "es_alt": "Vaya día llevamos, no paramos.", "note": "movida — суета, движуха"},
+        {"id": "eq-compis-09", "kind": "phrase", "ru": "Попросить коллегу отнести блюдо", "es": "¿Me llevas esto a la seis, porfa?"},
+        {"id": "eq-compis-10", "kind": "phrase", "ru": "Сказать, что ты в деле, всё под контролем", "es": "Vale, yo me encargo.", "es_alt": "Tranqui, lo llevo yo."},
+        {"id": "eq-compis-11", "kind": "phrase", "ru": "Спросить, когда перерыв", "es": "¿A qué hora paramos a comer?", "es_alt": "¿Cuándo me toca el descanso?"},
+        {"id": "eq-compis-12", "kind": "phrase", "ru": "Признать ошибку перед коллегой", "es": "Perdona, la he liado yo. Ya lo arreglo.", "note": "liarla — накосячить"},
+        {"id": "eq-compis-13", "kind": "phrase", "ru": "Спросить совет у опытного", "es": "Tú que llevas más tiempo, ¿cómo lo haces con las mesas grandes?"},
+        {"id": "eq-compis-14", "kind": "phrase", "ru": "Предложить что-то сделать после смены", "es": "¿Nos tomamos algo al cerrar?"},
+        {"id": "eq-compis-15", "kind": "phrase", "ru": "Попрощаться после смены", "es": "¡Hasta mañana, chicos! Buen servicio hoy."},
+        {"id": "eq-compis-16", "kind": "phrase", "ru": "Спросить, как пробивать в кассу", "es": "¿Cómo se mete esto en la caja?", "es_alt": "¿Me enseñas a marcar una comanda?", "note": "comanda — заказ, пробитый на кухню"}
+      ]
+    },
+    {
+      "id": "cumplidos",
+      "title": "Нормальные комплименты коллегам",
+      "items": [
+        {"id": "eq-cumplidos-01", "kind": "phrase", "ru": "Похвалить, как коллега справился со сложным столом", "es": "Qué bien has llevado esa mesa, eh."},
+        {"id": "eq-cumplidos-02", "kind": "phrase", "ru": "«Ты машина!» — про скорость", "es": "¡Eres una máquina!"},
+        {"id": "eq-cumplidos-03", "kind": "phrase", "ru": "Поблагодарить за помощь в завал", "es": "Gracias por echarme una mano, me has salvado."},
+        {"id": "eq-cumplidos-04", "kind": "phrase", "ru": "Похвалить кухню за блюдо", "es": "Chef, el arroz de hoy está espectacular."},
+        {"id": "eq-cumplidos-05", "kind": "phrase", "ru": "Похвалить коктейль бармена", "es": "Qué pintaza tiene ese cóctel.", "note": "pintaza — «выглядит офигенно»"},
+        {"id": "eq-cumplidos-06", "kind": "phrase", "ru": "Сказать, что с коллегой легко работать", "es": "Da gusto trabajar contigo."},
+        {"id": "eq-cumplidos-07", "kind": "phrase", "ru": "Отметить, как коллега успокоил недовольного гостя", "es": "Cómo has calmado al señor ese, eh. Tienes mucha mano izquierda.", "note": "tener mano izquierda — уметь деликатно улаживать"}
+      ]
+    }
+  ]
+}
