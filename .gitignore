@@ -1,2 +1,4 @@
 _source/
 __pycache__/
+*.pdf
+*.docx
