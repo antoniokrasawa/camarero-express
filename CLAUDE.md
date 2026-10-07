@@ -23,6 +23,25 @@ Workflow:
 
 If the phone was offline, reports wait in its `localStorage` outbox and are sent on the next app start.
 
+## 🏪 Venue packs (menu photos → training for one restaurant)
+Code: tab «Заведение» (`docs/venue.js`) → `server/menu.py`.
+
+Flow:
+1. **Extract.** `POST /menu/extract` with up to 6 photos, downscaled on the phone to 1600 px JPEG. Sonnet 5.5 vision transcribes only what is printed. ~10–16 s, ~$0.02.
+2. **Review.** The user removes misreads.
+3. **Build.** `POST /menu/build` runs a background thread with several parallel Sonnet calls: cards per 12 dishes, drinks, 24 phrases + 15 quiz questions, and 2 scenes. ~50 s, ~$0.26. The app polls `GET /packs/<id>`.
+
+A whole restaurant costs **≈ $0.28**.
+
+What a pack contains:
+- It uses the same schema as the built-in content: `decks` (`<id>-carta`, `<id>-frases`), `quiz`, and `scenes`.
+- On the phone, `registerPack()` merges it into the normal modes, and the pack is cached in `S.packCache` for offline use.
+- Packs are stored in `/data/packs/<id>.json`. They are public by their unguessable 10-hex-character id and contain only the menu.
+
+Guards: access code `MENU_CODE` (set in `/opt/bots/docker-compose.yml` → camarero-api `environment`; Antonio has it) and a daily cap `MENU_DAILY_USD` = 3. Menu spend is logged with `kind: "menu"` and is kept separate from the /check cap.
+
+Quality gates in `menu.py`: a batch of cards is regenerated if its "ru" fields are not Cyrillic; scenes with a broken graph are dropped and reported in the pack's `errors`. Ingredients and allergens are always marked as *typical* + «confirmar con cocina», because the model does not know the kitchen's real recipe.
+
 ## App language
 ⚙ → «Язык приложения» (`S.settings.promptLang`: ru/en/es) switches **everything**: UI strings (`docs/i18n.js`, keyed by the Russian original; `node tools/check_i18n.js` fails on any untranslated key), deck/section titles (`title_en/_es`), prompts (`p_en/p_es`), notes, scene hints, and quiz explanations. The answer language is a separate ES/EN switch in the header.
 

@@ -136,7 +136,7 @@ def check(body):
         cache = _cache_load()
         if key in cache:
             return dict(cache[key], cached=True)
-        if sum(r.get("usd", 0) for r in _read_spend() if r.get("day") == today) >= DAILY_USD:
+        if sum(r.get("usd", 0) for r in _read_spend() if r.get("day") == today and r.get("kind") != "menu") >= DAILY_USD:
             raise OverflowError("daily budget reached")
 
     res, usage = grade(situation, target, ui, refs, heard)
@@ -155,7 +155,11 @@ def check(body):
 
 
 def spend_summary():
-    rows, today = _read_spend(), date.today().isoformat()
-    return {"calls": len(rows), "usd_total": round(sum(r.get("usd", 0) for r in rows), 4),
-            "usd_today": round(sum(r.get("usd", 0) for r in rows if r.get("day") == today), 4),
-            "daily_cap": DAILY_USD, "model": MODEL}
+    all_rows, today = _read_spend(), date.today().isoformat()
+    out = {}
+    for kind, cap, model in (("check", DAILY_USD, MODEL), ("menu", float(os.environ.get("MENU_DAILY_USD", "3")), os.environ.get("MENU_MODEL", "claude-sonnet-5-5"))):
+        rows = [r for r in all_rows if (r.get("kind") == "menu") == (kind == "menu")]
+        out[kind] = {"calls": len(rows), "usd_total": round(sum(r.get("usd", 0) for r in rows), 4),
+                     "usd_today": round(sum(r.get("usd", 0) for r in rows if r.get("day") == today), 4),
+                     "daily_cap": cap, "model": model}
+    return out

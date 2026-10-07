@@ -5,7 +5,7 @@ const path = require('path');
 const docs = path.join(__dirname, '..', 'docs');
 const src = fs.readFileSync(path.join(docs, 'i18n.js'), 'utf8');
 const I18N = new Function(src.replace("'use strict';", '') + '; return I18N;')();
-const app = fs.readFileSync(path.join(docs, 'app.js'), 'utf8');
+const app = fs.readFileSync(path.join(docs, 'app.js'), 'utf8') + fs.readFileSync(path.join(docs, 'venue.js'), 'utf8');
 const html = fs.readFileSync(path.join(docs, 'index.html'), 'utf8');
 const keys = new Set();
 for (const m of app.matchAll(/\bt\('([^']+)'/g)) keys.add(m[1]);

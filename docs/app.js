@@ -64,7 +64,8 @@ S.settings = Object.assign({ promptLang: 'ru', lang: 'es', rate: 0.95, newPerSes
 S.outbox = S.outbox || [];
 
 // ---------- content ----------
-const C = { decks: {}, items: [], byId: {}, quiz: null, scenes: [] };
+// packDecks / packIds: restaurant packs built from menu photos (venue.js).
+const C = { decks: {}, items: [], byId: {}, quiz: null, scenes: [], packDecks: [], packIds: new Set() };
 
 async function loadJson(name) {
   const r = await fetch(`content/${name}.json`, { cache: 'no-cache' });
@@ -315,7 +316,7 @@ function go(tab, opts = {}) {
   setCtx({});
   document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === tab));
   try { sessionStorage.setItem('camarero.tab', tab); } catch (e) {}
-  ({ plan: viewPlan, cards: viewCardsHome, speak: viewSpeakHome, scenes: viewScenes, quiz: viewQuizHome })[tab](opts);
+  ({ plan: viewPlan, cards: viewCardsHome, speak: viewSpeakHome, scenes: viewScenes, quiz: viewQuizHome, venue: viewVenue })[tab](opts);
 }
 
 // ---------- plan ----------
@@ -346,7 +347,7 @@ function viewPlan() {
 function pickerHtml(sel, opts) {
   let html = `<div class="chips">` +
     `<button class="chip" data-deck="all" aria-pressed="${sel.deck === 'all'}">${esc(t('Все'))}</button>` +
-    DECKS.filter(d => C.decks[d.id]).map(d => `<button class="chip" data-deck="${d.id}" aria-pressed="${sel.deck === d.id}">${d.icon} ${esc(deckTitle(d.id))}</button>`).join('') +
+    C.packDecks.concat(DECKS).filter(d => C.decks[d.id]).map(d => `<button class="chip" data-deck="${d.id}" aria-pressed="${sel.deck === d.id}">${d.icon} ${esc(deckTitle(d.id))}</button>`).join('') +
     `</div>`;
   if (sel.deck !== 'all' && C.decks[sel.deck]) {
     html += `<div class="chips">` + C.decks[sel.deck].sections
@@ -828,6 +829,8 @@ function initSettings() {
   tts.load();
   document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => go(b.dataset.tab));
   const errors = await loadContent();
+  await loadPacks();
+  resumeBuilds();
   let tab = 'plan';
   try { tab = sessionStorage.getItem('camarero.tab') || 'plan'; } catch (e) {}
   go(tab);

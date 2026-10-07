@@ -35,6 +35,7 @@ MAX_FILE = 5 * 1024 * 1024
 PER_HOUR = 60
 _hits = defaultdict(deque)
 CHECKS_PER_HOUR = 300
+MAX_MENU_BODY = 12 * 1024 * 1024   # up to 6 downscaled photos as base64
 
 
 def _rate_ok(ip, limit=PER_HOUR, bucket=""):
@@ -85,17 +86,25 @@ class H(BaseHTTPRequestHandler):
             except Exception as e:  # noqa: BLE001 - health must answer even if the SDK is missing
                 out["check"] = {"error": str(e)[:100]}
             return self._send(200, out)
+        if self.path.startswith("/packs/"):
+            try:
+                import menu
+                return self._send(200, menu.load(self.path.split("/")[2].split("?")[0]))
+            except (ValueError, FileNotFoundError):
+                return self._send(404, {"error": "no such pack"})
         self._send(404, {"error": "not found"})
 
     def do_POST(self):
         path = self.path.rstrip("/")
-        if path not in ("/report", "/check"):
+        if path not in ("/report", "/check", "/menu/extract", "/menu/build"):
             return self._send(404, {"error": "not found"})
         if self.headers.get("Origin", "") not in ALLOWED_ORIGINS:
             return self._send(403, {"error": "origin"})
         ip = self.headers.get("X-Forwarded-For", self.client_address[0]).split(",")[0].strip()
         if path == "/check":
             return self._check(ip)
+        if path.startswith("/menu/"):
+            return self._menu(ip, path)
         if not _rate_ok(ip):
             return self._send(429, {"error": "too many"})
         n = int(self.headers.get("Content-Length") or 0)
@@ -132,6 +141,29 @@ class H(BaseHTTPRequestHandler):
             return self._send(400, {"error": str(e)[:200]})
         except Exception as e:  # noqa: BLE001 - the app falls back to the local score
             print("check failed:", repr(e)[:300], flush=True)
+            return self._send(502, {"error": "model"})
+
+    def _menu(self, ip, path):
+        """Photos -> menu (extract) and menu -> training pack (build). See menu.py."""
+        if not _rate_ok(ip, 30, "menu:"):
+            return self._send(429, {"error": "too many"})
+        n = int(self.headers.get("Content-Length") or 0)
+        if n <= 0 or n > MAX_MENU_BODY:
+            return self._send(413, {"error": "size"})
+        try:
+            body = json.loads(self.rfile.read(n).decode("utf-8"))
+            import menu
+            if path == "/menu/extract":
+                return self._send(200, menu.extract(body.get("code"), body.get("images") or []))
+            return self._send(200, menu.start_build(body.get("code"), body.get("menu") or {}))
+        except menu.AccessDenied:
+            return self._send(403, {"error": "code"})
+        except OverflowError:
+            return self._send(429, {"error": "budget"})
+        except ValueError as e:
+            return self._send(400, {"error": str(e)[:200]})
+        except Exception as e:  # noqa: BLE001
+            print("menu failed:", repr(e)[:300], flush=True)
             return self._send(502, {"error": "model"})
 
     def log_message(self, fmt, *args):
