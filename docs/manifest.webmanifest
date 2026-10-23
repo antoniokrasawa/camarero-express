@@ -1,0 +1,29 @@
+{
+ "name": "Camarero Express",
+ "short_name": "Camarero",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "background_color": "#fff7ed",
+ "theme_color": "#c2410c",
+ "icons": [
+  {
+   "src": "icons/camarero-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/camarero-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/camarero-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
